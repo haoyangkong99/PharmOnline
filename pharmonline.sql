@@ -11,7 +11,7 @@
  Target Server Version : 100417
  File Encoding         : 65001
 
- Date: 23/12/2021 02:24:22
+ Date: 23/12/2021 03:22:13
 */
 
 SET NAMES utf8mb4;
@@ -46,15 +46,16 @@ CREATE TABLE `user`  (
   `phoneNum` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `userType` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `userID` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL
+  `userID` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('cust1', 'customer 1', '012-3456789', 'cust1@gmail.com', 'Customer', 'C1');
-INSERT INTO `user` VALUES ('clcheong', 'Chien Li', '012-5139022', 'clcheong00@gmail.com', 'Customer', 'C2');
-INSERT INTO `user` VALUES ('test', 'testing', '123456', 'test@gmail.com', 'Customer', 'C3');
-INSERT INTO `user` VALUES ('abc', 'bla bla', '12345', 'abc@gmail.com', 'Customer', 'C4');
+INSERT INTO `user` VALUES ('cust1', 'customer 1', '012-3456789', 'cust1@gmail.com', 'Customer', 'C1', '123');
+INSERT INTO `user` VALUES ('clcheong', 'Chien Li', '012-5139022', 'clcheong00@gmail.com', 'Customer', 'C2', '123');
+INSERT INTO `user` VALUES ('test', 'testing', '123456', 'test@gmail.com', 'Customer', 'C3', '123');
+INSERT INTO `user` VALUES ('admin123', 'admin', '0123456', 'admin@gmail.com', 'Pharmacist', 'P1', '123');
 
 SET FOREIGN_KEY_CHECKS = 1;
