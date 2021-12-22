@@ -4,13 +4,15 @@
  */
 package com.bean;
 
+import java.sql.*;
+
 /**
  *
  * @author User
  */
 public class User {
     
-    private String username,fullname,phoneNum,email,userType,userID;
+    private String username,fullname,phoneNum,email,userType,userID,password;
 
     public User() {
     }
@@ -62,7 +64,31 @@ public class User {
     public void setUserID(String userID) {
         this.userID = userID;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
     
-    
+    public void insertIntoDB() throws ClassNotFoundException, SQLException{
+        
+        String driver = "com.mysql.jdbc.Driver";
+        String dbName = "pharmonline";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String pw = "";
+        String query = "INSERT INTO `pharmonline`.`user`(`username`, `fullname`, `phoneNum`, `email`, `userType`, `userID`) VALUES ('"+ username +"', '"+ fullname +"', '"+ phoneNum +"', '"+ email +"', '"+ userType +"', '"+ userID +"')";
+        
+        Class.forName(driver);  //Load Driver
+        Connection con = DriverManager.getConnection(url, userName, pw);  // Set Connection
+        Statement st = con.createStatement();   // create query
+        st.executeUpdate(query); // Execute query
+        
+        st.close();
+        con.close();
+    }
     
 }
