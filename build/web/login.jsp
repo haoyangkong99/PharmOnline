@@ -12,12 +12,12 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Pages / Login - NiceAdmin Bootstrap Template</title>
+  <title>Login - PharmOnline</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/PharmOnlineLogo.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -56,7 +56,7 @@
 
               <!--<div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">-->
-                  <img src="assets/img/PharmOnlineCover.png" alt="PharmOnline Logo" height="220px" width="534px">
+                  <img src="assets/img/PharmOnlineCover.png" alt="PharmOnline Logo" height="190px" width="461px">
                   <!--<span class="d-none d-lg-block">PharmOnline</span>-->
                 <!--</a>
               </div><!-- End Logo -->
@@ -70,20 +70,20 @@
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
+                    <form action="Login" method="post" class="row g-3 needs-validation" novalidate>
 
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
+                      <label for="username" class="form-label">Username</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
+                        <input type="text" name="username" class="form-control" id="username" required>
                         <div class="invalid-feedback">Please enter your username.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="passwword" class="form-control" id="yourPassword" required>
+                      <label for="password" class="form-label">Password</label>
+                      <input type="password" name="password" class="form-control" id="password" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
@@ -98,6 +98,9 @@
                     </div>
                     <div class="col-12">
                       <p class="small mb-0">Don't have account? <a href="register.jsp">Create an account</a></p>
+                    </div>
+                    <div class="col-12">
+                      <p class="small mb-0">Forgot your password? <a href="register.jsp">Reset your password</a></p>
                     </div>
                   </form>
 

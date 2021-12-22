@@ -80,7 +80,7 @@ public class User {
         String url = "jdbc:mysql://localhost/" + dbName + "?";
         String userName = "root";
         String pw = "";
-        String query = "INSERT INTO `pharmonline`.`user`(`username`, `fullname`, `phoneNum`, `email`, `userType`, `userID`) VALUES ('"+ username +"', '"+ fullname +"', '"+ phoneNum +"', '"+ email +"', '"+ userType +"', '"+ userID +"')";
+        String query = "INSERT INTO `pharmonline`.`user`(`username`, `fullname`, `phoneNum`, `email`, `userType`, `userID`, `password`) VALUES ('"+ username +"', '"+ fullname +"', '"+ phoneNum +"', '"+ email +"', '"+ userType +"', '"+ userID +"', '"+ password +"')";
         
         Class.forName(driver);  //Load Driver
         Connection con = DriverManager.getConnection(url, userName, pw);  // Set Connection
