@@ -263,10 +263,12 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <form action="Logout" method="post">
+              <div class="dropdown-item d-flex align-items-center">
                 <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
+                <input type="submit" value="Sign Out" style="background-color:transparent; border:0px solid transparent; padding-left:0px; width:100%; text-align:left;">
+              </div>
+              </form>
             </li>
 
           </ul><!-- End Profile Dropdown Items -->

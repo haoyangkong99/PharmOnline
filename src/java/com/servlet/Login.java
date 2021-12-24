@@ -83,12 +83,16 @@ public class Login extends HttpServlet {
                 session.setAttribute("user", user);
                 
                 if(user.getUserType().equals("Customer")){
-                    RequestDispatcher rd = request.getRequestDispatcher("index.html"); //indexCustomer.jsp
-                    rd.include(request,response);
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Login Successful!');");
+                    out.println("location='index.html';");
+                    out.println("</script>"); 
                 }
                 else{
-                    RequestDispatcher rd = request.getRequestDispatcher("pages-faq.html");//indexPharmacist.jsp
-                    rd.include(request,response);
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Login Successful!');");
+                    out.println("location='pages-faq.html';");
+                    out.println("</script>"); 
                 }
             }
         }
