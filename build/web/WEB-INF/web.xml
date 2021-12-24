@@ -16,6 +16,10 @@
         <servlet-name>editProfile</servlet-name>
         <servlet-class>com.servlet.editProfile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>editPassword</servlet-name>
+        <servlet-class>com.servlet.editPassword</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Register</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>editProfile</servlet-name>
         <url-pattern>/editProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editPassword</servlet-name>
+        <url-pattern>/editPassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

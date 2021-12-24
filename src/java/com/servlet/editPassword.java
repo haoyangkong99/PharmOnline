@@ -11,16 +11,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author User
  */
-public class Login extends HttpServlet {
+public class editPassword extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +38,21 @@ public class Login extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        
+        
+        
+        String password = request.getParameter("password");
+        String newpassword = request.getParameter("newpassword");
+        String renewpassword = request.getParameter("renewpassword");
+        
+        
         HttpSession session = request.getSession();
         
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        User user = (User)session.getAttribute("user");
+        
+        String username = user.getUsername();
+        
+        
         
         String driver = "com.mysql.jdbc.Driver";
         String dbName = "pharmonline";
@@ -50,69 +62,66 @@ public class Login extends HttpServlet {
         Class.forName(driver);  //Load Driver
         Connection con = DriverManager.getConnection(url, userName, pw);  // Set Connection
         
-        String query = "SELECT * FROM user WHERE username=\""+ username + "\"";
+        String query = "SELECT password FROM user WHERE username=\""+ username + "\"";
         
         Statement st = con.createStatement();   // create query
         ResultSet rs = st.executeQuery(query); // Execute query
         
-        if(!(rs.next())){
+        String currPW = "";
+        
+        while(rs.next()){
+            currPW = rs.getString(1);
+        }
+        
+        
+        if(!currPW.equals(password)){
             out.println("<script type=\"text/javascript\">");
-            out.println("alert('Invalid Username or Password! Please try again.');");
-            out.println("location='login.jsp';");
+            out.println("alert('Current password is incorrect!');");
+            out.println("location='Profile.jsp';");
             out.println("</script>");
         }
         else{
-            String correctPW = rs.getString(7);
             
-            if(!(password.equals(correctPW))){
+            if(!newpassword.equals(renewpassword)){
                 out.println("<script type=\"text/javascript\">");
-                out.println("alert('Invalid Username or Password! Please try again.');");
-                out.println("location='login.jsp';");
+                out.println("alert('New passwords does not match!');");
+                out.println("location='Profile.jsp';");
                 out.println("</script>");
             }
-            
             else{
-                User user = new User();
-                user.setUsername(rs.getString(1));
-                user.setFullname(rs.getString(2));
-                user.setPhoneNum(rs.getString(3));
-                user.setEmail(rs.getString(4));
-                user.setUserType(rs.getString(5));
-                user.setUserID(rs.getString(6));
+                user.setPassword(newpassword);
                 
-                session.setAttribute("user", user);
-                session.setAttribute("loggedIn", "True");
+                try{
+                    user.updatePassword();
+                }
+                catch(ClassNotFoundException e){
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Update Failed, ClassNotFoundException!');");
+                    out.println("location='Profile.jsp';");
+                    out.println("</script>");
+                }
+                catch(SQLException e){
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Update Failed, SQLException!');");
+                    out.println("location='Profile.jsp';");
+                    out.println("</script>");
+                }
                 
-                if(user.getUserType().equals("Customer")){
-                    out.println("<script type=\"text/javascript\">");
-                    out.println("alert('Login Successful! Welcome, "+user.getFullname()+"');");
-                    out.println("location='index.html';");
-                    out.println("</script>"); 
-                }
-                else{
-                    out.println("<script type=\"text/javascript\">");
-                    out.println("alert('Login Successful! Welcome, "+user.getFullname()+"');");
-                    out.println("location='pages-faq.html';");
-                    out.println("</script>"); 
-                }
+                
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Password updated successfully! Please login again.');");
+                out.println("location='Logout';");
+                out.println("</script>");  
+                
+                
+                
             }
+            
         }
-        
+            
         st.close();
         con.close();
-        
-//        try () {
-//            /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet Login</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet Login at " + request.getContextPath() + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
-//        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -130,9 +139,9 @@ public class Login extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(editPassword.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(editPassword.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -150,9 +159,9 @@ public class Login extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(editPassword.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(editPassword.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
