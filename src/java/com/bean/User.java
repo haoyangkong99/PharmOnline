@@ -4,13 +4,14 @@
  */
 package com.bean;
 
+import java.io.Serializable;
 import java.sql.*;
 
 /**
  *
  * @author User
  */
-public class User {
+public class User implements Serializable{
     
     private String username,fullname,phoneNum,email,userType,userID,password;
 
@@ -89,6 +90,23 @@ public class User {
         
         st.close();
         con.close();
+    }
+    
+    public void updateInDB() throws ClassNotFoundException, SQLException{
+        String driver = "com.mysql.jdbc.Driver";
+        String dbName = "pharmonline";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String pw = "";
+        String query = "UPDATE `pharmonline`.`user` SET `fullname` = '"+fullname+"', `phoneNum` = '"+phoneNum+"', `email` = '"+email+"' WHERE `username` = Cast('"+username+"' AS Binary("+ Integer.toString(username.length()) +")) LIMIT 1";
+        
+        Class.forName(driver);  //Load Driver
+        Connection con = DriverManager.getConnection(url, userName, pw);  // Set Connection
+        Statement st = con.createStatement();   // create query
+        st.executeUpdate(query); // Execute query
+        
+        st.close();
+        con.close();    
     }
     
 }

@@ -81,6 +81,7 @@ public class Login extends HttpServlet {
                 user.setUserID(rs.getString(6));
                 
                 session.setAttribute("user", user);
+                session.setAttribute("loggedIn", "True");
                 
                 if(user.getUserType().equals("Customer")){
                     out.println("<script type=\"text/javascript\">");

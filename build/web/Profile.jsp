@@ -45,7 +45,18 @@
 </head>
 
 <body>
-    
+    <%
+        if(request.getMethod().equals("GET") && request.getSession().getAttribute("loggedIn") == null){
+//           String redirectURL = "login.jsp";
+//           response.sendRedirect(redirectURL); 
+           
+        out.println("<script type=\"text/javascript\">");
+        out.println("alert('Please Login First!');");
+        out.println("location='login.jsp';");
+        out.println("</script>");
+        }
+        
+    %>
     <jsp:useBean class="com.bean.User" scope="session" id="user" />
     
   <!-- ======= Header ======= -->
@@ -617,7 +628,7 @@
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                   <!-- Profile Edit Form -->
-                  <form>
+                  <form action="editProfile" method="post">
                     <!--<div class="row mb-3">
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                       <div class="col-md-8 col-lg-9">
@@ -644,9 +655,9 @@
                     </div>   
                       
                     <div class="row mb-3">
-                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                      <label for="fullname" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="fullName" value="<jsp:getProperty name="user" property="fullname"/>">
+                        <input name="fullname" type="text" class="form-control" id="fullname" value="<jsp:getProperty name="user" property="fullname"/>">
                       </div>
                     </div>
 
@@ -672,16 +683,16 @@
                     </div>-->
 
                     <div class="row mb-3">
-                      <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                      <label for="phoneNum" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="tel" class="form-control" id="Phone" value="<jsp:getProperty name="user" property="phoneNum"/>">
+                        <input name="phoneNum" type="tel" class="form-control" id="phoneNum" value="<jsp:getProperty name="user" property="phoneNum"/>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                      <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="<jsp:getProperty name="user" property="email"/>">
+                        <input name="email" type="email" class="form-control" id="email" value="<jsp:getProperty name="user" property="email"/>">
                       </div>
                     </div>
 

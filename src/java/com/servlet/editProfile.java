@@ -4,8 +4,10 @@
  */
 package com.servlet;
 
+import com.bean.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +18,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author User
  */
-public class Logout extends HttpServlet {
+public class editProfile extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,18 +35,41 @@ public class Logout extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         
-        session.setAttribute("loggedIn","False");
-        session.invalidate();
-//        response.sendRedirect("login.jsp");
-
-        out.println("<script type=\"text/javascript\">");
-        out.println("alert('Signed Out Successfully!');");
-        out.println("location='login.jsp';");
-        out.println("</script>");         
+        String userID = request.getParameter("userID");
+        String username = request.getParameter("username");
+        String fullname = request.getParameter("fullname");
+        String userType = request.getParameter("userType");
+        String phoneNum = request.getParameter("phoneNum");
+        String email = request.getParameter("email");
         
-//        try (PrintWriter out = response.getWriter()) {
-//            
-//        }
+        User user = (User)session.getAttribute("user");
+        
+        user.setFullname(fullname);
+        user.setEmail(email);
+        user.setPhoneNum(phoneNum);
+        
+        try{
+            user.updateInDB();
+        }
+        catch(ClassNotFoundException cnfEx){
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Update Unsuccessful, ClassNotFoundException!');");
+            out.println("location='Profile.jsp';");
+            out.println("</script>");
+        }
+        catch(SQLException sqlEx){
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Update Unsuccessful, SQLException!');");
+            out.println("location='Profile.jsp';");
+            out.println("</script>");
+        }
+        
+        session.setAttribute("user",user);
+        
+        out.println("<script type=\"text/javascript\">");
+        out.println("alert('Your profile details have been updated successfully!');");
+        out.println("location='Profile.jsp';");
+        out.println("</script>");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
