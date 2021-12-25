@@ -1,6 +1,6 @@
 <%-- 
-    Document   : login
-    Created on : 22 Dec 2021, 11:41:23 pm
+    Document   : otp
+    Created on : 25 Dec 2021, 1:24:02 pm
     Author     : User
 --%>
 
@@ -12,13 +12,13 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Login - PharmOnline</title>
+  <title>BookIt! - Reset Password</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/PharmOnlineLogo.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="img/PharmOnlineCover.png" rel="icon">
+  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -42,23 +42,23 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
 </head>
 
-<body style="background-image:url('assets/img/testBackground3.jpg')">
+<body style="background-image: url('assets/img/testBackground3.jpg')">
 
   <main>
-    <div class="container">
+    <div class="container" style="margin-top:0px; padding-top:0px;">
 
-      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+      <section class="section register min-vh-100 d-flex flex-column align-items-center py-4" style="margin-top:0px; padding-top:0px;">
+        <div class="container" style="margin-top:0px; padding-top:0px;">
+          <div class="row justify-content-center" style="margin-top:0px; padding-top:0px;">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center" style="margin-top:0px; padding-top:0px;">
 
-              <!--<div class="d-flex justify-content-center py-4">
-                <a href="index.html" class="logo d-flex align-items-center w-auto">-->
-                  <img src="assets/img/PharmOnlineCover.png" alt="PharmOnline Logo" height="190px" width="461px">
-                  <!--<span class="d-none d-lg-block">PharmOnline</span>-->
-                <!--</a>
+              <div class="d-flex justify-content-center py-4" style="margin-top:0px; padding-top:0px;">
+                <a href="#" class="d-flex align-items-center w-auto" style="margin-top:0px; padding-top:0px;">
+                  <img src="assets/img/PharmOnlineCover.png" alt="PharmOnline Logo" height="190px" width="461px" style="margin-top:0px; padding-top:0px;">
+                </a>
               </div><!-- End Logo -->
 
               <div class="card mb-3">
@@ -66,42 +66,45 @@
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
-                    <p class="text-center small">Enter your username & password to login</p>
+                    <h5 class="card-title text-center pb-0 fs-4">Enter your Email Address</h5>
+                    <p class="text-center small">An OTP Code will be sent to your registered email address.</p>
                   </div>
 
-                    <form action="Login" method="post" class="row g-3 needs-validation" novalidate>
+                  <form class="row g-3 needs-validation" method="post" action="/verifyEmail" novalidate>
 
-                    <div class="col-12">
-                      <label for="username" class="form-label">Username</label>
+                    <!--<div class="col-12">
+                      <label for="yourUsername" class="form-label">Username</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="username" required>
+                        <input type="text" name="username" class="form-control" id="yourUsername" required>
                         <div class="invalid-feedback">Please enter your username.</div>
                       </div>
-                    </div>
+                    </div>-->
 
                     <div class="col-12">
-                      <label for="password" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="password" required>
-                      <div class="invalid-feedback">Please enter your password!</div>
+                      <label for="otp" class="form-label">Email Address</label>
+                      <input type="text" name="enteredEmail" class="form-control w-100" id="enteredEmail" required>
+                      <div class="invalid-feedback">Please enter your Email Address!</div>
                     </div>
 
-                    <div class="col-12">
+                    <!--<div class="col-12">
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
                         <label class="form-check-label" for="rememberMe">Remember me</label>
                       </div>
+                    </div>-->
+
+                    <div class="col-12">
+                      <button class="btn btn-primary w-100" type="submit">Send OTP</button>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Login</button>
+                      <a href="login.jsp" class="btn btn-primary w-100">Cancel</a>
+                    </div>                    <!--<div class="col-12">
+                      <p class="small mb-0">Remembered your password? <a href="/login">Login</a></p>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0">Don't have account? <a href="register.jsp">Create an account</a></p>
-                    </div>
-                    <div class="col-12">
-                      <p class="small mb-0">Forgot your password? <a href="forgot-password.jsp">Reset your password</a></p>
-                    </div>
+                      <p class="small mb-0">Don't have account? <a href="/register">Create an account</a></p>
+                    </div>-->
                   </form>
 
                 </div>
@@ -111,8 +114,8 @@
                 <!-- All the links in the footer should remain intact. -->
                 <!-- You can delete the links only if you purchased the pro version. -->
                 <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ 
+                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>-->
               </div>
 
             </div>
@@ -123,6 +126,7 @@
 
     </div>
   </main><!-- End #main -->
+
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

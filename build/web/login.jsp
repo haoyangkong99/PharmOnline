@@ -100,7 +100,7 @@
                       <p class="small mb-0">Don't have account? <a href="register.jsp">Create an account</a></p>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0">Forgot your password? <a href="register.jsp">Reset your password</a></p>
+                      <p class="small mb-0">Forgot your password? <a href="forgot-password.jsp">Reset your password</a></p>
                     </div>
                   </form>
 
