@@ -82,8 +82,8 @@
                     </div>-->
 
                     <div class="col-12">
-                      <label for="otp" class="form-label">Email Address</label>
-                      <input type="text" name="enteredEmail" class="form-control w-100" id="enteredEmail" required>
+                      <label for="enteredEmail" class="form-label">Email Address</label>
+                      <input type="email" name="enteredEmail" class="form-control w-100" id="enteredEmail" required>
                       <div class="invalid-feedback">Please enter your Email Address!</div>
                     </div>
 

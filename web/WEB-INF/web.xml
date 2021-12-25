@@ -20,6 +20,10 @@
         <servlet-name>editPassword</servlet-name>
         <servlet-class>com.servlet.editPassword</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>verifyEmail</servlet-name>
+        <servlet-class>com.servlet.verifyEmail</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Register</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>editPassword</servlet-name>
         <url-pattern>/editPassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>verifyEmail</servlet-name>
+        <url-pattern>/verifyEmail</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
