@@ -1,8 +1,12 @@
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.util.logging.Logger"%>
+<%@page import="java.util.logging.Level"%>
+<%@page import="java.lang.String"%>
 <%@page import="java.sql.DriverManager"%>
-<%@page import="java.io.PrintWriter"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
+<%@page import="java.util.*" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -528,7 +532,7 @@
 
     <div class="pagetitle" >
       <div style="display: flex; justify-content: space-between;">
-        <h1>Manage Suppliers</h1>
+        <h1>Edit Supplier</h1>
 
       </div>
       <nav>
@@ -536,6 +540,7 @@
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
 
           <li class="breadcrumb-item active">Manage Suppliers</li>
+          <li class="breadcrumb-item active">Edit Supplier</li>
         </ol>
       </nav>
 
@@ -570,61 +575,82 @@
             <div class="card-body" >
               <h5 class="card-title"></h5>
 
+             
 
-
-              <div style="display: flex; justify-content: left;">
+              <div style="display: flex; justify-content: flex-start">
                 <div style="padding-right: 100px;">
-                    <form action="addSupplier" method="post">
+                    <%
+                        String id=request.getParameter("id");
+                         String driver ="com.mysql.jdbc.Driver";
+        String dbName="PharmOnline";
+        String url="jdbc:mysql://localhost/"+dbName+"?";
+        String userName="root";
+        String password="";
+        String query="SELECT * FROM Supplier WHERE supplierID='"+id+"'";
+         Class.forName(driver);
+         Connection con=DriverManager.getConnection(url,userName,password);
+           Statement st=con.createStatement();
+           ResultSet rs=st.executeQuery(query);
+           rs.next();
+           String name=rs.getString(1);
+String contact=rs.getString(3);
+String address=rs.getString(4);
+String description=rs.getString(5);
+String date=rs.getDate(6).toString();
+ st.close();
+    con.close();
+                        %>
+                    <form action="editSupplier" method="post">
                   <table>
 
-
-                    <tr>
-                      <th>Suppliers Name</th>
-                      <th>:</th>
-                      <td>
-                          <input type="text" name="suppliername" required>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Contact Number</th>
-                      <th>:</th>
-                      <td>
-                          <input type="text" name="contact" required>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Address</th>
-                      <th>:</th>
-                      <td>
-                        <input type="text" name="address" required>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Description</th>
-                      <th>:</th>
-                      <td>
-                        <input type="text" name="description" required>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Join Date</th>
-                      <th>:</th>
-                      <td>
-                        <input type="date" name="date" required>
-                      </td>
-                    </tr>
+                     <tr>
+                     <th>Supplier Name</th>
+                    <th>:</th>
+                     <td>
+             <input type="text" name="suppliername" value="<%=name%>" required> </td></tr>
+                      <tr>
+                     <th>Contact Number</th>
+                    <th>:</th>
+                     <td>
+             <input type="text" name="contact" value="<%=contact%>" required> </td></tr>
+                      <tr>
+                     <th>Address</th>
+                    <th>:</th>
+                     <td>
+             <input type="text" name="address" value="<%=address%>" required> </td></tr>
+                      <tr>
+                     <th>Description</th>
+                    <th>:</th>
+                     <td>
+             <input type="text" name="description" value="<%=description%>" required> </td></tr>
+                      <tr>
+                     <th>Join Date</th>
+                    <th>:</th>
+                     <td>
+             <input type="date" name="date" value="<%=date%>" required> </td></tr>
+            
+                    
 
                   </table>
-                   
+                      <br><br>
+                      <input type="hidden" name="id" value="<%=id%>" >
+                      
+          <div style="display:flex;justify-content: space-around">
+                  <a href="Manage suppliers.jsp" class="btn btn-danger">Cancel</a>
+                  <input type="submit" value="Save Changes" onsubmit="alert('Updated Successfully');" class="btn btn-primary">
+              
+            </div>
+                </div>
+              </div>
+
+                            
+ </form>
                 </div>
               </div>
 
               <br><br>
-              <div>
-                 
-                <button type="submit" class="btn btn-primary"><i class="bi bi-plus"></i> New Suppliers</button>
-              </div>
- </form>
+              
+
 
 
 
@@ -645,85 +671,7 @@
         <div class="col-lg-6">
 
 
-          <div class="card" style="width:1200px;">
-            <div class="card-body">
-                    
-                <a href="Manage suppliers.jsp">
-                    <h5 class="card-title"><i class="bi bi-arrow-repeat"></i> Suppliers List</h5></a>
-                
-              
-                 <table class="list" >
-                     <tr>
-              <th>No</th><th>Supplier Name</th><th>Supplier ID</th><th>Contact No</th><th>Address</th><th>Description</th><th>Join Date</th><th>Action</th>
-                </tr>
-                <%
-                     String driver ="com.mysql.jdbc.Driver";
-        String dbName="PharmOnline";
-        String url="jdbc:mysql://localhost/"+dbName+"?";
-        String userName="root";
-        String password="";
-      
-        String query="SELECT * FROM Supplier ";
-        
-           Class.forName(driver);
-           Connection con=DriverManager.getConnection(url,userName,password);
-           Statement st=con.createStatement();
-           ResultSet rs=st.executeQuery(query);
        
-            /* TODO output your page here. You may use following sample code. */
-            int counter=0;
-            while (rs.next())
-            {
-                
-                counter++;
-                
-                
-               
-                out.println("<tr>");
-                out.println("<td>"+Integer.toString(counter)+"</td>");
-       out.println("<td>"+rs.getString(1)+"</td>");
-                                 out.println("<td>"+rs.getString(2)+"</td>");
-                                  out.println("<td>"+rs.getString(3)+"</td>");
-                                   out.println("<td>"+rs.getString(4)+"</td>");
-                                     out.println("<td>"+rs.getString(5)+"</td>");
-                                    out.println("<td>"+rs.getDate(6).toString()+"</td>");
-                                    
-                                    out.println( 
-                                    "<td> "+"<div style='display: block;'>");
-                                    out.println("<a href='deleteSupplier?id="+rs.getString(2)+"' onclick=' return confirm("+'"'+"Are you sure to delete this supplier"+'"'+")"+
-                                            "'>");
-                                    out.println( "<i class='bx bxs-trash'></i>");
-                                    out.println("</a>");
-                                    
-                                    out.println("<a href=\"Edit supplier.jsp?id="+rs.getString(2)
-                                            +"\">");
-                                    out.println( "<i class='bx bxs-edit'></i>");
-                                    out.println("</a>");
-                                   
-                                    out.println("</div></td>");
-                                    
-                                          
-                                          
-                                    
-            out.println("</tr>");
-            
-            }
-            
-        
-        st.close();
-        con.close();
-                    %>
-                     
-              
-                 </table>
-             
-
-
-
-
-
-            </div>
-          </div>
 
 
 
@@ -737,19 +685,7 @@
 
   </main><!-- End #main -->
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>PharmaOnline</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
-  </footer><!-- End Footer -->
+ 
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

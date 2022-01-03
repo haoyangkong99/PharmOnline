@@ -1,8 +1,23 @@
+<%-- 
+    Document   : EditOrder
+    Created on : Dec 24, 2021, 8:48:48 PM
+    Author     : user
+--%>
+<%@page import="java.time.ZoneOffset"%>
+<%@page import="java.sql.Timestamp"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.util.logging.Logger"%>
+<%@page import="java.util.logging.Level"%>
+<%@page import="java.lang.String"%>
 <%@page import="java.sql.DriverManager"%>
-<%@page import="java.io.PrintWriter"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
+<%@page import="java.util.*" %>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,29 +25,29 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Manage Suppliers</title>
+  <title>Manage Order</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="$assets/img/favicon.png" rel="icon">
-  <link href="$assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link href="$https://fonts.gstatic.com" rel="preconnect">
-  <link href="$https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="$assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.1.0
@@ -40,20 +55,6 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-  <style>
-    td,th
-    {
-      padding: 5px;
-    }
-    .list td,.list th{
-      border: 1px solid black;
-      padding: 20px;
-    }
-    .list th
-    {
-      color: blue;
-    }
-  </style>
 </head>
 
 <body>
@@ -63,8 +64,8 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.html" class="logo d-flex align-items-center">
-        <img src="assets/img/logo new.jpg" alt="">
-
+        <img src="assets/img/PharmOnlineLogo1.png" alt="">
+        <span class="d-none d-lg-block"></span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -230,13 +231,13 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Desmond Heng</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2">H.Winson</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Desmond Heng</h6>
-              <span>Pharmacist</span>
+              <h6>Kevin Anderson</h6>
+              <span>Web Designer</span>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -300,10 +301,10 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link " data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="components-alerts.html">
               <i class="bi bi-circle"></i><span>Alerts</span>
@@ -325,7 +326,7 @@
             </a>
           </li>
           <li>
-            <a href="components-buttons.html" class="active">
+            <a href="components-buttons.html">
               <i class="bi bi-circle"></i><span>Buttons</span>
             </a>
           </li>
@@ -472,7 +473,7 @@
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
+        <a class="nav-link " href="users-profile.html">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
@@ -526,221 +527,328 @@
 
   <main id="main" class="main">
 
-    <div class="pagetitle" >
-      <div style="display: flex; justify-content: space-between;">
-        <h1>Manage Suppliers</h1>
-
-      </div>
+    <div class="pagetitle">
+      <h1>Manage Orders</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-
-          <li class="breadcrumb-item active">Manage Suppliers</li>
+          <li class="breadcrumb-item">Manage Orders</li>
+          <li class="breadcrumb-item active">Edit Order</li>
         </ol>
       </nav>
-
-
     </div><!-- End Page Title -->
     <script>
-      class suppliers{
-
-
-        constructor (name,contact,id,address,JDate,description)
+        function calcsubitemprice(count)
         {
-          this.name=name;
-          this.contact=contact;
-          this.id=id;
-          this.address=address;
-          this.JDate=JDate;
-          this.description=description;
-
+          var price = document.getElementById("itemprice"+count).innerHTML;
+          var noItem = document.getElementById("quantity"+count).value;
+          var total = parseFloat(price) * noItem;
+          if (!isNaN(total))
+            document.getElementById("subtotal"+count).innerHTML = total.toFixed(2);
+//        for(int i=0; i<count; i++){
+//            if (!isNaN(total))
+//            document.getElementById("subtotal"+count).innerHTML = total.toFixed(2);
+//            var totalPrice +=total;
+//            document.getElementById("RealtotPrice").innerHTML =parseFloat(totalPrice).toFixed(2);
+//        }
+            
         }
-      }
-
-
-
-    </script>
-      <section class="section">
-      <div class="row">
-        <div class="col-lg-6">
-
-
-
-          <div class="card" style="width:1200px;">
-            <div class="card-body" >
-              <h5 class="card-title"></h5>
-
-
-
-              <div style="display: flex; justify-content: left;">
-                <div style="padding-right: 100px;">
-                    <form action="addSupplier" method="post">
-                  <table>
-
-
-                    <tr>
-                      <th>Suppliers Name</th>
-                      <th>:</th>
-                      <td>
-                          <input type="text" name="suppliername" required>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Contact Number</th>
-                      <th>:</th>
-                      <td>
-                          <input type="text" name="contact" required>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Address</th>
-                      <th>:</th>
-                      <td>
-                        <input type="text" name="address" required>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Description</th>
-                      <th>:</th>
-                      <td>
-                        <input type="text" name="description" required>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Join Date</th>
-                      <th>:</th>
-                      <td>
-                        <input type="date" name="date" required>
-                      </td>
-                    </tr>
-
-                  </table>
-                   
-                </div>
-              </div>
-
-              <br><br>
-              <div>
-                 
-                <button type="submit" class="btn btn-primary"><i class="bi bi-plus"></i> New Suppliers</button>
-              </div>
- </form>
-
-
-
-            </div>
-
-          </div>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-6">
-
-
-          <div class="card" style="width:1200px;">
-            <div class="card-body">
-                    
-                <a href="Manage suppliers.jsp">
-                    <h5 class="card-title"><i class="bi bi-arrow-repeat"></i> Suppliers List</h5></a>
-                
-              
-                 <table class="list" >
-                     <tr>
-              <th>No</th><th>Supplier Name</th><th>Supplier ID</th><th>Contact No</th><th>Address</th><th>Description</th><th>Join Date</th><th>Action</th>
-                </tr>
-                <%
-                     String driver ="com.mysql.jdbc.Driver";
-        String dbName="PharmOnline";
-        String url="jdbc:mysql://localhost/"+dbName+"?";
-        String userName="root";
-        String password="";
-      
-        String query="SELECT * FROM Supplier ";
-        
-           Class.forName(driver);
-           Connection con=DriverManager.getConnection(url,userName,password);
-           Statement st=con.createStatement();
-           ResultSet rs=st.executeQuery(query);
-       
-            /* TODO output your page here. You may use following sample code. */
-            int counter=0;
-            while (rs.next())
-            {
-                
-                counter++;
-                
-                
-               
-                out.println("<tr>");
-                out.println("<td>"+Integer.toString(counter)+"</td>");
-       out.println("<td>"+rs.getString(1)+"</td>");
-                                 out.println("<td>"+rs.getString(2)+"</td>");
-                                  out.println("<td>"+rs.getString(3)+"</td>");
-                                   out.println("<td>"+rs.getString(4)+"</td>");
-                                     out.println("<td>"+rs.getString(5)+"</td>");
-                                    out.println("<td>"+rs.getDate(6).toString()+"</td>");
-                                    
-                                    out.println( 
-                                    "<td> "+"<div style='display: block;'>");
-                                    out.println("<a href='deleteSupplier?id="+rs.getString(2)+"' onclick=' return confirm("+'"'+"Are you sure to delete this supplier"+'"'+")"+
-                                            "'>");
-                                    out.println( "<i class='bx bxs-trash'></i>");
-                                    out.println("</a>");
-                                    
-                                    out.println("<a href=\"Edit supplier.jsp?id="+rs.getString(2)
-                                            +"\">");
-                                    out.println( "<i class='bx bxs-edit'></i>");
-                                    out.println("</a>");
-                                   
-                                    out.println("</div></td>");
-                                    
-                                          
-                                          
-                                    
-            out.println("</tr>");
-            
+        function calcTotal(count)
+        {
+          var totalprice=0;
+          for(var i=1; i<=count;i++){
+              var subtotal =document.getElementById("subtotal"+i).innerHTML;
+              totalprice+=parseFloat(subtotal);
+          }
+          document.getElementById("totalprice").innerHTML =totalprice.toFixed(2);
+          document.getElementById("totalp").value=totalprice.toFixed(2);
+        }
+        function calcTotalafterDel(c){
+            var subtotal =document.getElementById("subtotal"+c).innerHTML;
+            document.getElementByName("temptotal").value-=parseFloat(subtotal);
+            document.getElementById("temptotal").innerHTML-=parseFloat(subtotal);
+        }
+        function callEditOrder(count){
+            var id = document.getElementById("id").value;
+            var totalprice= document.getElementById("totalp").value;
+            var collectDateTime = document.getElementById("collectDateTime").value;
+            var rowNo=count;
+            var url ="";
+            for(var j=1;j<=count;j++){
+            this["selectedproductID"+j]=document.getElementById("selectedproductID"+j).value;
+            this["quantity"+j]=document.getElementById("quantity"+j).value;
+            var tempurl ="&selectedproductID"+j+"="+this["selectedproductID"+j]+"&quantity"+j+"="+this["quantity"+j];
+            url+=tempurl;
             }
-            
-        
-        st.close();
-        con.close();
+            document.location.href="editOrder?id="+id+"&totalprice="+totalprice+"&collectDateTime="+collectDateTime+"&rowNo="+rowNo+url;
+        }
+        function updateStatus(status){
+            var id = document.getElementById("id").value;
+            var updatestatus = status;
+            document.location.href="updateOrderStatus?id="+id+"&status="+updatestatus;
+        }
+    </script>
+      <div class="row">
+
+
+        <div class="col-xl-12">
+
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+                  
+                    <%
+                        String id=request.getParameter("id");
+                        String driver ="com.mysql.jdbc.Driver";
+                        String dbName="PharmOnline";
+                        String url="jdbc:mysql://localhost/"+dbName+"?";
+                        String userName="root";
+                        String password="";
+                        String query="SELECT * FROM `order` WHERE orderID='"+id+"'";
+                        
+                        Class.forName(driver);
+                        Connection con=DriverManager.getConnection(url,userName,password);
+                        Statement st=con.createStatement();
+                        Statement stOrderProduct=con.createStatement();
+                        Statement stProduct=con.createStatement();
+                        Statement stCust=con.createStatement();
+                        ResultSet rs=st.executeQuery(query);
+                        
+                        rs.next();
+                        String orderDateTime=rs.getString(2).toString();
+                            String collectDateTime=rs.getString(3).toString();
+                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            DateFormat outputformat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
+                            DateFormat outputDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                            Date orderdate = null;
+                            String orderDateoutput = null;
+                            Date collectdate = null;
+                            String collectDateoutputedit = null;
+                            String collectDateoutput = null;
+                            orderdate= df.parse(orderDateTime);
+                            orderDateoutput = outputformat.format(orderdate);
+                            collectdate= df.parse(collectDateTime);
+                            collectDateoutputedit = outputDate.format(collectdate);
+                            collectDateoutput = outputformat.format(collectdate);
+                        String queryorderproduct = "SELECT * FROM orderproduct WHERE orderID='"+id+"'";
+                        ResultSet rsorderproduct=stOrderProduct.executeQuery(queryorderproduct);
+                        double totalprice =rs.getDouble(4);
+                        String totalprice0=String.format("%.2f",totalprice);
+                        String status = rs.getString(5);
+                        String custID = rs.getString(6);
+                        String queryCustName = "SELECT * FROM user WHERE userID='"+custID+"'";
+                        ResultSet rscust=stCust.executeQuery(queryCustName);
+                        rscust.next();
+                        String custName = rscust.getString(2);
                     %>
-                     
-              
-                 </table>
-             
+                  
+                
+                
+                
+                    <!--<form id="editorder">-->
 
+                  <div class="row mb-3">
+                    <table class="table">
+                    <tr>
+                      <th>Order ID</th>
+                      <th>:</th>
+                      <td><%= id %></td>
+                      <th>Status</th>
+                      <th>:</th>
+                      <%
+                         if(status.equals("Pending")){
+                             out.println("<td><span class=\"badge bg-secondary\">"+status+"</span></td>");
+                        }
+                         else if(status.equals("Completed")){
+                            out.println("<td><span class=\"badge bg-success\">"+status+"</span></td>");
+                         }
+                         else if(status.equals("Accepted")){
+                            out.println("<td><span class=\"badge bg-dark\">"+status+"</span></td>");
+                         }
+                         else if(status.equals("Prepared")){
+                            out.println("<td><span class=\"badge bg-info text-dark\">"+status+"</span></td>");
+                         }
+                         else if(status.equals("Rejected")){
+                            out.println("<td><span class=\"badge bg-danger\">"+status+"</span></td>");
+                         }
+                      %>
+                      
+                    </tr>
+                    <tr>
+                      <th>Customer ID</th>
+                      <th>:</th>
+                      <td><%= custID %></td>
+                      <th>Customer Name</th>
+                      <th>:</th>
+                      <td><%= custName %></td>
+                    </tr>
+                    <tr>
+                      <th>Order Date / Time</th>
+                      <th>:</th>
+                      <td><%= orderDateoutput %></td>
+                      <th>Collect Date / Time</th>
+                      <th>:</th>
+                      <%
+                          if(status.equals("Pending")||status.equals("Accepted")||status.equals("Prepared")){
+                              out.println("<td><input type=\"datetime-local\" id=\"collectDateTime\" value='"+collectDateoutputedit+"'></td>");
+                          }
+                          else{
+                              out.println("<td>"+collectDateoutput+"</td>");
+                          }
+                      %>
+                    </tr>
+                    </table>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Pricing (RM)</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                     <tbody>
+                    <%  
+                        int count = 0;
+                        String queryorderproductRow = "SELECT count(*) FROM orderproduct WHERE orderID='"+id+"'";
+                        Statement storderproductRow = con.createStatement();
+                        ResultSet rsorderproductRow = storderproductRow.executeQuery(queryorderproductRow);
+                        rsorderproductRow.next();
+                        int rowNo = rsorderproductRow.getInt(1);
+                        
+                        String excludedOrderID ="";
+                        String queryexcludedOrderID = "SELECT * FROM `order` WHERE status IN ('Completed','Rejected')";
+                        out.println(queryexcludedOrderID);
+                        Statement storderexcluded = con.createStatement();
+                        ResultSet rsorderexcluded = storderexcluded.executeQuery(queryexcludedOrderID);
+                        while(rsorderexcluded.next()){
+                                excludedOrderID += rsorderexcluded.getString(1);
+                        }
+                        excludedOrderID = excludedOrderID.replaceAll("(.{2})", "$0','");
+                        excludedOrderID = excludedOrderID.substring(0, excludedOrderID.length() - 3);
+                        
+                        while(rsorderproduct.next()){
+                            count++;
+                            String selectedproductID = rsorderproduct.getString(2);
+                            out.println("<input type=\"hidden\" id=\"selectedproductID"+count+"\" value='"+selectedproductID+"'>");
+                            int orderProductquantity = rsorderproduct.getInt(3);
+                            int totalorderproductquantity=0;
+                            
+                            String queryorderproductQuantity = "SELECT * FROM orderproduct WHERE productID='"+selectedproductID+"' AND orderID NOT IN ('"+excludedOrderID+"')";
+//                            out.println(queryorderproductQuantity);
+                            ResultSet rsorderproductQuantity = storderproductRow.executeQuery(queryorderproductQuantity);
+                            while(rsorderproductQuantity.next()){
+                                totalorderproductquantity+=rsorderproductQuantity.getInt(3);
+                            }
+                            
+                            out.println("<tr>");
+                            out.println("<th scope=\"row\">"+count+"</th>");
+                            String queryProduct="SELECT * FROM product WHERE product_ID='"+selectedproductID+"'";
+                            ResultSet rsProduct=stProduct.executeQuery(queryProduct);
+                            rsProduct.next();
+                            int productquantity = rsProduct.getInt(6);
+                            int max = productquantity - totalorderproductquantity+orderProductquantity;
+                            String itemname = rsProduct.getString(2);
+                            double itemprice = rsProduct.getDouble(4);
+                            if(status.equals("Completed")||status.equals("Rejected")){
+                            out.println("<td>"+itemname+"</td>");
+                            out.println("<td>"+orderProductquantity+"</td>");
+                            out.println("<span id=\"itemprice"+count+"\" hidden>"+itemprice+"</span>");
+                            double subtotal=itemprice*orderProductquantity;
+                            String subtotal2 = String.format("%.2f",subtotal);
+                            out.println("<td><span id=\"subtotal"+count+"\">"+subtotal2+"</td>");
+                            out.println("<input type=\"hidden\" id=\"subtotal"+count+"\" name=\"subtotal"+count+"\" value='"+subtotal+"'>");
+                            double temptotalprice =totalprice-subtotal;
+                            out.println("<input type=\"hidden\" id=\"total\" name=\"totalprice\" value='"+temptotalprice+"'>");
+                            out.println("<td></td>");
+                            out.println("</tr>");
+                            }
+                            else{
+                            out.println("<td>"+itemname+"</td>");
+                            out.println("<td><input type=\"number\" step=\"1\" id=\"quantity"+count+"\" min=\"1\" max='"+max+"' value='"+orderProductquantity+"'oninput=\"calcsubitemprice("+count+"); calcTotal("+rowNo+");\" required></td>");
+                            out.println("<span id=\"itemprice"+count+"\" hidden>"+itemprice+"</span>");
+                            double subtotal=itemprice*orderProductquantity;
+                            String subtotal2 = String.format("%.2f",subtotal);
+                            out.println("<td><span id=\"subtotal"+count+"\">"+subtotal2+"</td>");
+                            out.println("<input type=\"hidden\" id=\"subtotal"+count+"\" name=\"subtotal"+count+"\" value='"+subtotal+"'>");
+                            double temptotalprice =totalprice-subtotal;
+                            out.println("<input type=\"hidden\" id=\"total\" name=\"totalprice\" value='"+temptotalprice+"'>");
+                            out.println("<td><a href='deleteOrderProduct?id="+id+"&productID="+selectedproductID+"&totalprice="+temptotalprice+"'onclick=' return confirm("+'"'+"Are you sure to delete this Item "+selectedproductID+"?"+'"'+")"+"';\"calcTotalafterDel("+count+")\";><button><i class='bx bxs-trash'></i></button></a></td>");
+//                         
+                            out.println("</tr>");
+                            }
+//                            totalPrice+=subtotal;
+                        }
+                    %>
+                        
+                      <tr>
+                        <th></th>
+                        <td></td>
+                        <th>Total :</th>
+                        
+                       <% 
+                           out.println("<td><span id=\"totalprice\">"+totalprice0+"</td>");
+                       %>
+                       <input type="hidden" id="totalp" value="<%=totalprice0%>">
+                        <td></td>
+                      </tr>
+                    </tbody>
+                    
+                  </table>
+                    </div>
+                    <div class="text-center">
+                        <input type="hidden" id="id" value="<%=id%>" >
 
+                      <button type="button" class="btn btn-warning">Print</button>
+                      <a href="ManageOrder.jsp" class="btn btn-secondary">Cancel</a>
+                      
+                      <%
+                        if(status.equals("Pending")){
+                            out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
+                             status="Accepted";
+                             out.println("<a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-dark\">Accept</a>");
+                             status="Rejected";
+                             out.println("<a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-danger\">Reject</a>");
+                        }
+                         else if(status.equals("Accepted")){
+                             out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
+                             status="Prepared";
+                            out.println("<a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-info text-dark\">Prepared</a>");
+                         }
+                         else if(status.equals("Prepared")){
+                             out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
+                             status="Completed";
+                            out.println("<a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-success\">Complete</a>");
+                         }
+                      %>
+                    </div>
+            
+                      <%
+                          st.close();
+                          stOrderProduct.close();
+                          stProduct.close();
+                          stCust.close();
+                          con.close();
+                         %>
+                <!--</form>-->
 
-
+                
+                
+                    
+              </div><!-- End Bordered Tabs -->
 
             </div>
           </div>
 
-
-
-        </div>
-
-
-
         </div>
       </div>
-    </section>
 
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>PharmaOnline</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
       <!-- All the links in the footer should remain intact. -->

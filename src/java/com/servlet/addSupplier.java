@@ -4,6 +4,7 @@
  */
 package com.servlet;
 
+import com.bean.Supplier;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -48,43 +49,56 @@ public class addSupplier extends HttpServlet {
         String address=request.getParameter("address");
         String description=request.getParameter("description");
         java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("date"));
-         java.sql.Date sqlDate = new java.sql.Date(date.getTime());       
-           String driver ="com.mysql.jdbc.Driver";
+         java.sql.Date sqlDate = new java.sql.Date(date.getTime()); 
+         String driver ="com.mysql.jdbc.Driver";
         String dbName="PharmOnline";
         String url="jdbc:mysql://localhost/"+dbName+"?";
         String userName="root";
         String password="";
-        String query = "SELECT count(*) FROM Supplier";
-        String queryx="INSERT INTO Supplier (supplierName,supplierID,contact,address,description,date) VALUES (?,?,?,?,?,?)";
-        
+        String query = "SELECT count(*) FROM Supplier WHERE supplierName='"+name+"'";
         try {
             Class.forName(driver);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(addSupplier.class.getName()).log(Level.SEVERE, null, ex);
         }
-           Connection con=DriverManager.getConnection(url,userName,password);
+         Connection con=DriverManager.getConnection(url,userName,password);
            Statement st=con.createStatement();
-            PreparedStatement statement=con.prepareStatement(queryx);
            ResultSet rs=st.executeQuery(query);
            rs.next();
            int count=rs.getInt(1);
-           count++;
-           String ID="S"+count;
-           statement.setString(1, name);
-           statement.setString(2, ID);
-           statement.setString(3, contact);
-           statement.setString(4, address);
-           statement.setString(5, description);
-           statement.setDate(6, sqlDate);
-           statement.executeUpdate();
-           st.close();
-           statement.close();
-           con.close();
-            
-        RequestDispatcher rd=request.getRequestDispatcher("Manage suppliers.jsp");
-        rd.forward(request, response);
-       
+           PrintWriter out = response.getWriter();
+           if (count!=0)
+           {
+               out.println("<script type=\"text/javascript\">");
+            out.println("alert('Repeated suppplier name! Please try again.');");
+            out.println("location='Manage suppliers.jsp';");
+            out.println("</script>");
+           }
+           else
+           {
+               
+           
+         Supplier medicineSupplier=new Supplier();
+         medicineSupplier.setAddress(address);
+         medicineSupplier.setContact(contact);
+         medicineSupplier.setDate(sqlDate);
+         medicineSupplier.setDescription(description);
+         medicineSupplier.setName(name);
+         
+        try {
+            medicineSupplier.addSupplierToDB();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(addSupplier.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
+       
+         
+               
+                response.sendRedirect("Manage suppliers.jsp");
+           
+    }
+  
+           
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

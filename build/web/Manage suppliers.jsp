@@ -1,3 +1,8 @@
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.io.PrintWriter"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -648,7 +653,67 @@
                 
               
                  <table class="list" >
-                    <jsp:include page="displaySupplier" />  
+                     <tr>
+              <th>No</th><th>Supplier Name</th><th>Supplier ID</th><th>Contact No</th><th>Address</th><th>Description</th><th>Join Date</th><th>Action</th>
+                </tr>
+                <%
+                     String driver ="com.mysql.jdbc.Driver";
+        String dbName="PharmOnline";
+        String url="jdbc:mysql://localhost/"+dbName+"?";
+        String userName="root";
+        String password="";
+      
+        String query="SELECT * FROM Supplier ";
+        
+           Class.forName(driver);
+           Connection con=DriverManager.getConnection(url,userName,password);
+           Statement st=con.createStatement();
+           ResultSet rs=st.executeQuery(query);
+       
+            /* TODO output your page here. You may use following sample code. */
+            int counter=0;
+            while (rs.next())
+            {
+                
+                counter++;
+                
+                
+               
+                out.println("<tr>");
+                out.println("<td>"+Integer.toString(counter)+"</td>");
+       out.println("<td>"+rs.getString(1)+"</td>");
+                                 out.println("<td>"+rs.getString(2)+"</td>");
+                                  out.println("<td>"+rs.getString(3)+"</td>");
+                                   out.println("<td>"+rs.getString(4)+"</td>");
+                                     out.println("<td>"+rs.getString(5)+"</td>");
+                                    out.println("<td>"+rs.getDate(6).toString()+"</td>");
+                                    
+                                    out.println( 
+                                    "<td> "+"<div style='display: block;'>");
+                                    out.println("<a href='deleteSupplier?id="+rs.getString(2)+"' onclick=' return confirm("+'"'+"Are you sure to delete this supplier"+'"'+")"+
+                                            "'>");
+                                    out.println( "<i class='bx bxs-trash'></i>");
+                                    out.println("</a>");
+                                    
+                                    out.println("<a href=\"Edit supplier.jsp?id="+rs.getString(2)
+                                            +"\">");
+                                    out.println( "<i class='bx bxs-edit'></i>");
+                                    out.println("</a>");
+                                   
+                                    out.println("</div></td>");
+                                    
+                                          
+                                          
+                                    
+            out.println("</tr>");
+            
+            }
+            
+        
+        st.close();
+        con.close();
+                    %>
+                     
               
                  </table>
              

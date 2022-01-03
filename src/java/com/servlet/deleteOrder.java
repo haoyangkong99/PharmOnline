@@ -4,7 +4,8 @@
  */
 package com.servlet;
 
-import com.bean.Supplier;
+import com.bean.Order;
+import com.bean.OrderProduct;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -22,10 +23,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author haoya
+ * @author user
  */
-@WebServlet(name = "deleteSupplier", urlPatterns = {"/deleteSupplier"})
-public class deleteSupplier extends HttpServlet {
+@WebServlet(name = "deleteOrder", urlPatterns = {"/deleteOrder"})
+public class deleteOrder extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,17 +36,19 @@ public class deleteSupplier extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException,ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-     
-        String id=request.getParameter("id");
-        Supplier deleteSupplier=new Supplier();
-        deleteSupplier.setID(id);
-        deleteSupplier.deleteSupplierFromDB();
-           response.sendRedirect("Manage suppliers.jsp");
-       
+        String orderID=request.getParameter("orderID");
+        Order deleteOrder=new Order();
+        OrderProduct deleteOrderProduct=new OrderProduct();
+        deleteOrderProduct.setOrderID(orderID);
+        deleteOrder.setOrderID(orderID);
+        deleteOrder.deleteOrderFromDB();
+        deleteOrderProduct.deleteWholeOrderProductFromDB();
+         response.sendRedirect("ManageOrder.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -63,7 +66,9 @@ public class deleteSupplier extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(deleteSupplier.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(deleteOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(deleteOrder.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -81,7 +86,9 @@ public class deleteSupplier extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(deleteSupplier.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(deleteOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(deleteOrder.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

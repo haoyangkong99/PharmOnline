@@ -1,3 +1,7 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -547,25 +551,41 @@
 
               <div style="display: flex; justify-content: left;">
                 <div style="padding-right: 100px;">
+                    <form  action="stockOperation" method="post">
                   <table>
                     <tr>
                       <th>Operation</th>
                       <th>:</th>
                       <td>
-                        <input type="radio" name="action" value="Add Stock">Add Stock
+                          <input type="radio" name="action" value="Add Stock"  required>Add Stock
                         <input type="radio" name="action" value="Return Stock">Return Stock
                       </td>
                     </tr>
-
+                    
                     <tr>
                       <th>Suppliers</th>
                       <th>:</th>
                       <td>
-                        <select>
-                          <option>Onemedicare sdn.bhd</option>
-                          <option>KPJ sdn.bhd</option>
-                          <option>Number 1 sdn.bhd</option>
-                          <option>Medic Science sdn.bhd</option>
+                          <select name="supplier" >
+                          <%
+                          String driver ="com.mysql.jdbc.Driver";
+        String dbName="PharmOnline";
+        String url="jdbc:mysql://localhost/"+dbName+"?";
+        String userName="root";
+        String password="";
+        String query="SELECT * FROM Supplier ";
+        Class.forName(driver);
+         Connection con=DriverManager.getConnection(url,userName,password);
+           Statement st=con.createStatement();
+           ResultSet rs=st.executeQuery(query);
+           while(rs.next())
+           {
+               String suppliername=rs.getString(1);
+           String supplierID=rs.getString(2);
+           out.println("<option value='"+supplierID+"'>"+suppliername+"</option>");
+           };
+                          %>
+                          
                         </select>
                       </td>
                     </tr>
@@ -575,7 +595,7 @@
                       <th>Arrival Date</th>
                       <th>:</th>
                       <td>
-                        <input type="date" >
+                        <input type="date" name="arrival" required>
                       </td>
                     </tr>
 
@@ -583,7 +603,7 @@
                       <th>Cost</th>
                       <th>:</th>
                       <td>
-                        RM <input type="number" >
+                        RM <input type="number" name="cost" step="0.01" required >
                       </td>
                     </tr>
 
@@ -596,19 +616,28 @@
                       <th>Reference No</th>
                       <th>:</th>
                       <td>
-                        <input type="text">
+                        <input type="text" name="reference" required>
                       </td>
                     </tr>
                     <tr>
                       <th>Product Name</th>
                       <th>:</th>
                       <td>
-                        <select>
-                          <option>
-                            Panadol Actifast
-                          </option>
-                          <option>Panadol Menstrual</option>
-                          <option>Panadol Extra</option>
+                        <select name="product" >
+                            <%
+                          
+        String queryProduct="SELECT * FROM Product ";
+      
+           Statement statementProduct=con.createStatement();
+           ResultSet rsProduct=statementProduct.executeQuery(queryProduct);
+           while(rsProduct.next())
+           {
+               String productID=rsProduct.getString(1);
+           String productName=rsProduct.getString(2);
+           out.println("<option value='"+productID+"'>"+productName+"</option>");
+           };
+                          %>
+                            
                         </select>
                       </td>
                     </tr>
@@ -616,25 +645,28 @@
                       <th>Expiry Date</th>
                       <th>:</th>
                       <td>
-                        <input type="date" >
+                        <input type="date" name="expiry" required>
                       </td>
                     </tr>
                     <tr>
                       <th>Quantity</th>
                       <th>:</th>
                       <td>
-                        <input type="number" >
+                        <input type="number" name="quantity" step="0.01" required>
                       </td>
                     </tr>
                   </table>
                 </div>
+                  
               </div>
-
               <br><br>
-              <div >
-                <button type="button" class="btn btn-primary"><i class="bi bi-check"></i>Confirm</button>
+              <div>
+                  <input type="reset" value="Reset" class="btn btn-outline-secondary">&nbsp;&nbsp;
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check"></i>Confirm</button>
               </div>
+               </form>
 
+              
 
 
 
@@ -658,7 +690,8 @@
 
           <div class="card" style="width: 1300px;">
             <div class="card-body">
-              <h5 class="card-title"><i class="bi bi-arrow-repeat"></i> Stock Transaction</h5>
+                <a href="Manage stock.jsp">
+                    <h5 class="card-title"><i class="bi bi-arrow-repeat"></i> Stock Transaction</h5></a>
 
               <table class="Transaction">
                 <tr>
@@ -666,58 +699,85 @@
                     No
                   </th>
                   <th>Operation</th>
-                  <th>Supplier Name</th>
-                  <th>Product Name</th>
-                  <th>Product ID</th>
-                  <th>Last Modified Date</th>
-                  <th>Cost (RM)</th>
+                  <th>Supplier<br>Name</th>
+                  <th>Product<br>Name</th>
+                  <th>Product<br>ID</th>
+                  <th>Arrival<br>Date</th>
+                  <th>Expiry<br>Date</th>
+                  <th>Cost<br>(RM)</th>
 
                   <th>Quantity</th>
-                  <th>Reference No</th>
+                  <th>Reference<br>No</th>
                   <th>Action</th>
                 </tr>
-                <tr>
-                  <td>1</td>
-                  <td>Add Stock</td>
-                  <td>Onemedicare sdn.bhd</td>
-                  <td>Panadol Actifast</td>
-                  <td>P00001</td>
-                  <td>9/11/2021</td>
-                  <td>5.50</td>
+                <%
+               String queryStock="SELECT * FROM stock ";
+              
+   
+           
+           Statement statementStock=con.createStatement();
+           ResultSet rsStock=statementStock.executeQuery(queryStock);
+        ResultSet rsSupplier;
+        String queryx="";
+         Statement statement=con.createStatement();
+         int counter=0;
+                while (rsStock.next())
+                {
+                   String id=rsStock.getString(3);
+                   
+                    queryx="SELECT * FROM supplier Where supplierID='"+id+"'";
+                    String queryProductName="SELECT * FROM product Where product_ID='"+rsStock.getString(4)+"'";
+                    Statement statementProductName=con.createStatement();
+                    ResultSet rsProductName=statementProductName.executeQuery(queryProductName);
+                    rsSupplier=statement.executeQuery(queryx);
+                    rsSupplier.next();
+                     rsProductName.next();
+                    counter++;
+                    out.println("<tr>");
+                out.println("<td>"+counter+"</td>");
+                out.println("<td>"+rsStock.getString(2)+"</td>");
+                out.println("<td>"+rsSupplier.getString(1)+"</td>");
+                out.println("<td>"+rsProductName.getString(2)+"</td>");
+                out.println("<td>"+rsStock.getString(4)+"</td>");
+                out.println("<td>"+rsStock.getDate(8)+"</td>");
+                out.println("<td>"+rsStock.getDate(9)+"</td>");
+                out.println("<td>"+String.format("%.2f", rsStock.getDouble(5))+"</td>");
+                if (rsStock.getDouble(6)%1==0)
+                {
+                    out.println("<td>"+String.format("%.0f", rsStock.getDouble(6))+"</td>");
+                }
+                else
+                {
+                     out.println("<td>"+ rsStock.getDouble(6)+"</td>");
+                }
+                
+               out.println("<td>"+rsStock.getString(7)+"</td>");
+               out.println( 
+                                    "<td> "+"<div style='display: block;'>");
+out.println("<a href='deleteStock?id="+rsStock.getString(1)+"' onclick=' return confirm("+'"'+"Are you sure to delete this stock"+'"'+")"+
+                                            "'>");;
+                out.println( "<i class='bx bxs-trash'></i>");
+                                    out.println("</a>");
+                                    
+                                    out.println("<a href=\"Edit stock.jsp?id="+rsStock.getString(1)
+                                            +"\">");
+                                    out.println( "<i class='bx bxs-edit'></i>");
+                                    out.println("</a>");
+                                   
+                                    out.println("</div></td>");
+                out.println("</tr>");
+                }
+          
+                      st.close();
+                      statementProduct.close();
+                      statementStock.close();
+                    con.close();
+      
+        
+                    %>
+                
 
-                  <td>100</td>
-                  <td>130000589</td>
-
-                  <td> <div style="display: block;"><i class="bx bxs-trash"></i> <i class="bx bxs-edit"></i></div></td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Add Stock</td>
-                  <td>KPJ sdn.bhd</td>
-                  <td>Panadol Actifast</td>
-                  <td>P00001</td>
-                  <td>9/11/2021</td>
-                  <td>5.50</td>
-
-                  <td>100</td>
-                  <td>130000590</td>
-
-                  <td> <div style="display: block;"><i class="bx bxs-trash"></i> <i class="bx bxs-edit"></i></div></td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Return Stock</td>
-                  <td>Onemedicare sdn.bhd</td>
-                  <td>Panadol Actifast</td>
-                  <td>P00001</td>
-                  <td>10/11/2021</td>
-                  <td>5.50</td>
-
-                  <td>50</td>
-                  <td>130000589</td>
-
-                  <td> <div style="display: block;"><i class="bx bxs-trash"></i> <i class="bx bxs-edit"></i></div></td>
-                </tr>
+             
 
               </table>
 

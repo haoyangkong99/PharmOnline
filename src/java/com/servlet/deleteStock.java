@@ -4,7 +4,7 @@
  */
 package com.servlet;
 
-import com.bean.Supplier;
+import com.bean.Stock;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -13,7 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author haoya
  */
-@WebServlet(name = "deleteSupplier", urlPatterns = {"/deleteSupplier"})
-public class deleteSupplier extends HttpServlet {
+@WebServlet(name = "deleteStock", urlPatterns = {"/deleteStock"})
+public class deleteStock extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,15 +36,15 @@ public class deleteSupplier extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-     
+        
         String id=request.getParameter("id");
-        Supplier deleteSupplier=new Supplier();
-        deleteSupplier.setID(id);
-        deleteSupplier.deleteSupplierFromDB();
-           response.sendRedirect("Manage suppliers.jsp");
-       
+        Stock deleteStock=new Stock();
+        deleteStock.setStockTransactionID(id);
+        deleteStock.deleteStockFromDB();
+           response.sendRedirect("Manage stock.jsp");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -62,8 +61,10 @@ public class deleteSupplier extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(deleteStock.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(deleteSupplier.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(deleteStock.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -80,8 +81,10 @@ public class deleteSupplier extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(deleteStock.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(deleteSupplier.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(deleteStock.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

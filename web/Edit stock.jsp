@@ -1,8 +1,12 @@
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.util.logging.Logger"%>
+<%@page import="java.util.logging.Level"%>
+<%@page import="java.lang.String"%>
 <%@page import="java.sql.DriverManager"%>
-<%@page import="java.io.PrintWriter"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
+<%@page import="java.util.*" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +14,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Manage Suppliers</title>
+  <title>Manage Stock</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -63,7 +67,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.html" class="logo d-flex align-items-center">
-        <img src="assets/img/logo new.jpg" alt="">
+        <img src="assets/img/logo.png" alt="">
 
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -528,14 +532,15 @@
 
     <div class="pagetitle" >
       <div style="display: flex; justify-content: space-between;">
-        <h1>Manage Suppliers</h1>
+        <h1>Edit Stock</h1>
 
       </div>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
 
-          <li class="breadcrumb-item active">Manage Suppliers</li>
+          <li class="breadcrumb-item active">Manage Stock</li>
+          <li class="breadcrumb-item active">Edit Stock</li>
         </ol>
       </nav>
 
@@ -570,61 +575,194 @@
             <div class="card-body" >
               <h5 class="card-title"></h5>
 
+             
 
-
-              <div style="display: flex; justify-content: left;">
+              <div style="display: flex; justify-content: flex-start">
                 <div style="padding-right: 100px;">
-                    <form action="addSupplier" method="post">
+                    <%
+                        String id=request.getParameter("id");
+                         String driver ="com.mysql.jdbc.Driver";
+        String dbName="PharmOnline";
+        String url="jdbc:mysql://localhost/"+dbName+"?";
+        String userName="root";
+        String password="";
+        String query="SELECT * FROM stock WHERE stockTransactionID='"+id+"'";
+          Class.forName(driver);
+         Connection con=DriverManager.getConnection(url,userName,password);
+           Statement st=con.createStatement();
+           Statement statement=con.createStatement();
+           Statement supplierListStatement=con.createStatement();
+           ResultSet rs=st.executeQuery(query);
+           
+           rs.next();
+           String operation=rs.getString(2);
+           String selectedsupplierID=rs.getString(3);
+          String querysupplier="SELECT * FROM supplier Where supplierID='"+selectedsupplierID+"'";
+          String querysupplierAll="SELECT * FROM supplier ";
+          ResultSet rsSupplierList=supplierListStatement.executeQuery(querysupplierAll);
+           ResultSet rsSupplier=statement.executeQuery(querysupplier);
+           rsSupplier.next();
+           String selectedSupplierName=rsSupplier.getString(1);
+           String productID=rs.getString(4);
+           double cost=rs.getDouble(5);
+           double quantity=rs.getDouble(6);
+           String reference=rs.getString(7);
+           String arrivaldate=rs.getDate(8).toString();
+           String expirydate=rs.getDate(9).toString();
+            String queryProduct="SELECT * FROM product Where product_ID='"+productID+"'";
+          String queryProductAll="SELECT * FROM product ";
+          Statement stProduct=con.createStatement();
+          Statement stProductAll=con.createStatement();
+          ResultSet rsProduct=stProduct.executeQuery(queryProduct);
+           ResultSet rsProductAll=stProductAll.executeQuery(queryProductAll);
+          rsProduct.next();
+          String selectedProductName=rsProduct.getString(2);
+           
+                                  
+                              
+            
+                        %>
+                    <form action="editStock" method="post">
                   <table>
+                      <tr>
+                          <th>Transaction ID</th>
+                          <th>:</th>
+                          <td>
+                              <input type="text" value="<%= id%>"  disabled>
+                          </td>
+                      </tr>
+                      
+                       <tr>
+                      <th>Operation</th>
+                      <th>:</th>
+                      <td>
+                          <%
+                              if (operation.equals("Add Stock"))
+                              {
+                         out.println("<input type=\"radio\" name=\"action\" value=\"Add Stock\"  checked required>Add Stock");
+                      out.println("<input type=\"radio\" name=\"action\" value=\"Return Stock\">Return Stock");
+                              }
+                              else
+                              {
+                                   out.println("<input type=\"radio\" name=\"action\" value=\"Add Stock\"   required>Add Stock");
+                      out.println("<input type=\"radio\" name=\"action\" value=\"Return Stock\" checked>Return Stock");
+                              }
+                              %>
 
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Reference No</th>
+                      <th>:</th>
+                      <td>
+                        <input type="text" name="reference" value="<%= reference%>"required>
+                      </td>
+                    </tr>
+                    <tr>
+                        <th>Suppliers</th>
+                      <th>:</th>
+                      <td>
+                          <select name="supplier" >
+                           <%
+                           out.println("<option value='"+selectedsupplierID+"'>"+selectedSupplierName+"</option>");
+                           while (rsSupplierList.next())
+                           {
+                               String supplierListID=rsSupplierList.getString(2);
+                               String supplierListName=rsSupplierList.getString(1);
+                               if (!supplierListID.equals(selectedsupplierID))
+                               {
+                                   out.println("<option value='"+supplierListID+"'>"+supplierListName+"</option>");
+                         
+                               }
+                           };
+                           %>
+                              
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Product Name</th>
+                      <th>:</th>
+                      <td>
+                        <select name="product" >
+                          <%
+                           out.println("<option value='"+productID+"'>"+selectedProductName+"</option>");
+                           while (rsProductAll.next())
+                           {
+                               String productAllID=rsProductAll.getString(1);
+                               String productAllName=rsProductAll.getString(2);
+                               if (!productAllID.equals(productID))
+                               {
+                                   out.println("<option value='"+productAllID+"'>"+productAllName+"</option>");
+                         
+                               }
+                           };
+                           %>
+                        </select>
+                      </td>
+                    </tr>
+                                       
 
                     <tr>
-                      <th>Suppliers Name</th>
+                      <th>Cost</th>
                       <th>:</th>
                       <td>
-                          <input type="text" name="suppliername" required>
+                          RM <input type="number" name="cost" step="0.01" required value="<%= cost%>">
                       </td>
                     </tr>
                     <tr>
-                      <th>Contact Number</th>
+                      <th>Quantity</th>
                       <th>:</th>
                       <td>
-                          <input type="text" name="contact" required>
+                          <input type="number" name="quantity"  step="0.01"value="<%= quantity%>" required>
+                      </td>
+                    </tr>
+                    
+                     <tr>
+                      <th>Arrival Date</th>
+                      <th>:</th>
+                      <td>
+                        <input type="date" name="arrival" value="<%=arrivaldate%>" required>
                       </td>
                     </tr>
                     <tr>
-                      <th>Address</th>
+                      <th>Expiry Date</th>
                       <th>:</th>
                       <td>
-                        <input type="text" name="address" required>
+                        <input type="date" name="expiry" value="<%=expirydate%>" required>
                       </td>
                     </tr>
-                    <tr>
-                      <th>Description</th>
-                      <th>:</th>
-                      <td>
-                        <input type="text" name="description" required>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Join Date</th>
-                      <th>:</th>
-                      <td>
-                        <input type="date" name="date" required>
-                      </td>
-                    </tr>
+                    
+
+             
+            
+                    
 
                   </table>
-                   
+                      <br><br>
+                      <input type="hidden" name="id" value="<%=id%>" >
+                      
+          <div style="display:flex;justify-content: space-around">
+                  <a href="Manage stock.jsp" class="btn btn-danger">Cancel</a>
+                  <input type="submit" value="Save Changes" onsubmit="alert('Updated Successfully');" class="btn btn-primary">
+              
+            </div>
+                </div>
+              </div>
+
+                            
+ </form>
+                      <%
+                          st.close();
+                          statement.close();
+                          supplierListStatement.close();
+                          con.close();
+                          %>
                 </div>
               </div>
 
               <br><br>
-              <div>
-                 
-                <button type="submit" class="btn btn-primary"><i class="bi bi-plus"></i> New Suppliers</button>
-              </div>
- </form>
+              
+
 
 
 
@@ -645,85 +783,7 @@
         <div class="col-lg-6">
 
 
-          <div class="card" style="width:1200px;">
-            <div class="card-body">
-                    
-                <a href="Manage suppliers.jsp">
-                    <h5 class="card-title"><i class="bi bi-arrow-repeat"></i> Suppliers List</h5></a>
-                
-              
-                 <table class="list" >
-                     <tr>
-              <th>No</th><th>Supplier Name</th><th>Supplier ID</th><th>Contact No</th><th>Address</th><th>Description</th><th>Join Date</th><th>Action</th>
-                </tr>
-                <%
-                     String driver ="com.mysql.jdbc.Driver";
-        String dbName="PharmOnline";
-        String url="jdbc:mysql://localhost/"+dbName+"?";
-        String userName="root";
-        String password="";
-      
-        String query="SELECT * FROM Supplier ";
-        
-           Class.forName(driver);
-           Connection con=DriverManager.getConnection(url,userName,password);
-           Statement st=con.createStatement();
-           ResultSet rs=st.executeQuery(query);
        
-            /* TODO output your page here. You may use following sample code. */
-            int counter=0;
-            while (rs.next())
-            {
-                
-                counter++;
-                
-                
-               
-                out.println("<tr>");
-                out.println("<td>"+Integer.toString(counter)+"</td>");
-       out.println("<td>"+rs.getString(1)+"</td>");
-                                 out.println("<td>"+rs.getString(2)+"</td>");
-                                  out.println("<td>"+rs.getString(3)+"</td>");
-                                   out.println("<td>"+rs.getString(4)+"</td>");
-                                     out.println("<td>"+rs.getString(5)+"</td>");
-                                    out.println("<td>"+rs.getDate(6).toString()+"</td>");
-                                    
-                                    out.println( 
-                                    "<td> "+"<div style='display: block;'>");
-                                    out.println("<a href='deleteSupplier?id="+rs.getString(2)+"' onclick=' return confirm("+'"'+"Are you sure to delete this supplier"+'"'+")"+
-                                            "'>");
-                                    out.println( "<i class='bx bxs-trash'></i>");
-                                    out.println("</a>");
-                                    
-                                    out.println("<a href=\"Edit supplier.jsp?id="+rs.getString(2)
-                                            +"\">");
-                                    out.println( "<i class='bx bxs-edit'></i>");
-                                    out.println("</a>");
-                                   
-                                    out.println("</div></td>");
-                                    
-                                          
-                                          
-                                    
-            out.println("</tr>");
-            
-            }
-            
-        
-        st.close();
-        con.close();
-                    %>
-                     
-              
-                 </table>
-             
-
-
-
-
-
-            </div>
-          </div>
 
 
 
@@ -737,19 +797,7 @@
 
   </main><!-- End #main -->
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>PharmaOnline</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
-  </footer><!-- End Footer -->
+ 
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

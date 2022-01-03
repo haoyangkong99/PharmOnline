@@ -4,8 +4,18 @@
  */
 package com.servlet;
 
+import com.bean.Supplier;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author haoya
  */
-@WebServlet(name = "editSuppliers", urlPatterns = {"/editSuppliers"})
+@WebServlet(name = "editSupplier", urlPatterns = {"/editSupplier"})
 public class editSupplier extends HttpServlet {
 
     /**
@@ -29,20 +39,37 @@ public class editSupplier extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet editSuppliers</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet editSuppliers at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
+        String id=request.getParameter("id");
+        
+        String name=request.getParameter("suppliername");
+        String contact=request.getParameter("contact");
+        String address=request.getParameter("address");
+        String description=request.getParameter("description");
+        
+        java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("date"));
+         java.sql.Date sqlDate = new java.sql.Date(date.getTime()); 
+        
+         Supplier editSupplier=new Supplier();
+         editSupplier.setID(id);
+         editSupplier.setName(name);
+         editSupplier.setDescription(description);
+         editSupplier.setContact(contact);
+         editSupplier.setAddress(address);
+         editSupplier.setDate(sqlDate);
+         
+         editSupplier.updateSupplierToDB();
+           try (PrintWriter out = response.getWriter())
+           {
+               
+           response.sendRedirect("Manage suppliers.jsp");
+  
+           }
+           
+          
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -57,7 +84,15 @@ public class editSupplier extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(editSupplier.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(editSupplier.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(editSupplier.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -71,7 +106,15 @@ public class editSupplier extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(editSupplier.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(editSupplier.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(editSupplier.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
