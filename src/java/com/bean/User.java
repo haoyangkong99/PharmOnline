@@ -126,4 +126,30 @@ public class User implements Serializable{
         st.close();
         con.close();  
     }
+    
+    public boolean verifyEmail()throws ClassNotFoundException, SQLException{
+       
+        String driver = "com.mysql.jdbc.Driver";
+        String dbName = "pharmonline";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String pw = "";
+        String query = "SELECT * FROM `pharmonline`.`user` WHERE `email` = '"+ email +"'";
+        
+        Class.forName(driver);  //Load Driver
+        Connection con = DriverManager.getConnection(url, userName, pw);  // Set Connection
+        Statement st = con.createStatement();   // create query
+        ResultSet rs = st.executeQuery(query); // Execute query
+               
+        if(!(rs.next())){
+            st.close();
+            con.close();  
+            return false;
+        }
+        else{
+            st.close();
+            con.close();  
+            return true;
+        }
+    }
 }

@@ -4,12 +4,17 @@
  */
 package com.servlet;
 
+import com.bean.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.Random;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,17 +34,48 @@ public class verifyEmail extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet verifyEmail</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet verifyEmail at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        
+        PrintWriter out = response.getWriter();
+        
+        String enteredEmail = request.getParameter("enteredEmail");
+        
+        User user = new User();
+        
+        user.setEmail(enteredEmail);
+        
+        try{
+            if(!(user.verifyEmail())){
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('This Email address had not been used to register a PharmOnline account.');");
+                out.println("location='login.jsp';");
+                out.println("</script>");
+            } 
+            else{
+                // It will generate 6 digit random Number.
+                // from 0 to 999999
+                Random rnd = new Random();
+                int number = rnd.nextInt(999999);
+
+                // this will convert any number sequence into 6 character.
+                String otp = String.format("%06d", number);
+                
+                HttpSession session = request.getSession();
+                session.setAttribute("otp", otp);
+                
+//                RequestDispatcher rd = 
+            }
+        }
+        catch (SQLException e){
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('An SQLException was thrown."+ e.getMessage() +"');");
+            out.println("location='login.jsp';");
+            out.println("</script>");        
+        }
+        catch (ClassNotFoundException e){
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('A ClassNotFoundException was thrown."+ e.getMessage() +"');");
+            out.println("location='login.jsp';");
+            out.println("</script>");
         }
     }
 
