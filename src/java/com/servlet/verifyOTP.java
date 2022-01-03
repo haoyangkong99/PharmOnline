@@ -6,10 +6,12 @@ package com.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,21 +31,26 @@ public class verifyOTP extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         
+        String enteredOTP = request.getParameter("enteredOTP");
         
+        HttpSession session = request.getSession();
         
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet verifyOTP</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet verifyOTP at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String trueOTP = (String)session.getAttribute("otp");
+        String email = (String)session.getAttribute("otpEmail");
+        
+        if(!(enteredOTP.equals(trueOTP))){
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Incorrect OTP! Please try again');");
+            out.println("location='otp.jsp';");
+            out.println("</script>");
         }
+        else{
+            RequestDispatcher rd = request.getRequestDispatcher("login.jsp"); // Redirect to reset password page here
+            rd.forward(request, response);
+        }
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

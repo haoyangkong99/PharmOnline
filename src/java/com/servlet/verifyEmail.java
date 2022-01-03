@@ -62,7 +62,7 @@ public class verifyEmail extends HttpServlet {
                 
                 HttpSession session = request.getSession();
                 session.setAttribute("otp", otp);
-                
+                session.setAttribute("otpEmail", user.getEmail());
                 
                 String to = user.getEmail();  
                 String subject = "Your PharmOnline OTP";  
