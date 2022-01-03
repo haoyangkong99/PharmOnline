@@ -4,6 +4,7 @@
  */
 package com.servlet;
 
+import com.bean.Mailer;
 import com.bean.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -62,7 +63,16 @@ public class verifyEmail extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("otp", otp);
                 
-//                RequestDispatcher rd = 
+                
+                String to = user.getEmail();  
+                String subject = "Your PharmOnline OTP";  
+                String msg = "Your PharmOnline OTP is " + otp;  
+
+                Mailer.send(to, subject, msg);  
+                
+                
+                RequestDispatcher rd = request.getRequestDispatcher("otp.jsp");
+                rd.forward(request, response);
             }
         }
         catch (SQLException e){
