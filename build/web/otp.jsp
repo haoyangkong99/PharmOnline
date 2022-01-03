@@ -70,7 +70,7 @@
                     <p class="text-center small">An OTP Code has been sent to your email.</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" method="post" action="/verifyOTP" novalidate>
+                  <form class="row g-3 needs-validation" method="post" action="verifyOTP" novalidate>
 
                     <!--<div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>

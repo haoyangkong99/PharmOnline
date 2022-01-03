@@ -24,7 +24,7 @@
         <servlet-name>verifyEmail</servlet-name>
         <servlet-class>com.servlet.verifyEmail</servlet-class>
     </servlet>
-<servlet>
+    <servlet>
         <servlet-name>AddCategory</servlet-name>
         <servlet-class>com.servlet.AddCategory</servlet-class>
     </servlet>
@@ -52,6 +52,10 @@
         <servlet-name>deleteProduct</servlet-name>
         <servlet-class>com.servlet.deleteProduct</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>verifyOTP</servlet-name>
+        <servlet-class>com.servlet.verifyOTP</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Register</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -76,7 +80,7 @@
         <servlet-name>verifyEmail</servlet-name>
         <url-pattern>/verifyEmail</url-pattern>
     </servlet-mapping>
-<servlet-mapping>
+    <servlet-mapping>
         <servlet-name>AddCategory</servlet-name>
         <url-pattern>/AddCategory</url-pattern>
     </servlet-mapping>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>deleteProduct</servlet-name>
         <url-pattern>/deleteProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>verifyOTP</servlet-name>
+        <url-pattern>/verifyOTP</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
