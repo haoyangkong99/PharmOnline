@@ -24,6 +24,34 @@
         <servlet-name>verifyEmail</servlet-name>
         <servlet-class>com.servlet.verifyEmail</servlet-class>
     </servlet>
+<servlet>
+        <servlet-name>AddCategory</servlet-name>
+        <servlet-class>com.servlet.AddCategory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>addsCategory</servlet-name>
+        <servlet-class>com.servlet.AddCategory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>editCategory</servlet-name>
+        <servlet-class>com.servlet.editCategory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>deleteCategory</servlet-name>
+        <servlet-class>com.servlet.deleteCategory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>addProduct</servlet-name>
+        <servlet-class>com.servlet.addProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>editProduct</servlet-name>
+        <servlet-class>com.servlet.editProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>deleteProduct</servlet-name>
+        <servlet-class>com.servlet.deleteProduct</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Register</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -47,6 +75,34 @@
     <servlet-mapping>
         <servlet-name>verifyEmail</servlet-name>
         <url-pattern>/verifyEmail</url-pattern>
+    </servlet-mapping>
+<servlet-mapping>
+        <servlet-name>AddCategory</servlet-name>
+        <url-pattern>/AddCategory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addsCategory</servlet-name>
+        <url-pattern>/addsCategory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editCategory</servlet-name>
+        <url-pattern>/editCategory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deleteCategory</servlet-name>
+        <url-pattern>/deleteCategory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addProduct</servlet-name>
+        <url-pattern>/addProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editProduct</servlet-name>
+        <url-pattern>/editProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deleteProduct</servlet-name>
+        <url-pattern>/deleteProduct</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
