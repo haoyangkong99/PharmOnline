@@ -7,6 +7,7 @@ package com.servlet;
 
 import com.bean.Product;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,14 +17,17 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author Zhi Xuen
  */
+@MultipartConfig(maxFileSize = 16177215)
 public class addProduct extends HttpServlet {
 
     /**
@@ -36,7 +40,7 @@ public class addProduct extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException,IOException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -45,9 +49,9 @@ public class addProduct extends HttpServlet {
         double product_price = Double.parseDouble(request.getParameter("product_price"));
         String product_category = request.getParameter("product_category");
         int quantity=0;
-        String status = "Deactivated";
-        String picture = request.getParameter("product_image");
-        
+        InputStream inputStream=null;
+        Part filePart = request.getPart("product_image");
+        inputStream = filePart.getInputStream();
         
         String driver = "com.mysql.jdbc.Driver";
         String dbName = "pharmonline";
@@ -60,8 +64,9 @@ public class addProduct extends HttpServlet {
 
        Statement st = con.createStatement();   // create query
        ResultSet rs = st.executeQuery(query); // Execute query
-      
        
+      
+
             int size=0;
 
             if(rs != null){
@@ -70,11 +75,27 @@ public class addProduct extends HttpServlet {
             }
 
             st.close();
-            con.close();
             
-           
+            con.close();
 
             String product_ID = "PR-" + String.valueOf(size + 1); 
+            
+//            String query1 = "SELECT FROM `pharmonline`.`stock` WHERE `productID` = '"+product_ID+"'";
+//            
+//            Statement st1 = con.createStatement();   // create query
+//            ResultSet rs1 = st1.executeQuery(query); // Execute query
+            
+//            if(rs1== null){
+//               quantity = 0;
+//            }
+//             else{
+//                 while (rs1.next()){
+//                     if(rs1.getString(2).equals("Add Stock"))
+//                        quantity += rs1.getInt(6);
+//                     else
+//                        quantity -= rs1.getInt(6);
+//                 }
+//             }
 
             Product newProduct = new Product();
 
@@ -84,10 +105,11 @@ public class addProduct extends HttpServlet {
             newProduct.setDescription(product_description);
             newProduct.setPrice(product_price);
             newProduct.setQuantity(quantity);
-            newProduct.setStatus(status);
+            newProduct.setPicture(inputStream);
+            newProduct.setStatus("Deactivated");
             
-            newProduct.insertIntoDB(picture);
-            
+            newProduct.insertIntoDB();
+
             out.println("<script type=\"text/javascript\">");
             out.println("alert('New product added!');");
             out.println("location='Manage product.jsp';");

@@ -1,3 +1,6 @@
+<%@page import="java.io.ByteArrayOutputStream"%>
+<%@page import="java.io.InputStream"%>
+<%@page import="java.sql.Blob"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="java.util.logging.Logger"%>
 <%@page import="java.util.logging.Level"%>
@@ -14,7 +17,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Manage Product</title>
+  <title>Manage Suppliers</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -532,7 +535,7 @@
 
     <div class="pagetitle" >
       <div style="display: flex; justify-content: space-between;">
-        <h1>Edit Product</h1>
+        <h1>Edit Supplier</h1>
 
       </div>
       <nav>
@@ -589,11 +592,25 @@
            String product_name = rs.getString(2);
            String product_category = rs.getString(5);
            String product_description = rs.getString(3);
-           double product_price = rs.getDouble(4);
+           double product_price =rs.getDouble(4) ;
+           Blob blob=rs.getBlob(7);
+           InputStream inputStream = blob.getBinaryStream();
+ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+byte[] buffer = new byte[4096];
+int bytesRead = -1;
+while ((bytesRead = inputStream.read(buffer)) != -1) {
+outputStream.write(buffer, 0, bytesRead);
+}
+ 
+byte[] imageBytes = outputStream.toByteArray();
+ 
+String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+ inputStream.close();
+outputStream.close();          
  st.close();
     con.close();
                         %>
-                    <form action="editProduct" method="post">
+                    <form enctype="multipart/form-data" action="editProduct" method="post">
                   <table>
                       
                       <tr>
@@ -615,7 +632,7 @@
                       <th>Product Selling Price(RM)</th>
                       <th>:</th>
                       <td>
-                           <input type="text" name="product_price" value="<%=product_price%>" required>
+                          <input type="number" name="new_product_price" value="<%= product_price%>" step="0.01" required>
                       </td>
                     </tr>
                     
@@ -651,11 +668,25 @@
                       </td>
                     </tr>
                     
-                    <tr>
+<!--                     <tr>
                       <th>Product Image</th>
                       <th>:</th>
                       <td>
                         <input type="file" name="product_image">
+                      </td>
+                    </tr>-->
+                    <tr>
+                      <th>Product Picture</th>
+                      <th>:</th>
+                      <td>
+                           <img src="data:;base64,<%= base64Image%>" style="max-height: 500px;max-width: 500px; height: auto; width: auto;"  />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <td>
+                           <input type="file" name="new_product_image"  accept="image/*">
                       </td>
                     </tr>
 

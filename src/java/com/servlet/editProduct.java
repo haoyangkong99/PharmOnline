@@ -14,13 +14,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.bean.Product;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author Zhi Xuen
  */
+@MultipartConfig(maxFileSize = 16177215)
 public class editProduct extends HttpServlet {
 
     /**
@@ -41,10 +45,20 @@ public class editProduct extends HttpServlet {
         String category_ID = request.getParameter("id");
         String category_name = request.getParameter("product_name");
         String description = request.getParameter("product_description");
-        double price = Double.parseDouble(request.getParameter("product_price"));
+        double price = Double.parseDouble(request.getParameter("new_product_price"));
         String category = request.getParameter("product_category");
+        InputStream inputStream=null;
+        Part filePart = null;
         
+        filePart=request.getPart("new_product_image");
+        inputStream = filePart.getInputStream();
+//        
          Product editProduct=new Product();
+         
+        
+         
+//             
+         
          editProduct.setID(category_ID);
          editProduct.setName(category_name);
          editProduct.setDescription(description);
@@ -52,11 +66,29 @@ public class editProduct extends HttpServlet {
          editProduct.setCategory(category);
          
          editProduct.updateInDB();
-               
-          out.println("<script type=\"text/javascript\">");
+         if(filePart.getSize()!=0)
+         {
+             editProduct.setPicture(inputStream);
+             editProduct.updatePictureInDB();
+           
+         }
+         if (filePart.getSize()>=16177215)
+         {
+             out.println("<script type=\"text/javascript\">");
+          out.println("alert('The file size has exceeded the max size of 16MB');");
+          out.println("location='Manage product.jsp';");
+          out.println("</script>"); 
+         }
+         else
+         {
+      
+             out.println("<script type=\"text/javascript\">");
           out.println("alert('Updated successfully!');");
           out.println("location='Manage product.jsp';");
-          out.println("</script>");  
+          out.println("</script>"); 
+         }
+               
+           
   
         }
     }
