@@ -1,8 +1,15 @@
+<%@page import="java.util.Base64"%>
+<%@page import="javax.imageio.ImageIO"%>
+<%@page import="java.awt.image.BufferedImage"%>
+<%@page import="java.io.OutputStream"%>
+<%@page import="java.io.InputStream"%>
+<%@page import="java.io.FileOutputStream"%>
+<%@page import="java.sql.Blob"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
-<%@page import="java.sql.Connection"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,29 +17,29 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Manage Product</title>
+  <title>Components / Cards - NiceAdmin Bootstrap Template</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="$assets/img/favicon.png" rel="icon">
-  <link href="$assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link href="$https://fonts.gstatic.com" rel="preconnect">
-  <link href="$https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="$assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.1.0
@@ -40,31 +47,16 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-  <style>
-    td,th
-    {
-      padding: 5px;
-    }
-    .list td,.list th{
-      border: 1px solid black;
-      padding: 20px;
-    }
-    .list th
-    {
-      color: blue;
-    }
-  </style>
 </head>
 
 <body>
-    
-     <%
-                     String driver ="com.mysql.jdbc.Driver";
+    <%
+        String driver ="com.mysql.jdbc.Driver";
         String dbName="PharmOnline";
         String url="jdbc:mysql://localhost/"+dbName+"?";
         String userName="root";
         String password="";
-        %>
+    %>
 
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
@@ -238,13 +230,13 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Desmond Heng</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Desmond Heng</h6>
-              <span>Pharmacist</span>
+              <h6>Kevin Anderson</h6>
+              <span>Web Designer</span>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -333,12 +325,12 @@
             </a>
           </li>
           <li>
-            <a href="components-buttons.html" class="active">
+            <a href="components-buttons.html">
               <i class="bi bi-circle"></i><span>Buttons</span>
             </a>
           </li>
           <li>
-            <a href="components-cards.html">
+            <a href="components-cards.html" class="active">
               <i class="bi bi-circle"></i><span>Cards</span>
             </a>
           </li>
@@ -534,182 +526,95 @@
 
   <main id="main" class="main">
 
-    <div class="pagetitle" >
-      <div style="display: flex; justify-content: space-between;">
-        <h1>Manage Product</h1>
-
-      </div>
+    <div class="pagetitle">
+      <h1>Cards</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-
-          <li class="breadcrumb-item active">Manage Product</li>
+          <li class="breadcrumb-item">Components</li>
+          <li class="breadcrumb-item active">Cards</li>
         </ol>
       </nav>
-
-
+      <form method = "post" action="viewProduct">
+      <div style="display:flex; flex-direction: row">
+        
+            <select class="form-select" name="product_category" aria-label="Default select example" style="width:30%">
+                <option selected value="*">All</option>
+      <%
+        String query1="SELECT * FROM category ";
+        Class.forName(driver);
+        Connection con1=DriverManager.getConnection(url,userName,password);
+        Statement st1=con1.createStatement();
+        ResultSet rs1=st1.executeQuery(query1);
+        int counter1=0;
+        while (rs1.next())
+        {
+        counter1++;
+        out.println("<option value='"+rs1.getString(2)+"'>"+rs1.getString(2)+"</option>");
+        }
+        st1.close();
+        con1.close();
+     %>
+            </select>   
+            <button style="margin-left: 10px;" type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Order">
+              Order
+            </button>
+       
+           
+          
+        </div>
+             </form>
     </div><!-- End Page Title -->
-      <section class="section">
+
+    <section class="section">
       <div class="row">
-        <div class="col-lg-6">
-
-
-
-          <div class="card" style="width:1200px;">
-            <div class="card-body" >
-              <h5 class="card-title"></h5>
-
-
-
-              <div style="display: flex; justify-content: left;">
-                <div style="padding-right: 100px;">
-                    
-<!--Product content -->
-<form action="addProduct" method="post">
-    <table>
-         <tr>
-          <th>Product Name</th>
-          <th>:</th>
-          <td>
-              <input type="text" name="product_name" required>
-          </td>
-        </tr>
-        <tr>
-          <th>Product Description</th>
-          <th>:</th>
-          <td>
-              <textarea name="product_description" required></textarea>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product Selling Price</th>
-          <th>:</th>
-          <td>
-               RM <input type="text" name="product_price" required>
-          </td>
-        </tr>
-
-        <tr>
-            <th>Product Category</th>
-            <th>:</th>
-            <td>
-            <%
-                String query1="SELECT * FROM category ";
-                Class.forName(driver);
-                Connection con1=DriverManager.getConnection(url,userName,password);
-                Statement st1=con1.createStatement();
-                ResultSet rs1=st1.executeQuery(query1);
-                out.println("<select name=product_category>");
-                int counter1=0;
-                while (rs1.next()){
-                counter1++;
-                out.println("<option value='"+rs1.getString(2)+"'>"+rs1.getString(2)+"</option>");
-                }
-                out.println("</select>");
-                st1.close();
-                con1.close();
-            %>
-                         
-            </td>
-        </tr>
-
-        <tr>
-            <th>Product Image</th>
-            <th>:</th>
-            <td>
-              <input type="file" name="product_image">
-            </td>
-        </tr>
-    </table>
-                   
-    </div>
-    </div>
-
-    <br><br>
-    <div>
-
-      <button type="submit" class="btn btn-primary"><i class="bi bi-plus"></i> New Product</button>
-    </div>
-</form>
-
-
-
+          
+        <%
+            String query = "";
+            String abc = (String) session.getAttribute("product_category");
+            if (abc.equals("*"))
+               query = "SELECT * FROM product";
+             
+           else{
+              query="SELECT * FROM product WHERE product_Category='"+abc+"'"; 
+              
+           }
+           
+            int i = 1;
+            Class.forName(driver);
+            Connection con=DriverManager.getConnection(url,userName,password);
+            Statement st=con.createStatement();
+            ResultSet rs=st.executeQuery(query);
+            
+            int counter=0;
+            while (rs.next())
+            {
+                counter++;
+        %>
+        <div class="col-lg-3">
+          <!-- Card with an image on top -->
+          <div class="card">
+<!--            <img src="data:image/jpeg;base64" />-->
+            <img src="assets/img/card.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" style="font-size: 120%;"><%=rs.getString(2)%></h5>
+              <p class="card-text"><%=rs.getString(3)%></p>
+              <p class="card-text" style="color:red">RM<%=rs.getString(4)%></p>
+              <a href="#">
+                <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Order">
+                      Order
+                </button>
+            </a>
             </div>
-
-          </div>
-
-
-
-
-
-
-
-
-        </div>
+          </div><!-- End Card with an image on top -->
+        </div>  
+               
+        <%    }
+            
+                st.close();
+                con.close();
+        %>
       </div>
-<div class="row">
-    <div class="col-lg-6">
-        <div class="card" style="width:1200px;">
-            <div class="card-body">    
-                <a href="Manage product.jsp">
-                <h5 class="card-title"><i class="bi bi-arrow-repeat"></i> Product List</h5></a>
-                <table class="list" >
-                    <tr>
-                        <th>Product ID</th>
-                        <th>Product Name</th>
-                        <th>Product Description</th>
-                        <th>Product Selling Price (RM)</th>
-                        <th>Product Category</th>
-                        <th>Product Quantity</th>
-                        <th>Action</th>
-                    </tr>
-
-                    <%
-                        String query="SELECT * FROM product ";
-                        Class.forName(driver);
-                        Connection con=DriverManager.getConnection(url,userName,password);
-                        Statement st=con.createStatement();
-                        ResultSet rs=st.executeQuery(query);
-
-
-                        /* TODO output your page here. You may use following sample code. */
-                        int counter=0;
-                        while (rs.next())
-                        {
-                            counter++;
-                            out.println("<tr>");
-                            out.println("<td>"+rs.getString(1)+"</td>");
-                            out.println("<td>"+rs.getString(2)+"</td>");
-                            out.println("<td>"+rs.getString(3)+"</td>");
-                            out.println("<td>"+rs.getString(4)+"</td>");
-                            out.println("<td>"+rs.getString(5)+"</td>");
-                            out.println("<td>"+rs.getString(6)+"</td>");
-
-                            out.println( 
-                            "<td> "+"<div style='display: block;'>");
-                            out.println("<a href='deleteProduct?id="+rs.getString(1)+"' onclick=' return confirm("+'"'+"Are you sure to delete this category"+'"'+")"+
-                                    "'>");
-                            out.println( "<i class='bx bxs-trash'></i>");
-                            out.println("</a>");
-
-                            out.println("<a href=\"editProduct.jsp?id="+rs.getString(1)
-                                    +"\">");
-                            out.println( "<i class='bx bxs-edit'></i>");
-                            out.println("</a>");
-
-                            out.println("</div></td>");    
-                            out.println("</tr>");
-
-                        }
-                        st.close();
-                        con.close();
-                    %>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
     </section>
 
   </main><!-- End #main -->
@@ -717,7 +622,7 @@
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>PharmaOnline</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
       <!-- All the links in the footer should remain intact. -->

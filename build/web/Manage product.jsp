@@ -10,7 +10,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Manage Category</title>
+  <title>Manage Product</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -71,8 +71,8 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.html" class="logo d-flex align-items-center">
-        <img src="assets/img/logo new.jpg" alt="">
-
+        <img src="assets/img/logo.png" alt="">
+        <span class="d-none d-lg-block">NiceAdmin</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -536,14 +536,14 @@
 
     <div class="pagetitle" >
       <div style="display: flex; justify-content: space-between;">
-        <h1>Manage Category</h1>
+        <h1>Manage Product</h1>
 
       </div>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
 
-          <li class="breadcrumb-item active">Manage Category</li>
+          <li class="breadcrumb-item active">Manage Product</li>
         </ol>
       </nav>
 
@@ -563,75 +563,75 @@
 
               <div style="display: flex; justify-content: left;">
                 <div style="padding-right: 100px;">
-                    <form action="addProduct" method="post">
-                <table>
-                     <tr>
-                      <th>Product Name</th>
-                      <th>:</th>
-                      <td>
-                          <input type="text" name="product_name" required>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Product Description</th>
-                      <th>:</th>
-                      <td>
-                          <textarea name="product_description" required></textarea>
-                      </td>
-                    </tr>
                     
-                    <tr>
-                      <th>Product Selling Price</th>
-                      <th>:</th>
-                      <td>
-                           RM <input type="text" name="product_price" required>
-                      </td>
-                    </tr>
-                    
-                    <tr>
-                      <th>Product Category</th>
-                      <th>:</th>
-                      <td>
-                        
-                            <%
-                            String query1="SELECT * FROM category ";
-                            Class.forName(driver);
-                            Connection con1=DriverManager.getConnection(url,userName,password);
-                            Statement st1=con1.createStatement();
-                            ResultSet rs1=st1.executeQuery(query1);
-                            out.println("<select name=product_category>");
-                            int counter1=0;
-                            while (rs1.next())
-                            {
-                            counter1++;
-                            out.println("<option value='"+rs1.getString(2)+"'>"+rs1.getString(2)+"</option>");
-                            }
-                            out.println("</select>");
-                         st1.close();
-                         con1.close();
-        %>
-                         
-                      </td>
-                    </tr>
-                    
-                     <tr>
-                      <th>Product Image</th>
-                      <th>:</th>
-                      <td>
-                        <input type="file" name="product_image">
-                      </td>
-                    </tr>
-                  </table>
-                   
-                </div>
-              </div>
+<!--Product content -->
+<form action="addProduct" method="post">
+    <table>
+         <tr>
+          <th>Product Name</th>
+          <th>:</th>
+          <td>
+              <input type="text" name="product_name" required>
+          </td>
+        </tr>
+        <tr>
+          <th>Product Description</th>
+          <th>:</th>
+          <td>
+              <textarea name="product_description" required></textarea>
+          </td>
+        </tr>
 
-              <br><br>
-              <div>
-                 
-                <button type="submit" class="btn btn-primary"><i class="bi bi-plus"></i> New Product</button>
-              </div>
- </form>
+        <tr>
+          <th>Product Selling Price</th>
+          <th>:</th>
+          <td>
+               RM <input type="text" name="product_price" required>
+          </td>
+        </tr>
+
+        <tr>
+            <th>Product Category</th>
+            <th>:</th>
+            <td>
+            <%
+                String query1="SELECT * FROM category ";
+                Class.forName(driver);
+                Connection con1=DriverManager.getConnection(url,userName,password);
+                Statement st1=con1.createStatement();
+                ResultSet rs1=st1.executeQuery(query1);
+                out.println("<select name=product_category>");
+                int counter1=0;
+                while (rs1.next()){
+                counter1++;
+                out.println("<option value='"+rs1.getString(2)+"'>"+rs1.getString(2)+"</option>");
+                }
+                out.println("</select>");
+                st1.close();
+                con1.close();
+            %>
+                         
+            </td>
+        </tr>
+
+        <tr>
+            <th>Product Image</th>
+            <th>:</th>
+            <td>
+              <input type="file" name="product_image">
+            </td>
+        </tr>
+    </table>
+                   
+    </div>
+    </div>
+
+    <br><br>
+    <div>
+
+      <button type="submit" class="btn btn-primary"><i class="bi bi-plus"></i> New Product</button>
+    </div>
+</form>
 
 
 
@@ -648,89 +648,68 @@
 
         </div>
       </div>
-      <div class="row">
-        <div class="col-lg-6">
-
-
-          <div class="card" style="width:1200px;">
-            <div class="card-body">
-                    
-                <a href="Manage category.jsp">
-                    <h5 class="card-title"><i class="bi bi-arrow-repeat"></i> Product List</h5></a>
-                
-              
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card" style="width:1200px;">
+            <div class="card-body">    
+                <a href="Manage product.jsp">
+                <h5 class="card-title"><i class="bi bi-arrow-repeat"></i> Product List</h5></a>
                 <table class="list" >
                     <tr>
-               <th>Product ID</th>
-               <th>Product Name</th>
-               <th>Product Description</th>
-               <th>Product Selling Price (RM)</th>
-               <th>Product Category</th>
-               <th>Product Quantity</th>
-               <th>Action</th>
-               </tr>
-              
-        <%
-        String query="SELECT * FROM product ";
-        Class.forName(driver);
-        Connection con=DriverManager.getConnection(url,userName,password);
-        Statement st=con.createStatement();
-        ResultSet rs=st.executeQuery(query);
-        
-       
-            /* TODO output your page here. You may use following sample code. */
-            int counter=0;
-            while (rs.next())
-            {
-                counter++;
-                out.println("<tr>");
-                out.println("<td>"+rs.getString(1)+"</td>");
-                out.println("<td>"+rs.getString(2)+"</td>");
-                out.println("<td>"+rs.getString(3)+"</td>");
-                out.println("<td>"+rs.getString(4)+"</td>");
-                out.println("<td>"+rs.getString(5)+"</td>");
-                out.println("<td>"+rs.getString(6)+"</td>");
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Product Description</th>
+                        <th>Product Selling Price (RM)</th>
+                        <th>Product Category</th>
+                        <th>Product Quantity</th>
+                        <th>Action</th>
+                    </tr>
 
-                out.println( 
-                "<td> "+"<div style='display: block;'>");
-                out.println("<a href='deleteProduct?id="+rs.getString(1)+"' onclick=' return confirm("+'"'+"Are you sure to delete this category"+'"'+")"+
-                        "'>");
-                out.println( "<i class='bx bxs-trash'></i>");
-                out.println("</a>");
+                    <%
+                        String query="SELECT * FROM product ";
+                        Class.forName(driver);
+                        Connection con=DriverManager.getConnection(url,userName,password);
+                        Statement st=con.createStatement();
+                        ResultSet rs=st.executeQuery(query);
 
-                out.println("<a href=\"editProduct.jsp?id="+rs.getString(1)
-                        +"\">");
-                out.println( "<i class='bx bxs-edit'></i>");
-                out.println("</a>");
 
-                out.println("</div></td>");    
-                out.println("</tr>");
-            
-            }
-        st.close();
-        con.close();
+                        /* TODO output your page here. You may use following sample code. */
+                        int counter=0;
+                        while (rs.next())
+                        {
+                            counter++;
+                            out.println("<tr>");
+                            out.println("<td>"+rs.getString(1)+"</td>");
+                            out.println("<td>"+rs.getString(2)+"</td>");
+                            out.println("<td>"+rs.getString(3)+"</td>");
+                            out.println("<td>"+rs.getString(4)+"</td>");
+                            out.println("<td>"+rs.getString(5)+"</td>");
+                            out.println("<td>"+rs.getString(6)+"</td>");
+
+                            out.println( 
+                            "<td> "+"<div style='display: block;'>");
+                            out.println("<a href='deleteProduct?id="+rs.getString(1)+"' onclick=' return confirm("+'"'+"Are you sure to delete this category"+'"'+")"+
+                                    "'>");
+                            out.println( "<i class='bx bxs-trash'></i>");
+                            out.println("</a>");
+
+                            out.println("<a href=\"editProduct.jsp?id="+rs.getString(1)
+                                    +"\">");
+                            out.println( "<i class='bx bxs-edit'></i>");
+                            out.println("</a>");
+
+                            out.println("</div></td>");    
+                            out.println("</tr>");
+
+                        }
+                        st.close();
+                        con.close();
                     %>
-               
-               
-              
-                 </table>
-             
-
-
-
-
-
+                </table>
             </div>
-          </div>
-
-
-
         </div>
-
-
-
-        </div>
-      </div>
+    </div>
+</div>
     </section>
 
   </main><!-- End #main -->

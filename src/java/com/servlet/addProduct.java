@@ -36,7 +36,7 @@ public class addProduct extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException,IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -45,6 +45,8 @@ public class addProduct extends HttpServlet {
         double product_price = Double.parseDouble(request.getParameter("product_price"));
         String product_category = request.getParameter("product_category");
         int quantity=0;
+        String status = "Deactivated";
+        String picture = request.getParameter("product_image");
         
         
         String driver = "com.mysql.jdbc.Driver";
@@ -58,9 +60,8 @@ public class addProduct extends HttpServlet {
 
        Statement st = con.createStatement();   // create query
        ResultSet rs = st.executeQuery(query); // Execute query
-       
       
-
+       
             int size=0;
 
             if(rs != null){
@@ -69,27 +70,11 @@ public class addProduct extends HttpServlet {
             }
 
             st.close();
-            
             con.close();
+            
+           
 
             String product_ID = "PR-" + String.valueOf(size + 1); 
-            
-//            String query1 = "SELECT FROM `pharmonline`.`stock` WHERE `productID` = '"+product_ID+"'";
-//            
-//            Statement st1 = con.createStatement();   // create query
-//            ResultSet rs1 = st1.executeQuery(query); // Execute query
-            
-//            if(rs1== null){
-//               quantity = 0;
-//            }
-//             else{
-//                 while (rs1.next()){
-//                     if(rs1.getString(2).equals("Add Stock"))
-//                        quantity += rs1.getInt(6);
-//                     else
-//                        quantity -= rs1.getInt(6);
-//                 }
-//             }
 
             Product newProduct = new Product();
 
@@ -99,9 +84,10 @@ public class addProduct extends HttpServlet {
             newProduct.setDescription(product_description);
             newProduct.setPrice(product_price);
             newProduct.setQuantity(quantity);
+            newProduct.setStatus(status);
             
-            newProduct.insertIntoDB();
-
+            newProduct.insertIntoDB(picture);
+            
             out.println("<script type=\"text/javascript\">");
             out.println("alert('New product added!');");
             out.println("location='Manage product.jsp';");

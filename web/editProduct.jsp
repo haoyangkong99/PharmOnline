@@ -14,7 +14,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Manage Suppliers</title>
+  <title>Manage Product</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -532,7 +532,7 @@
 
     <div class="pagetitle" >
       <div style="display: flex; justify-content: space-between;">
-        <h1>Edit Supplier</h1>
+        <h1>Edit Product</h1>
 
       </div>
       <nav>
@@ -651,13 +651,13 @@
                       </td>
                     </tr>
                     
-<!--                     <tr>
+                    <tr>
                       <th>Product Image</th>
                       <th>:</th>
                       <td>
                         <input type="file" name="product_image">
                       </td>
-                    </tr>-->
+                    </tr>
 
                    
                      
@@ -669,7 +669,7 @@
                       <input type="hidden" name="id" value="<%=id%>" >
                       
           <div style="display:flex;justify-content: space-around">
-                  <a href="Manage category.jsp" class="btn btn-danger">Cancel</a>
+                  <a href="Manage product.jsp" class="btn btn-danger">Cancel</a>
                   <input type="submit" value="Save Changes" onsubmit="alert('Updated Successfully');" class="btn btn-primary">
               
             </div>
