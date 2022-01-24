@@ -49,7 +49,8 @@ public class editProduct extends HttpServlet {
         String category = request.getParameter("product_category");
         InputStream inputStream=null;
         Part filePart = null;
-        
+        String status = request.getParameter("product_status");
+        ;
         filePart=request.getPart("new_product_image");
         inputStream = filePart.getInputStream();
 //        
@@ -64,6 +65,7 @@ public class editProduct extends HttpServlet {
          editProduct.setDescription(description);
          editProduct.setPrice(price);
          editProduct.setCategory(category);
+         editProduct.setStatus(status);
          
          editProduct.updateInDB();
          if(filePart.getSize()!=0)

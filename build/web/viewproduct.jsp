@@ -1,3 +1,4 @@
+<%@page import="java.io.ByteArrayOutputStream"%>
 <%@page import="java.util.Base64"%>
 <%@page import="javax.imageio.ImageIO"%>
 <%@page import="java.awt.image.BufferedImage"%>
@@ -56,6 +57,9 @@
         String url="jdbc:mysql://localhost/"+dbName+"?";
         String userName="root";
         String password="";
+        if("GET".equals(request.getMethod())){
+                 session.setAttribute("product_category","*");
+        }
     %>
 
   <!-- ======= Header ======= -->
@@ -87,9 +91,8 @@
 
         <li class="nav-item dropdown">
 
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number">4</span>
+         <a class="nav-link nav-icon" href="Cart.jsp">
+            <i class="bi bi-cart"></i>
           </a><!-- End Notification Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
@@ -536,11 +539,11 @@
         </ol>
       </nav>
       <form method = "post" action="viewProduct">
-      <div style="display:flex; flex-direction: row">
-        
+            <div style="display:flex; flex-direction: row">
             <select class="form-select" name="product_category" aria-label="Default select example" style="width:30%">
                 <option selected value="*">All</option>
       <%
+        String abc = (String) session.getAttribute("product_category");
         String query1="SELECT * FROM category ";
         Class.forName(driver);
         Connection con1=DriverManager.getConnection(url,userName,password);
@@ -550,14 +553,19 @@
         while (rs1.next())
         {
         counter1++;
-        out.println("<option value='"+rs1.getString(2)+"'>"+rs1.getString(2)+"</option>");
+        if (abc.equals(rs1.getString(2))){
+            out.println("<option selected value='"+rs1.getString(2)+"'>"+rs1.getString(2)+"</option>");
+        }
+        else{
+            out.println("<option value='"+rs1.getString(2)+"'>"+rs1.getString(2)+"</option>");
+        }
         }
         st1.close();
         con1.close();
      %>
             </select>   
-            <button style="margin-left: 10px;" type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Order">
-              Order
+            <button style="margin-left: 10px;" type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Search">
+              Search
             </button>
        
            
@@ -571,13 +579,11 @@
           
         <%
             String query = "";
-            String abc = (String) session.getAttribute("product_category");
             if (abc.equals("*"))
-               query = "SELECT * FROM product";
+               query = "SELECT * FROM product WHERE product_Status='Activate'";
              
            else{
-              query="SELECT * FROM product WHERE product_Category='"+abc+"'"; 
-              
+              query="SELECT * FROM product WHERE product_Status='Activate' AND product_Category='"+abc+"'";   
            }
            
             int i = 1;
@@ -589,28 +595,47 @@
             int counter=0;
             while (rs.next())
             {
-                counter++;
+                counter++; 
         %>
         <div class="col-lg-3">
           <!-- Card with an image on top -->
           <div class="card">
+              <%
+                  Blob blob=rs.getBlob(7);
+                  InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                    }
+
+                    byte[] imageBytes = outputStream.toByteArray();
+
+                    String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                     inputStream.close();
+                    outputStream.close();  
+
+                  %>
 <!--            <img src="data:image/jpeg;base64" />-->
-            <img src="assets/img/card.jpg" class="card-img-top" alt="...">
+<img src="data:;base64,<%= base64Image%>"  class="card-img-top" alt="..." style="max-height: 500px;max-width: 500px; height: auto; width: auto;"  />
+             <form action="AddtoCart" method="post">
             <div class="card-body">
                 <h5 class="card-title" style="font-size: 120%;"><%=rs.getString(2)%></h5>
+                <input type="hidden" name="itemID" value="<%=rs.getString(1)%>">
+                <input type="hidden" name="itemname" value="<%=rs.getString(2)%>">
               <p class="card-text"><%=rs.getString(3)%></p>
               <p class="card-text" style="color:red">RM<%=rs.getString(4)%></p>
-              <a href="#">
-                <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Order">
-                      Order
-                </button>
-            </a>
-            </div>
+              <input type="hidden" name="itemprice" value="<%=rs.getString(4)%>">
+              
+                <input type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" value="Order">
+            </div>   
+            </form>
           </div><!-- End Card with an image on top -->
         </div>  
                
         <%    }
-            
+               
                 st.close();
                 con.close();
         %>

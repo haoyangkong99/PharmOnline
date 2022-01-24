@@ -11,7 +11,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.servlet.annotation.MultipartConfig;
 
 /**
  *
@@ -123,7 +122,7 @@ public class Product {
         String url = "jdbc:mysql://localhost/" + dbName + "?";
         String userName = "root";
         String pw = "";
-        String query = "UPDATE `pharmonline`.`product` SET `product_Name` = '"+name+"', `product_Description` = '"+description+"',`product_Selling_Price` = '"+price+"',`product_Category` = '"+category+"' WHERE `product_ID` = '"+ID+"'";
+        String query = "UPDATE `pharmonline`.`product` SET `product_Name` = '"+name+"', `product_Description` = '"+description+"',`product_Selling_Price` = '"+price+"',`product_Category` = '"+category+"',`product_Status` = '"+status+"' WHERE `product_ID` = '"+ID+"'";
         
         Class.forName(driver);  //Load Driver
         Connection con = DriverManager.getConnection(url, userName, pw);  // Set Connection

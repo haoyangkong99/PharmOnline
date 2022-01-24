@@ -3,6 +3,7 @@
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.Connection"%>
+<%@page import="com.bean.Category"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -64,6 +65,10 @@
         String url="jdbc:mysql://localhost/"+dbName+"?";
         String userName="root";
         String password="";
+        if("GET".equals(request.getMethod())){
+             session.setAttribute("product_name","*");
+        }
+    
         %>
 
   <!-- ======= Header ======= -->
@@ -564,69 +569,69 @@
               <div style="display: flex; justify-content: left;">
                 <div style="padding-right: 100px;">
                     <form enctype="multipart/form-data"  action="addProduct" method="post">
-                <table>
-                     <tr>
-                      <th>Product Name</th>
-                      <th>:</th>
-                      <td>
-                          <input type="text" name="product_name" required>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Product Description</th>
-                      <th>:</th>
-                      <td>
-                          <textarea name="product_description" required></textarea>
-                      </td>
-                    </tr>
+                        <div class="row mb-3">
+                  <label for="inputText" class="col-sm-4 col-form-label">Product Name:</label>
+                  <div class="col-sm-7">
+                    <input type="text"  name="product_name" required class="form-control">
+                  </div>
+                        </div>
+                
+                     <div class="row mb-3">
+                  <label for="inputPassword" class="col-sm-4 col-form-label">Product Description:</label>
+                  <div class="col-sm-7">
+                    <textarea name="product_description" required class="form-control" style="height: 100px"></textarea>
+                  </div>
+                </div>
                     
-                    <tr>
-                      <th>Product Selling Price</th>
-                      <th>:</th>
-                      <td>
-                           RM <input type="text" name="product_price" required>
-                      </td>
-                    </tr>
+                     <div class="row mb-3">
+                  <label for="inputText" class="col-sm-4 col-form-label">Product Selling Price (RM):</label>
+                  <div class="col-sm-7">
+                    <input type="number"  name="new_product_price" step="0.1" required class="form-control">
+                  </div>
+                        </div>
                     
-                    <tr>
-                      <th>Product Category</th>
-                      <th>:</th>
-                      <td>
-                        
-                            <%
+                    <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">Product Category</label>
+                  <div class="col-sm-7">
+                       <%
                             String query1="SELECT * FROM category ";
                             Class.forName(driver);
                             Connection con1=DriverManager.getConnection(url,userName,password);
                             Statement st1=con1.createStatement();
-                            ResultSet rs1=st1.executeQuery(query1);
-                            out.println("<select name=product_category>");
-                            int counter1=0;
+                            ResultSet rs1=st1.executeQuery(query1);%>
+                            
+                            
+                    <select name="product_category" class="form-select" aria-label="Default select example">
+                        <%int counter1=0;
                             while (rs1.next())
                             {
                             counter1++;
-                            out.println("<option value='"+rs1.getString(2)+"'>"+rs1.getString(2)+"</option>");
-                            }
-                            out.println("</select>");
+                           
+                            %>
+                            <option value=<%=rs1.getString(2)%> ><%=rs1.getString(2)%></option>
+                               
+                            <%
+                                }
                          st1.close();
                          con1.close();
-        %>
-                         
-                      </td>
-                    </tr>
+                         %>
+                    </select>
+                  </div>
+                </div>
+                     <div class="row mb-3">
+                  <label for="inputNumber" class="col-sm-4 col-form-label">Product Picture</label>
+                  <div class="col-sm-7">
+                    <input class="form-control" type="file" id="formFile" name="new_product_image"  accept="image/*">
+                  </div>
+                </div>
                     
-                     <tr>
-                      <th>Product Image</th>
-                      <th>:</th>
-                      <td>
-                          <input type="file" name="product_image" accept="image/*" required>
-                      </td>
-                    </tr>
-                  </table>
-                   
+                    
+                    
+                                       
                 </div>
               </div>
 
-              <br><br>
+            
               <div>
                  
                 <button type="submit" class="btn btn-primary"><i class="bi bi-plus"></i> New Product</button>
@@ -657,6 +662,16 @@
                     
                 <a href="Manage category.jsp">
                     <h5 class="card-title"><i class="bi bi-arrow-repeat"></i> Product List</h5></a>
+                    <div class="search-bar">
+      <form class="search-form d-flex align-items-center "style="width:50%;" method="POST" action="searchProductServlet">
+         
+        <input type="text" name="search_product" placeholder="Search" title="Enter search keyword" class="form-control">
+        <button style="margin-left: 10px;" type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Search">
+              Search
+            </button>
+      </form>
+    </div><!-- End Search Bar -->
+    <br>
                 
               
                 <table class="list" >
@@ -671,7 +686,14 @@
                </tr>
               
         <%
-        String query="SELECT * FROM product ";
+        String query = "";
+        String abc = (String) session.getAttribute("product_name");
+        if (abc.equals("*")){
+            query="SELECT * FROM product ";
+        }
+        else{
+            query="SELECT * FROM product WHERE product_Name LIKE '%"+abc+"%'";
+        }
         Class.forName(driver);
         Connection con=DriverManager.getConnection(url,userName,password);
         Statement st=con.createStatement();

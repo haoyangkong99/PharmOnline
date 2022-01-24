@@ -14,7 +14,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Manage Suppliers</title>
+  <title>Manage Category</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -532,15 +532,15 @@
 
     <div class="pagetitle" >
       <div style="display: flex; justify-content: space-between;">
-        <h1>Edit Supplier</h1>
+        <h1>Edit Category</h1>
 
       </div>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
 
-          <li class="breadcrumb-item active">Manage Suppliers</li>
-          <li class="breadcrumb-item active">Edit Supplier</li>
+          <li class="breadcrumb-item active">Manage Category</li>
+          <li class="breadcrumb-item active">Edit Category</li>
         </ol>
       </nav>
 
@@ -593,27 +593,24 @@ String description=rs.getString(3);
     con.close();
                         %>
                     <form action="editCategory" method="post">
-                  <table>
-
-                     <tr>
-                     <th>Category Name</th>
-                    <th>:</th>
-                     <td>
-             <input type="text" name="category_name" value="<%=name%>" required> </td></tr>
-                      <tr>
-                     <th>Category Description</th>
-                    <th>:</th>
-                     <td>
-             <input type="text" name="category_description" value="<%=description%>" required> </td></tr>
-            
-                    
-
-                  </table>
-                      <br><br>
+                        <div class="row mb-3">
+                  <label for="inputText" class="col-sm-6 col-form-label">Category Name:</label>
+                  <div class="col-sm-6">
+                    <input type="text"  name="category_name" value="<%=name%>" required class="form-control">
+                  </div>
+                        </div>
+                        
+                         <div class="row mb-3">
+                  <label for="inputText" class="col-sm-6 col-form-label">Category Description:</label>
+                  <div class="col-sm-6">
+                    <input type="text"  name="category_description" value="<%=description%>" required class="form-control">
+                  </div>
+                        </div>
+                  
                       <input type="hidden" name="id" value="<%=id%>" >
                       
-          <div style="display:flex;justify-content: space-around">
-                  <a href="Manage category.jsp" class="btn btn-danger">Cancel</a>
+          <div style="display:flex;justify-content: flex-start">
+                  <a href="Manage category.jsp" class="btn btn-danger" style="margin-right:20px;">Cancel</a>
                   <input type="submit" value="Save Changes" onsubmit="alert('Updated Successfully');" class="btn btn-primary">
               
             </div>

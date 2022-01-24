@@ -17,7 +17,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Manage Suppliers</title>
+  <title>Manage Product</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -532,10 +532,9 @@
   </aside><!-- End Sidebar-->
 
   <main id="main" class="main">
-
     <div class="pagetitle" >
       <div style="display: flex; justify-content: space-between;">
-        <h1>Edit Supplier</h1>
+        <h1>Edit Product</h1>
 
       </div>
       <nav>
@@ -568,7 +567,7 @@
 
 
 
-          <div class="card" style="width:1200px;">
+          <div class="card" style="width:1000px;">
             <div class="card-body" >
               <h5 class="card-title"></h5>
 
@@ -593,6 +592,7 @@
            String product_category = rs.getString(5);
            String product_description = rs.getString(3);
            double product_price =rs.getDouble(4) ;
+           String status = rs.getString(8);
            Blob blob=rs.getBlob(7);
            InputStream inputStream = blob.getBinaryStream();
 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -609,101 +609,95 @@ String base64Image = Base64.getEncoder().encodeToString(imageBytes);
 outputStream.close();          
  st.close();
     con.close();
+    
                         %>
                     <form enctype="multipart/form-data" action="editProduct" method="post">
-                  <table>
-                      
-                      <tr>
-                      <th>Product Name</th>
-                      <th>:</th>
-                      <td>
-                          <input type="text" name="product_name" value="<%=product_name%>" required>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Product Description</th>
-                      <th>:</th>
-                      <td>
-                          <textarea name="product_description" required><%=product_description%></textarea>
-                      </td>
-                    </tr>
-                    
-                    <tr>
-                      <th>Product Selling Price(RM)</th>
-                      <th>:</th>
-                      <td>
-                          <input type="number" name="new_product_price" value="<%= product_price%>" step="0.01" required>
-                      </td>
-                    </tr>
-                    
-                    <tr>
-                      <th>Product Category</th>
-                      <th>:</th>
-                      <td>
-                        
-                        <%
+                        <div class="row mb-3">
+                  <label for="inputText" class="col-sm-4 col-form-label">Product Name:</label>
+                  <div class="col-sm-7">
+                    <input type="text"  name="product_name" value="<%=product_name%>" required class="form-control">
+                  </div>
+                        </div>
+                  
+                      <div class="row mb-3">
+                  <label for="inputPassword" class="col-sm-4 col-form-label">Product Description:</label>
+                  <div class="col-sm-7">
+                    <textarea name="product_description" required class="form-control" style="height: 100px"><%=product_description%></textarea>
+                  </div>
+                </div>
+                  
+                   <div class="row mb-3">
+                  <label for="inputText" class="col-sm-4 col-form-label">Product Selling Price (RM):</label>
+                  <div class="col-sm-7">
+                    <input type="number"  name="new_product_price" value="<%=product_price%>" step="0.1" required class="form-control">
+                  </div>
+                        </div>
+                  
+                  <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">Product Category</label>
+                  <div class="col-sm-7">
+                       <%
                             String query1="SELECT * FROM category ";
                             Class.forName(driver);
                             Connection con1=DriverManager.getConnection(url,userName,password);
                             Statement st1=con1.createStatement();
-                            ResultSet rs1=st1.executeQuery(query1);
-                            out.println("<select name=product_category>");
-                            int counter1=0;
+                            ResultSet rs1=st1.executeQuery(query1);%>
+                            
+                            
+                    <select name="product_category" class="form-select" aria-label="Default select example">
+                        <%int counter1=0;
                             while (rs1.next())
                             {
                             counter1++;
                             if (rs1.getString(2).equals(product_category)){
-                                out.println("<option value='"+rs1.getString(2)+"' selected>"+rs1.getString(2)+"</option>");
-                            }
-                                else{
-                                 out.println("<option value='"+rs1.getString(2)+"'>"+rs1.getString(2)+"</option>");    
-                            }
-                            }
-                            
-                            out.println("</select>");
-                         st1.close();
+                            %>
+                            <option value=<%=rs1.getString(2)%> selected><%=rs1.getString(2)%></option>
+                            <%}
+                                else{%>
+                                <option value=<%=rs1.getString(2)%>><%=rs1.getString(2)%></option>
+                                <%}
+                            }%>
+                            <%st1.close();
                          con1.close();
                          %>
-                         
-                      </td>
-                    </tr>
+                    </select>
+                  </div>
+                </div>
+                    <div class="row mb-3">
+                  <label for="inputNumber" class="col-sm-4 col-form-label">Product Picture</label>
+                  <div class="col-sm-7">
+                    <img src="data:;base64,<%= base64Image%>" style="max-height: 500px;max-width: 500px; height: auto; width: auto; margin-bottom: 20px;" />
+                    <input class="form-control" type="file" id="formFile" name="new_product_image"  accept="image/*">
+                  </div>
+                </div>
                     
-<!--                     <tr>
-                      <th>Product Image</th>
-                      <th>:</th>
-                      <td>
-                        <input type="file" name="product_image">
-                      </td>
-                    </tr>-->
-                    <tr>
-                      <th>Product Picture</th>
-                      <th>:</th>
-                      <td>
-                           <img src="data:;base64,<%= base64Image%>" style="max-height: 500px;max-width: 500px; height: auto; width: auto;"  />
-                      </td>
-                    </tr>
-                    <tr>
-                      <th></th>
-                      <th></th>
-                      <td>
-                           <input type="file" name="new_product_image"  accept="image/*">
-                      </td>
-                    </tr>
-
-                   
-                     
-            
-                    
-
-                  </table>
-                      <br><br>
-                      <input type="hidden" name="id" value="<%=id%>" >
+                <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">Product Status</label>
+                  <div class="col-sm-7">
+                      <% if (status.equals("Deactivate")){%>
+                     <div class="form-check form-switch" style="margin-top: 10px;">
+                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" name="product_status" value="Activate">
+                      <label class="form-check-label" for="flexSwitchCheckDefault">Activate</label>
+                    </div>
+                  <%}else{%>
+                     <div class="form-check form-switch" style="margin-top: 10px;">
+                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="product_status" value="Deactivate" >
+                      <label class="form-check-label" for="flexSwitchCheckChecked">Deactivate</label>
+                    </div>
+                  <%}%>
+                  </div>
+                </div>
+                   <input type="hidden" name="id" value="<%=id%>" >
                       
-          <div style="display:flex;justify-content: space-around">
-                  <a href="Manage product.jsp" class="btn btn-danger">Cancel</a>
+          <div style="display:flex;justify-content:flex-start">
+                  <a href="Manage product.jsp" class="btn btn-danger" style="margin-right:20px;">Cancel</a>
                   <input type="submit" value="Save Changes" onsubmit="alert('Updated Successfully');" class="btn btn-primary">
-              
+                  
             </div>
+                                    </div>
+                    
+                     
+                     
                 </div>
               </div>
 

@@ -5,6 +5,10 @@
 <%@page import="java.sql.Connection"%>
 <!DOCTYPE html>
 <html lang="en">
+    
+<%if("GET".equals(request.getMethod())){
+             session.setAttribute("category_name","*");
+    }%>
 
 <head>
   <meta charset="utf-8">
@@ -556,27 +560,25 @@
               <div style="display: flex; justify-content: left;">
                 <div style="padding-right: 100px;">
                     <form action="AddCategory" method="post">
-                <table>
-                     <tr>
-                      <th>Category Name</th>
-                      <th>:</th>
-                      <td>
-                          <input type="text" name="category_name" required>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Category Description</th>
-                      <th>:</th>
-                      <td>
-                          <textarea name="category_description" required></textarea>
-                      </td>
-                    </tr>
-                  </table>
+                        <div class="row mb-3">
+                  <label for="inputText" class="col-sm-6 col-form-label">Category Name:</label>
+                  <div class="col-sm-6">
+                    <input type="text"  name="category_name" required class="form-control">
+                  </div>
+                        </div>
+                        
+                         <div class="row mb-3">
+                  <label for="inputText" class="col-sm-6 col-form-label">Category Description:</label>
+                  <div class="col-sm-6">
+                    <input type="text"  name="category_description" required class="form-control">
+                  </div>
+                        </div>
+                
                    
                 </div>
               </div>
 
-              <br><br>
+              
               <div>
                  
                 <button type="submit" class="btn btn-primary"><i class="bi bi-plus"></i> New Category</button>
@@ -588,14 +590,6 @@
             </div>
 
           </div>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="row">
@@ -607,12 +601,22 @@
                     
                 <a href="Manage category.jsp">
                     <h5 class="card-title"><i class="bi bi-arrow-repeat"></i> Category List</h5></a>
+                    <div class="search-bar">
+      <form class="search-form d-flex align-items-center "style="width:50%;" method="POST" action="searchCategoryServlet">
+         
+        <input type="text" name="search_category" placeholder="Search" title="Enter search keyword" class="form-control">
+        <button style="margin-left: 10px;" type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Search">
+              Search
+            </button>
+      </form>
+    </div><!-- End Search Bar -->
+    <br>
                 
               
                 <table class="list" >
                     <tr>
                <th>Category ID</th>
-               <th>Category Title</th>
+               <th>Category Name</th>
                <th>Category Description</th>
                <th>Action</th>
                </tr>
@@ -622,8 +626,14 @@
         String url="jdbc:mysql://localhost/"+dbName+"?";
         String userName="root";
         String password="";
-      
-        String query="SELECT * FROM category ";
+        String query = "";
+        String abc = (String) session.getAttribute("category_name");
+        if (abc.equals("*")){
+            query="SELECT * FROM category ";
+        }
+        else{
+            query="SELECT * FROM category WHERE category_Name LIKE '%"+abc+"%'";
+        }
         
            Class.forName(driver);
            Connection con=DriverManager.getConnection(url,userName,password);
@@ -659,16 +669,7 @@
         st.close();
         con.close();
                     %>
-               
-               
-              
                  </table>
-             
-
-
-
-
-
             </div>
           </div>
 
