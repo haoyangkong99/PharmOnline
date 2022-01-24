@@ -3,16 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package com.servlet;
-import com.bean.OrderProduct;
-import com.bean.Order;
-import java.sql.SQLException;
+
+import com.bean.Stock;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Timestamp;
-import java.text.DateFormat;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -23,10 +23,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author user
+ * @author haoya
  */
-@WebServlet(name = "editOrder", urlPatterns = {"/editOrder"})
-public class editOrder extends HttpServlet {
+@WebServlet(name = "editStock", urlPatterns = {"/editStock"})
+public class editStock extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,34 +38,34 @@ public class editOrder extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException, ParseException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+         
         String id=request.getParameter("id");
-        double totalPrice = Double.parseDouble(request.getParameter("totalprice"));
-        LocalDateTime collectDateTime1 = LocalDateTime.parse(request.getParameter("collectDateTime"));
-        Timestamp collectDateTime = Timestamp.valueOf(collectDateTime1);
-        Order editOrder = new Order();
-        editOrder.setOrderID(id);
-        editOrder.setTotalprice(totalPrice);
-        editOrder.setCollectDateTime(collectDateTime);
-        editOrder.updateOrderPriceFromDB();
-        editOrder.updateCollectDateTime();
-        int itemNo = Integer.parseInt(request.getParameter("rowNo"));
-        for(int i=1;i<=itemNo;i++){
-           int quantity = Integer.parseInt(request.getParameter("quantity"+i));
-           String productID = request.getParameter("selectedproductID"+i);
-           
-            OrderProduct updateOrderProductquantity = new OrderProduct();
-            updateOrderProductquantity.setOrderID(id);
-            updateOrderProductquantity.setProductID(productID);
-            updateOrderProductquantity.setQuantity(quantity);
-            updateOrderProductquantity.updateOrderProductQuantitytoDB();
-        }
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('Changes have been saved successfully!');");
-            out.println("location=\"EditOrder.jsp?id="+id+"\";");
-            out.println("</script>");
+        String action=request.getParameter("action");
+        String supplierID=request.getParameter("supplier");
+        String productID=request.getParameter("product");
+        String reference=request.getParameter("reference");
+         java.util.Date arrival = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("arrival"));
+         java.sql.Date sqlarrival = new java.sql.Date(arrival.getTime());  
+         java.util.Date expiry = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("expiry"));
+         java.sql.Date sqlexpiry = new java.sql.Date(expiry.getTime());
+         double cost=Double.parseDouble(request.getParameter("cost"));
+         double quantity=Double.parseDouble(request.getParameter("quantity"));
+         
+         Stock editStock=new Stock ();
+         editStock.setArrivalDate(sqlarrival);
+         editStock.setCost(cost);
+         editStock.setExpiryDate(sqlexpiry);
+         editStock.setOperation(action);
+         editStock.setProductID(productID);
+         editStock.setQuantity(quantity);
+         editStock.setReferenceNo(reference);
+         editStock.setStockTransactionID(id);
+         editStock.setSupplierID(supplierID);
+         editStock.updateStockToDB();
+        try (PrintWriter out = response.getWriter()) {
+            response.sendRedirect("Manage stock.jsp");
         }
     }
 
@@ -83,8 +83,12 @@ public class editOrder extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(editStock.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(editStock.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(editOrder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(editStock.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -101,8 +105,12 @@ public class editOrder extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(editStock.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(editStock.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(editOrder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(editStock.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

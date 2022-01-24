@@ -1,8 +1,10 @@
 <%-- 
-    Document   : EditOrder
+    Document   : Cart
     Created on : Dec 24, 2021, 8:48:48 PM
     Author     : user
 --%>
+<%@page import="com.bean.User"%>
+<%@page import="com.bean.Cart"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
 <%@page import="java.time.ZoneOffset"%>
@@ -20,6 +22,29 @@
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    if(request.getMethod().equals("GET") && request.getSession().getAttribute("loggedIn") == null){
+           
+        out.println("<script type=\"text/javascript\">");
+        out.println("alert('Please Login First!');");
+        out.println("location='login.jsp';");
+        out.println("</script>");
+        }
+        User user = new User();
+        user=(User)session.getAttribute("user");
+        String userID = user.getUserID();
+    ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
+    
+    if (cart_list != null) {
+	request.setAttribute("cart-list", cart_list);
+    }
+    else{
+        out.println("<script type=\"text/javascript\">");
+        out.println("alert('Cart is Empty!');");
+        out.println("location='viewproduct.jsp';");
+        out.println("</script>");
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,7 +52,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Edit Order</title>
+  <title>Cart</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -60,7 +85,7 @@
 </head>
 
 <body>
-
+    <input type="hidden" id="userID" value="<%=userID%>">
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -530,11 +555,11 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Manage Orders</h1>
+      <h1>Place Orders</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item">Manage Orders</li>
-          <li class="breadcrumb-item active">Edit Order</li>
+          <li class="breadcrumb-item">Place Order</li>
+          <li class="breadcrumb-item active">Cart</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -545,14 +570,7 @@
           var noItem = document.getElementById("quantity"+count).value;
           var total = parseFloat(price) * noItem;
           if (!isNaN(total))
-            document.getElementById("subtotal"+count).innerHTML = total.toFixed(2);
-//        for(int i=0; i<count; i++){
-//            if (!isNaN(total))
-//            document.getElementById("subtotal"+count).innerHTML = total.toFixed(2);
-//            var totalPrice +=total;
-//            document.getElementById("RealtotPrice").innerHTML =parseFloat(totalPrice).toFixed(2);
-//        }
-            
+            document.getElementById("subtotal"+count).innerHTML = total.toFixed(2);            
         }
         function calcTotal(count)
         {
@@ -564,13 +582,9 @@
           document.getElementById("totalprice").innerHTML =totalprice.toFixed(2);
           document.getElementById("totalp").value=totalprice.toFixed(2);
         }
-        function calcTotalafterDel(c){
-            var subtotal =document.getElementById("subtotal"+c).innerHTML;
-            document.getElementByName("temptotal").value-=parseFloat(subtotal);
-            document.getElementById("temptotal").innerHTML-=parseFloat(subtotal);
-        }
-        function callEditOrder(count){
-            var id = document.getElementById("id").value;
+        
+        function PlaceOrder(count){
+            var userID = document.getElementById("userID").value;
             var totalprice= document.getElementById("totalp").value;
             var collectDateTime = document.getElementById("collectDateTime").value;
             var rowNo=count;
@@ -581,25 +595,7 @@
             var tempurl ="&selectedproductID"+j+"="+this["selectedproductID"+j]+"&quantity"+j+"="+this["quantity"+j];
             url+=tempurl;
             }
-            document.location.href="editOrder?id="+id+"&totalprice="+totalprice+"&collectDateTime="+collectDateTime+"&rowNo="+rowNo+url;
-        }
-        function updateStatus(status){
-            var id = document.getElementById("id").value;
-            var updatestatus = status;
-            document.location.href="updateOrderStatus?id="+id+"&status="+updatestatus;
-        }
-        function updateStatusQuantity(status, count){
-            var id = document.getElementById("id").value;
-            var updatestatus = status;
-            var rowNo=count;
-            var url ="";
-            for(var j=1;j<=count;j++){
-            this["selectedproductID"+j]=document.getElementById("selectedproductID"+j).value;
-            this["quantity"+j]=document.getElementById("productquantity"+j).value-document.getElementById("quantity"+j).value;
-            var tempurl ="&selectedproductID"+j+"="+this["selectedproductID"+j]+"&quantity"+j+"="+this["quantity"+j];
-            url+=tempurl;
-            }
-            document.location.href="updateOrderStatusQuantity?id="+id+"&status="+updatestatus+"&rowNo="+rowNo+url;
+            document.location.href="placeOrder?userID="+userID+"&totalprice="+totalprice+"&collectDateTime="+collectDateTime+"&rowNo="+rowNo+url;
         }
     </script>
       <div class="row">
@@ -611,111 +607,20 @@
             <div class="card-body pt-3">
               <!-- Bordered Tabs -->
                   
-                    <%
-                        String id=request.getParameter("id");
-                        String driver ="com.mysql.jdbc.Driver";
-                        String dbName="PharmOnline";
-                        String url="jdbc:mysql://localhost/"+dbName+"?";
-                        String userName="root";
-                        String password="";
-                        String query="SELECT * FROM `order` WHERE orderID='"+id+"'";
-                        
-                        Class.forName(driver);
-                        Connection con=DriverManager.getConnection(url,userName,password);
-                        Statement st=con.createStatement();
-                        Statement stOrderProduct=con.createStatement();
-                        Statement stProduct=con.createStatement();
-                        Statement stCust=con.createStatement();
-                        ResultSet rs=st.executeQuery(query);
-                        
-                        rs.next();
-                        String orderDateTime=rs.getString(2).toString();
-                            String collectDateTime=rs.getString(3).toString();
-                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            DateFormat outputformat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
-                            DateFormat outputDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                            Date orderdate = null;
-                            String orderDateoutput = null;
-                            Date collectdate = null;
-                            String collectDateoutputedit = null;
-                            String collectDateoutput = null;
-                            orderdate= df.parse(orderDateTime);
-                            orderDateoutput = outputformat.format(orderdate);
-                            collectdate= df.parse(collectDateTime);
-                            collectDateoutputedit = outputDate.format(collectdate);
-                            collectDateoutput = outputformat.format(collectdate);
-                        String queryorderproduct = "SELECT * FROM orderproduct WHERE orderID='"+id+"'";
-                        ResultSet rsorderproduct=stOrderProduct.executeQuery(queryorderproduct);
-                        double totalprice =rs.getDouble(4);
-                        String totalprice0=String.format("%.2f",totalprice);
-                        String status = rs.getString(5);
-                        String custID = rs.getString(6);
-                        String queryCustName = "SELECT * FROM user WHERE userID='"+custID+"'";
-                        ResultSet rscust=stCust.executeQuery(queryCustName);
-                        rscust.next();
-                        String custName = rscust.getString(2);
-                    %>
-                  
-                
-                
-                
                     <!--<form id="editorder">-->
-
+                    
                   <div class="row mb-3">
                     <table class="table">
                     <tr>
-                      <th>Order ID</th>
-                      <th>:</th>
-                      <td><%= id %></td>
-                      <th>Status</th>
-                      <th>:</th>
-                      <%
-                         if(status.equals("Pending")){
-                             out.println("<td><span class=\"badge bg-secondary\">"+status+"</span></td>");
-                        }
-                         else if(status.equals("Completed")){
-                            out.println("<td><span class=\"badge bg-success\">"+status+"</span></td>");
-                         }
-                         else if(status.equals("Accepted")){
-                            out.println("<td><span class=\"badge bg-dark\">"+status+"</span></td>");
-                         }
-                         else if(status.equals("Prepared")){
-                            out.println("<td><span class=\"badge bg-info text-dark\">"+status+"</span></td>");
-                         }
-                         else if(status.equals("Rejected")){
-                            out.println("<td><span class=\"badge bg-danger\">"+status+"</span></td>");
-                         }
-                         else if(status.equals("Cancelled")){
-                            out.println("<td><span class=\"badge bg-danger\">"+status+"</span></td>");
-                         }
-                      %>
                       
-                    </tr>
-                    <tr>
-                      <th>Customer ID</th>
-                      <th>:</th>
-                      <td><%= custID %></td>
-                      <th>Customer Name</th>
-                      <th>:</th>
-                      <td><%= custName %></td>
-                    </tr>
-                    <tr>
-                      <th>Order Date / Time</th>
-                      <th>:</th>
-                      <td><%= orderDateoutput %></td>
                       <th>Collect Date / Time</th>
                       <th>:</th>
                       <%
                           LocalDateTime now = LocalDateTime.now();
                           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
                           String currentTime = now.format(formatter);
+                              out.println("<td><input type=\"datetime-local\" min='"+currentTime+"' id=\"collectDateTime\" value='"+currentTime+"'></td>");
                           
-                          if(status.equals("Pending")||status.equals("Accepted")||status.equals("Prepared")){
-                              out.println("<td><input type=\"datetime-local\" min='"+currentTime+"' id=\"collectDateTime\" value='"+collectDateoutputedit+"'></td>");
-                          }
-                          else{
-                              out.println("<td>"+collectDateoutput+"</td>");
-                          }
                       %>
                     </tr>
                     </table>
@@ -731,12 +636,17 @@
                     </thead>
                      <tbody>
                     <%
-                        int count = 0;
-                        String queryorderproductRow = "SELECT count(*) FROM orderproduct WHERE orderID='"+id+"'";
+                        String driver ="com.mysql.jdbc.Driver";
+                        String dbName="PharmOnline";
+                        String url="jdbc:mysql://localhost/"+dbName+"?";
+                        String userName="root";
+                        String password="";
+                        Connection con=DriverManager.getConnection(url,userName,password);
+                        
+                        
                         Statement storderproductRow = con.createStatement();
-                        ResultSet rsorderproductRow = storderproductRow.executeQuery(queryorderproductRow);
-                        rsorderproductRow.next();
-                        int rowNo = rsorderproductRow.getInt(1);
+                        Statement stProduct=con.createStatement();
+                        
                         
                         String excludedOrderID ="";
                         String queryexcludedOrderID = "SELECT * FROM `order` WHERE status IN ('Completed','Rejected','Cancelled')";
@@ -744,81 +654,65 @@
                         Statement storderexcluded = con.createStatement();
                         ResultSet rsorderexcluded = storderexcluded.executeQuery(queryexcludedOrderID);
                         
+                        int totalorderproductquantity=0;
                         while(rsorderexcluded.next()){
                                 excludedOrderID += rsorderexcluded.getString(1);
                         }
                         excludedOrderID = excludedOrderID.replaceAll("(.{2})", "$0','");
                         excludedOrderID = excludedOrderID.substring(0, excludedOrderID.length() - 3);
+                        String queryorderproductQuantity="";
+                        double totalprice = 0;
                         
-                        while(rsorderproduct.next()){
-                            count++;
-                            String selectedproductID = rsorderproduct.getString(2);
-                            out.println("<input type=\"hidden\" id=\"selectedproductID"+count+"\" value='"+selectedproductID+"'>");
-                            int orderProductquantity = rsorderproduct.getInt(3);
-                            int totalorderproductquantity=0;
-                            String queryorderproductQuantity="";
-                            if (excludedOrderID.isEmpty()){
+                        
+                        if (cart_list!= null){
+                            
+                            for (int count =0; count<cart_list.size(); count++){
+                                String selectedproductID = cart_list.get(count).getItemID();
+                                String queryProduct="SELECT * FROM product WHERE product_ID='"+selectedproductID+"'";
+                                ResultSet rsProduct=stProduct.executeQuery(queryProduct);
+                                rsProduct.next();
+                                int productquantity = rsProduct.getInt(6);
+                                if (excludedOrderID.isEmpty()){
                                 queryorderproductQuantity = "SELECT * FROM orderproduct WHERE productID='"+selectedproductID+"'";
-                            }
-                            else{
+                                 }
+                                else{
                                 queryorderproductQuantity = "SELECT * FROM orderproduct WHERE productID='"+selectedproductID+"' AND orderID NOT IN ('"+excludedOrderID+"')";
-                            }
-                            
-                            ResultSet rsorderproductQuantity = storderproductRow.executeQuery(queryorderproductQuantity);
-                            while(rsorderproductQuantity.next()){
+                                }
+                                ResultSet rsorderproductQuantity = storderproductRow.executeQuery(queryorderproductQuantity);
+                                while(rsorderproductQuantity.next()){
                                 totalorderproductquantity+=rsorderproductQuantity.getInt(3);
+                                }
+                                int max = productquantity - totalorderproductquantity+cart_list.get(count).getItemquantity();
+                                out.println("<tr>");
+                                int index=count+1;
+                                out.println("<input type=\"hidden\" id=\"selectedproductID"+index+"\" value='"+selectedproductID+"'>");
+                                out.println("<th scope=\"row\">"+index+"</th>");
+                                out.println("<td>"+cart_list.get(count).getItemname()+"</td>");
+                                out.println("<td><input type=\"number\" step=\"1\" id=\"quantity"+index+"\" min=\"1\" max='"+max+"' value='"+cart_list.get(count).getItemquantity()+"'oninput=\"calcsubitemprice("+index+"); calcTotal("+cart_list.size()+");\" required></td>");
+                                out.println("<span id=\"itemprice"+index+"\" hidden>"+cart_list.get(count).getItemprice()+"</span>");
+                                double subtotal = rsProduct.getDouble(4)*cart_list.get(count).getItemquantity();
+                                String subtotal2 = String.format("%.2f",subtotal);
+                                out.println("<td><span id=\"subtotal"+index+"\">"+subtotal2+"</td>");
+                                out.println("<input type=\"hidden\" id=\"subtotal"+count+"\" name=\"subtotal"+index+"\" value='"+subtotal+"'>");
+                                out.println("<td><a href='removeCartItem?id="+selectedproductID+" 'onclick=' return confirm("+'"'+"Are you sure to delete this Item ?"+'"'+")"+"';)"+"'><button><i class='bx bxs-trash'></i></button></a></td>");
+                                out.println("</tr>");
+                                totalprice +=subtotal;
+                               
                             }
-                            
-                            out.println("<tr>");
-                            out.println("<th scope=\"row\">"+count+"</th>");
-                            String queryProduct="SELECT * FROM product WHERE product_ID='"+selectedproductID+"'";
-                            ResultSet rsProduct=stProduct.executeQuery(queryProduct);
-                            rsProduct.next();
-                            int productquantity = rsProduct.getInt(6);
-                            out.println("<input type=\"hidden\" id=\"productquantity"+count+"\" name=\"productquantity"+count+"\" value='"+productquantity+"'>");
-                            int max = productquantity - totalorderproductquantity+orderProductquantity;
-                            String itemname = rsProduct.getString(2);
-                            double itemprice = rsProduct.getDouble(4);
-                            if(status.equals("Completed")||status.equals("Rejected")||status.equals("Cancelled")){
-                            out.println("<td>"+itemname+"</td>");
-                            out.println("<td>"+orderProductquantity+"</td>");
-                            out.println("<span id=\"itemprice"+count+"\" hidden>"+itemprice+"</span>");
-                            double subtotal=itemprice*orderProductquantity;
-                            String subtotal2 = String.format("%.2f",subtotal);
-                            out.println("<td><span id=\"subtotal"+count+"\">"+subtotal2+"</td>");
-                            out.println("<input type=\"hidden\" id=\"subtotal"+count+"\" name=\"subtotal"+count+"\" value='"+subtotal+"'>");
-                            double temptotalprice =totalprice-subtotal;
-                            out.println("<input type=\"hidden\" id=\"total\" name=\"totalprice\" value='"+temptotalprice+"'>");
-                            out.println("<td></td>");
-                            out.println("</tr>");
-                            }
-                            else{
-                            out.println("<td>"+itemname+"</td>");
-                            out.println("<td><input type=\"number\" step=\"1\" id=\"quantity"+count+"\" min=\"1\" max='"+max+"' value='"+orderProductquantity+"'oninput=\"calcsubitemprice("+count+"); calcTotal("+rowNo+");\" required></td>");
-                            out.println("<span id=\"itemprice"+count+"\" hidden>"+itemprice+"</span>");
-                            double subtotal=itemprice*orderProductquantity;
-                            String subtotal2 = String.format("%.2f",subtotal);
-                            out.println("<td><span id=\"subtotal"+count+"\">"+subtotal2+"</td>");
-                            out.println("<input type=\"hidden\" id=\"subtotal"+count+"\" name=\"subtotal"+count+"\" value='"+subtotal+"'>");
-                            double temptotalprice =totalprice-subtotal;
-                            out.println("<input type=\"hidden\" id=\"total\" name=\"totalprice\" value='"+temptotalprice+"'>");
-                            out.println("<td><a href='deleteOrderProduct?id="+id+"&productID="+selectedproductID+"&totalprice="+temptotalprice+"'onclick=' return confirm("+'"'+"Are you sure to delete this Item ?"+'"'+")"+"';\"calcTotalafterDel("+count+")\";><button><i class='bx bxs-trash'></i></button></a></td>");
-                         
-                            out.println("</tr>");
-                            }
-//                            totalPrice+=subtotal;
                         }
+                         String totalprice0 = String.format("%.2f",totalprice);
                     %>
+                    
                         
                       <tr>
                         <th></th>
                         <td></td>
                         <th>Total :</th>
-                        
-                       <% 
+                        <% 
                            out.println("<td><span id=\"totalprice\">"+totalprice0+"</td>");
-                       %>
+                        %>
                        <input type="hidden" id="totalp" value="<%=totalprice0%>">
+                       
                         <td></td>
                       </tr>
                     </tbody>
@@ -826,39 +720,11 @@
                   </table>
                     </div>
                     <div class="text-center">
-                        <input type="hidden" id="id" value="<%=id%>" >
-
-                      <button type="button" class="btn btn-warning" onclick="window.print()">Print</button>
-                      <a href="ManageOrder.jsp" class="btn btn-secondary">Cancel</a>
-                      
-                      <%
-                        if(status.equals("Pending")){
-                            out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
-                             status="Accepted";
-                             out.println("<br><br>Status Update: <a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-dark\">Accept</a>");
-                             status="Rejected";
-                             out.println("<a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-danger\">Reject</a>");
-                        }
-                         else if(status.equals("Accepted")){
-                             out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
-                             status="Prepared";
-                            out.println("<br><br>Status Update: <a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-info text-dark\">Prepared</a>");
-                         }
-                         else if(status.equals("Prepared")){
-                             out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
-                             status="Completed";
-                            out.println("<br><br>Status Update: <a onclick=\"updateStatusQuantity('"+status+"','"+count+"')\" class=\"btn btn-success\">Complete</a>");
-                         }
-                      %>
+                    <%
+                      out.println("<a onclick=\"PlaceOrder('"+cart_list.size()+"');\" class=\"btn btn-success\">Place Order</a>");
+                    %>  
                     </div>
             
-                      <%
-                          st.close();
-                          stOrderProduct.close();
-                          stProduct.close();
-                          stCust.close();
-                          con.close();
-                         %>
                 <!--</form>-->
 
                 

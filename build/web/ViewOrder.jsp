@@ -1,5 +1,5 @@
 <%-- 
-    Document   : EditOrder
+    Document   : ViewOrder
     Created on : Dec 24, 2021, 8:48:48 PM
     Author     : user
 --%>
@@ -27,7 +27,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Edit Order</title>
+  <title>View Order</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -90,9 +90,9 @@
 
         <li class="nav-item dropdown">
 
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number">4</span>
+          <a class="nav-link nav-icon" href="Cart.jsp">
+            <i class="bi bi-cart"></i>
+            
           </a><!-- End Notification Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
@@ -534,72 +534,15 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">Manage Orders</li>
-          <li class="breadcrumb-item active">Edit Order</li>
+          <li class="breadcrumb-item active">View Order</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
     <script>
-        function calcsubitemprice(count)
-        {
-          var price = document.getElementById("itemprice"+count).innerHTML;
-          var noItem = document.getElementById("quantity"+count).value;
-          var total = parseFloat(price) * noItem;
-          if (!isNaN(total))
-            document.getElementById("subtotal"+count).innerHTML = total.toFixed(2);
-//        for(int i=0; i<count; i++){
-//            if (!isNaN(total))
-//            document.getElementById("subtotal"+count).innerHTML = total.toFixed(2);
-//            var totalPrice +=total;
-//            document.getElementById("RealtotPrice").innerHTML =parseFloat(totalPrice).toFixed(2);
-//        }
-            
-        }
-        function calcTotal(count)
-        {
-          var totalprice=0;
-          for(var i=1; i<=count;i++){
-              var subtotal =document.getElementById("subtotal"+i).innerHTML;
-              totalprice+=parseFloat(subtotal);
-          }
-          document.getElementById("totalprice").innerHTML =totalprice.toFixed(2);
-          document.getElementById("totalp").value=totalprice.toFixed(2);
-        }
-        function calcTotalafterDel(c){
-            var subtotal =document.getElementById("subtotal"+c).innerHTML;
-            document.getElementByName("temptotal").value-=parseFloat(subtotal);
-            document.getElementById("temptotal").innerHTML-=parseFloat(subtotal);
-        }
-        function callEditOrder(count){
-            var id = document.getElementById("id").value;
-            var totalprice= document.getElementById("totalp").value;
-            var collectDateTime = document.getElementById("collectDateTime").value;
-            var rowNo=count;
-            var url ="";
-            for(var j=1;j<=count;j++){
-            this["selectedproductID"+j]=document.getElementById("selectedproductID"+j).value;
-            this["quantity"+j]=document.getElementById("quantity"+j).value;
-            var tempurl ="&selectedproductID"+j+"="+this["selectedproductID"+j]+"&quantity"+j+"="+this["quantity"+j];
-            url+=tempurl;
-            }
-            document.location.href="editOrder?id="+id+"&totalprice="+totalprice+"&collectDateTime="+collectDateTime+"&rowNo="+rowNo+url;
-        }
         function updateStatus(status){
             var id = document.getElementById("id").value;
             var updatestatus = status;
             document.location.href="updateOrderStatus?id="+id+"&status="+updatestatus;
-        }
-        function updateStatusQuantity(status, count){
-            var id = document.getElementById("id").value;
-            var updatestatus = status;
-            var rowNo=count;
-            var url ="";
-            for(var j=1;j<=count;j++){
-            this["selectedproductID"+j]=document.getElementById("selectedproductID"+j).value;
-            this["quantity"+j]=document.getElementById("productquantity"+j).value-document.getElementById("quantity"+j).value;
-            var tempurl ="&selectedproductID"+j+"="+this["selectedproductID"+j]+"&quantity"+j+"="+this["quantity"+j];
-            url+=tempurl;
-            }
-            document.location.href="updateOrderStatusQuantity?id="+id+"&status="+updatestatus+"&rowNo="+rowNo+url;
         }
     </script>
       <div class="row">
@@ -739,7 +682,7 @@
                         int rowNo = rsorderproductRow.getInt(1);
                         
                         String excludedOrderID ="";
-                        String queryexcludedOrderID = "SELECT * FROM `order` WHERE status IN ('Completed','Rejected','Cancelled')";
+                        String queryexcludedOrderID = "SELECT * FROM `order` WHERE status IN ('Completed','Rejected')";
                         
                         Statement storderexcluded = con.createStatement();
                         ResultSet rsorderexcluded = storderexcluded.executeQuery(queryexcludedOrderID);
@@ -753,21 +696,10 @@
                         while(rsorderproduct.next()){
                             count++;
                             String selectedproductID = rsorderproduct.getString(2);
-                            out.println("<input type=\"hidden\" id=\"selectedproductID"+count+"\" value='"+selectedproductID+"'>");
                             int orderProductquantity = rsorderproduct.getInt(3);
                             int totalorderproductquantity=0;
                             String queryorderproductQuantity="";
-                            if (excludedOrderID.isEmpty()){
-                                queryorderproductQuantity = "SELECT * FROM orderproduct WHERE productID='"+selectedproductID+"'";
-                            }
-                            else{
-                                queryorderproductQuantity = "SELECT * FROM orderproduct WHERE productID='"+selectedproductID+"' AND orderID NOT IN ('"+excludedOrderID+"')";
-                            }
                             
-                            ResultSet rsorderproductQuantity = storderproductRow.executeQuery(queryorderproductQuantity);
-                            while(rsorderproductQuantity.next()){
-                                totalorderproductquantity+=rsorderproductQuantity.getInt(3);
-                            }
                             
                             out.println("<tr>");
                             out.println("<th scope=\"row\">"+count+"</th>");
@@ -775,37 +707,18 @@
                             ResultSet rsProduct=stProduct.executeQuery(queryProduct);
                             rsProduct.next();
                             int productquantity = rsProduct.getInt(6);
-                            out.println("<input type=\"hidden\" id=\"productquantity"+count+"\" name=\"productquantity"+count+"\" value='"+productquantity+"'>");
-                            int max = productquantity - totalorderproductquantity+orderProductquantity;
+                            
                             String itemname = rsProduct.getString(2);
                             double itemprice = rsProduct.getDouble(4);
-                            if(status.equals("Completed")||status.equals("Rejected")||status.equals("Cancelled")){
                             out.println("<td>"+itemname+"</td>");
                             out.println("<td>"+orderProductquantity+"</td>");
                             out.println("<span id=\"itemprice"+count+"\" hidden>"+itemprice+"</span>");
                             double subtotal=itemprice*orderProductquantity;
                             String subtotal2 = String.format("%.2f",subtotal);
                             out.println("<td><span id=\"subtotal"+count+"\">"+subtotal2+"</td>");
-                            out.println("<input type=\"hidden\" id=\"subtotal"+count+"\" name=\"subtotal"+count+"\" value='"+subtotal+"'>");
                             double temptotalprice =totalprice-subtotal;
-                            out.println("<input type=\"hidden\" id=\"total\" name=\"totalprice\" value='"+temptotalprice+"'>");
                             out.println("<td></td>");
                             out.println("</tr>");
-                            }
-                            else{
-                            out.println("<td>"+itemname+"</td>");
-                            out.println("<td><input type=\"number\" step=\"1\" id=\"quantity"+count+"\" min=\"1\" max='"+max+"' value='"+orderProductquantity+"'oninput=\"calcsubitemprice("+count+"); calcTotal("+rowNo+");\" required></td>");
-                            out.println("<span id=\"itemprice"+count+"\" hidden>"+itemprice+"</span>");
-                            double subtotal=itemprice*orderProductquantity;
-                            String subtotal2 = String.format("%.2f",subtotal);
-                            out.println("<td><span id=\"subtotal"+count+"\">"+subtotal2+"</td>");
-                            out.println("<input type=\"hidden\" id=\"subtotal"+count+"\" name=\"subtotal"+count+"\" value='"+subtotal+"'>");
-                            double temptotalprice =totalprice-subtotal;
-                            out.println("<input type=\"hidden\" id=\"total\" name=\"totalprice\" value='"+temptotalprice+"'>");
-                            out.println("<td><a href='deleteOrderProduct?id="+id+"&productID="+selectedproductID+"&totalprice="+temptotalprice+"'onclick=' return confirm("+'"'+"Are you sure to delete this Item ?"+'"'+")"+"';\"calcTotalafterDel("+count+")\";><button><i class='bx bxs-trash'></i></button></a></td>");
-                         
-                            out.println("</tr>");
-                            }
 //                            totalPrice+=subtotal;
                         }
                     %>
@@ -829,26 +742,13 @@
                         <input type="hidden" id="id" value="<%=id%>" >
 
                       <button type="button" class="btn btn-warning" onclick="window.print()">Print</button>
-                      <a href="ManageOrder.jsp" class="btn btn-secondary">Cancel</a>
+                      <a href="ManageOrder_C.jsp" class="btn btn-secondary">Cancel</a>
                       
                       <%
-                        if(status.equals("Pending")){
-                            out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
-                             status="Accepted";
-                             out.println("<br><br>Status Update: <a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-dark\">Accept</a>");
-                             status="Rejected";
-                             out.println("<a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-danger\">Reject</a>");
+                        if(status.equals("Pending")||status.equals("Accepted")||status.equals("Prepared")){
+                             status="Cancelled";
+                             out.println("<br><br>To Cancel order Click => <a onclick=\"updateStatus('"+status+"')\"; return confirm("+'"'+"Are you sure to cancel this order ?"+'"'+")"+"'; class=\"btn btn-danger rounded-pill\">Cancel Order</a>");
                         }
-                         else if(status.equals("Accepted")){
-                             out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
-                             status="Prepared";
-                            out.println("<br><br>Status Update: <a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-info text-dark\">Prepared</a>");
-                         }
-                         else if(status.equals("Prepared")){
-                             out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
-                             status="Completed";
-                            out.println("<br><br>Status Update: <a onclick=\"updateStatusQuantity('"+status+"','"+count+"')\" class=\"btn btn-success\">Complete</a>");
-                         }
                       %>
                     </div>
             

@@ -3,6 +3,8 @@
     Created on : Dec 24, 2021, 8:48:48 PM
     Author     : user
 --%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDateTime"%>
 <%@page import="java.time.ZoneOffset"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.sql.SQLException"%>
@@ -25,7 +27,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Manage Order</title>
+  <title>Edit Order</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -586,6 +588,19 @@
             var updatestatus = status;
             document.location.href="updateOrderStatus?id="+id+"&status="+updatestatus;
         }
+        function updateStatusQuantity(status, count){
+            var id = document.getElementById("id").value;
+            var updatestatus = status;
+            var rowNo=count;
+            var url ="";
+            for(var j=1;j<=count;j++){
+            this["selectedproductID"+j]=document.getElementById("selectedproductID"+j).value;
+            this["quantity"+j]=document.getElementById("productquantity"+j).value-document.getElementById("quantity"+j).value;
+            var tempurl ="&selectedproductID"+j+"="+this["selectedproductID"+j]+"&quantity"+j+"="+this["quantity"+j];
+            url+=tempurl;
+            }
+            document.location.href="updateOrderStatusQuantity?id="+id+"&status="+updatestatus+"&rowNo="+rowNo+url;
+        }
     </script>
       <div class="row">
 
@@ -670,6 +685,9 @@
                          else if(status.equals("Rejected")){
                             out.println("<td><span class=\"badge bg-danger\">"+status+"</span></td>");
                          }
+                         else if(status.equals("Cancelled")){
+                            out.println("<td><span class=\"badge bg-danger\">"+status+"</span></td>");
+                         }
                       %>
                       
                     </tr>
@@ -688,8 +706,12 @@
                       <th>Collect Date / Time</th>
                       <th>:</th>
                       <%
+                          LocalDateTime now = LocalDateTime.now();
+                          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+                          String currentTime = now.format(formatter);
+                          
                           if(status.equals("Pending")||status.equals("Accepted")||status.equals("Prepared")){
-                              out.println("<td><input type=\"datetime-local\" id=\"collectDateTime\" value='"+collectDateoutputedit+"'></td>");
+                              out.println("<td><input type=\"datetime-local\" min='"+currentTime+"' id=\"collectDateTime\" value='"+collectDateoutputedit+"'></td>");
                           }
                           else{
                               out.println("<td>"+collectDateoutput+"</td>");
@@ -708,7 +730,7 @@
                       </tr>
                     </thead>
                      <tbody>
-                    <%  
+                    <%
                         int count = 0;
                         String queryorderproductRow = "SELECT count(*) FROM orderproduct WHERE orderID='"+id+"'";
                         Statement storderproductRow = con.createStatement();
@@ -717,10 +739,11 @@
                         int rowNo = rsorderproductRow.getInt(1);
                         
                         String excludedOrderID ="";
-                        String queryexcludedOrderID = "SELECT * FROM `order` WHERE status IN ('Completed','Rejected')";
-                        out.println(queryexcludedOrderID);
+                        String queryexcludedOrderID = "SELECT * FROM `order` WHERE status IN ('Completed','Rejected','Cancelled')";
+                        
                         Statement storderexcluded = con.createStatement();
                         ResultSet rsorderexcluded = storderexcluded.executeQuery(queryexcludedOrderID);
+                        
                         while(rsorderexcluded.next()){
                                 excludedOrderID += rsorderexcluded.getString(1);
                         }
@@ -733,9 +756,14 @@
                             out.println("<input type=\"hidden\" id=\"selectedproductID"+count+"\" value='"+selectedproductID+"'>");
                             int orderProductquantity = rsorderproduct.getInt(3);
                             int totalorderproductquantity=0;
+                            String queryorderproductQuantity="";
+                            if (excludedOrderID.isEmpty()){
+                                queryorderproductQuantity = "SELECT * FROM orderproduct WHERE productID='"+selectedproductID+"'";
+                            }
+                            else{
+                                queryorderproductQuantity = "SELECT * FROM orderproduct WHERE productID='"+selectedproductID+"' AND orderID NOT IN ('"+excludedOrderID+"')";
+                            }
                             
-                            String queryorderproductQuantity = "SELECT * FROM orderproduct WHERE productID='"+selectedproductID+"' AND orderID NOT IN ('"+excludedOrderID+"')";
-//                            out.println(queryorderproductQuantity);
                             ResultSet rsorderproductQuantity = storderproductRow.executeQuery(queryorderproductQuantity);
                             while(rsorderproductQuantity.next()){
                                 totalorderproductquantity+=rsorderproductQuantity.getInt(3);
@@ -747,10 +775,11 @@
                             ResultSet rsProduct=stProduct.executeQuery(queryProduct);
                             rsProduct.next();
                             int productquantity = rsProduct.getInt(6);
+                            out.println("<input type=\"hidden\" id=\"productquantity"+count+"\" name=\"productquantity"+count+"\" value='"+productquantity+"'>");
                             int max = productquantity - totalorderproductquantity+orderProductquantity;
                             String itemname = rsProduct.getString(2);
                             double itemprice = rsProduct.getDouble(4);
-                            if(status.equals("Completed")||status.equals("Rejected")){
+                            if(status.equals("Completed")||status.equals("Rejected")||status.equals("Cancelled")){
                             out.println("<td>"+itemname+"</td>");
                             out.println("<td>"+orderProductquantity+"</td>");
                             out.println("<span id=\"itemprice"+count+"\" hidden>"+itemprice+"</span>");
@@ -773,8 +802,8 @@
                             out.println("<input type=\"hidden\" id=\"subtotal"+count+"\" name=\"subtotal"+count+"\" value='"+subtotal+"'>");
                             double temptotalprice =totalprice-subtotal;
                             out.println("<input type=\"hidden\" id=\"total\" name=\"totalprice\" value='"+temptotalprice+"'>");
-                            out.println("<td><a href='deleteOrderProduct?id="+id+"&productID="+selectedproductID+"&totalprice="+temptotalprice+"'onclick=' return confirm("+'"'+"Are you sure to delete this Item "+selectedproductID+"?"+'"'+")"+"';\"calcTotalafterDel("+count+")\";><button><i class='bx bxs-trash'></i></button></a></td>");
-//                         
+                            out.println("<td><a href='deleteOrderProduct?id="+id+"&productID="+selectedproductID+"&totalprice="+temptotalprice+"'onclick=' return confirm("+'"'+"Are you sure to delete this Item ?"+'"'+")"+"';\"calcTotalafterDel("+count+")\";><button><i class='bx bxs-trash'></i></button></a></td>");
+                         
                             out.println("</tr>");
                             }
 //                            totalPrice+=subtotal;
@@ -799,26 +828,26 @@
                     <div class="text-center">
                         <input type="hidden" id="id" value="<%=id%>" >
 
-                      <button type="button" class="btn btn-warning">Print</button>
+                      <button type="button" class="btn btn-warning" onclick="window.print()">Print</button>
                       <a href="ManageOrder.jsp" class="btn btn-secondary">Cancel</a>
                       
                       <%
                         if(status.equals("Pending")){
                             out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
                              status="Accepted";
-                             out.println("<a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-dark\">Accept</a>");
+                             out.println("<br><br>Status Update: <a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-dark\">Accept</a>");
                              status="Rejected";
                              out.println("<a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-danger\">Reject</a>");
                         }
                          else if(status.equals("Accepted")){
                              out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
                              status="Prepared";
-                            out.println("<a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-info text-dark\">Prepared</a>");
+                            out.println("<br><br>Status Update: <a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-info text-dark\">Prepared</a>");
                          }
                          else if(status.equals("Prepared")){
                              out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
                              status="Completed";
-                            out.println("<a onclick=\"updateStatus('"+status+"')\" class=\"btn btn-success\">Complete</a>");
+                            out.println("<br><br>Status Update: <a onclick=\"updateStatusQuantity('"+status+"','"+count+"')\" class=\"btn btn-success\">Complete</a>");
                          }
                       %>
                     </div>

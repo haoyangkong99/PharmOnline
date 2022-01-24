@@ -54,7 +54,16 @@
 </head>
 
 <body>
-
+    <%
+        if(request.getMethod().equals("GET") && request.getSession().getAttribute("loggedIn") == null){
+           
+        out.println("<script type=\"text/javascript\">");
+        out.println("alert('Please Login First!');");
+        out.println("location='login.jsp';");
+        out.println("</script>");
+        }
+        
+    %>
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -227,7 +236,7 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Desmond Heng</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2">H.Winson</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -577,7 +586,10 @@
                         String userName="root";
                         String password="";
                         String query="SELECT * FROM `order`";
-                        
+                        User user = new User();
+                        user=(User)session.getAttribute("user");
+                        String userID = user.getUserID();
+                        query="SELECT * FROM `order` WHERE `customerID`='"+userID+"'";
                         Class.forName(driver);
                         Connection con=DriverManager.getConnection(url,userName,password);
                         Statement st=con.createStatement();
@@ -614,31 +626,27 @@
                             out.println("<td> RM"+rs.getString(4).toString()+"</td>");
                             if(rs.getString(5).equals("Completed")){
                             out.println("<td><span class=\"badge bg-success\">"+rs.getString(5)+"</span></td>");
-                             out.println("<td><a href='EditOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
+                             out.println("<td><a href='ViewOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             }
                             else if(rs.getString(5).equals("Accepted")){
                             out.println("<td><span class=\"badge bg-dark\">"+rs.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><button><i class='bx bxs-trash'></i></button></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs.getString(1)+"'><button><i class=\"bx bxs-edit\"></i></button></a></td>");
-//                            
+                            out.println("<td><a href='ViewOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");//                            
                             }
                             else if(rs.getString(5).equals("Rejected")){
                             out.println("<td><span class=\"badge bg-danger\">"+rs.getString(5)+"</span></td>");
-                            out.println("<td><a href='EditOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
+                            out.println("<td><a href='ViewOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             }
                             else if(rs.getString(5).equals("Pending")){
                             out.println("<td><span class=\"badge bg-secondary\">"+rs.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><button><i class='bx bxs-trash'></i></button></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs.getString(1)+"'><button><i class=\"bx bxs-edit\"></i></button></a></td>");
+                            out.println("<td><a href='ViewOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             }
                            else if(rs.getString(5).equals("Prepared")){
                             out.println("<td><span class=\"badge bg-info text-dark\">"+rs.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><button><i class='bx bxs-trash'></i></button></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs.getString(1)+"'><button><i class=\"bx bxs-edit\"></i></button></a></td>");
+                            out.println("<td><a href='ViewOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             }
                             else if(rs.getString(5).equals("Cancelled")){
                             out.println("<td><span class=\"badge bg-danger\">"+rs.getString(5)+"</span></td>");
-                            out.println("<td><a href='EditOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
+                            out.println("<td><a href='ViewOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             }
                             out.println("</tr>");
                         }
@@ -662,7 +670,7 @@
                         String url1="jdbc:mysql://localhost/"+dbName1+"?";
                         String userName1="root";
                         String password1="";
-                        String query1="SELECT * FROM `order`";
+                        String query1="SELECT * FROM `order` WHERE `customerID`='"+userID+"'";
                         
                         Class.forName(driver1);
                         Connection con1=DriverManager.getConnection(url1,userName1,password1);
@@ -727,7 +735,7 @@
                         String url2="jdbc:mysql://localhost/"+dbName2+"?";
                         String userName2="root";
                         String password2="";
-                        String query2="SELECT * FROM `order`";
+                        String query2="SELECT * FROM `order` WHERE `customerID`='"+userID+"'";
                         
                         Class.forName(driver2);
                         Connection con2=DriverManager.getConnection(url2,userName2,password2);
@@ -884,7 +892,7 @@
                         String url3="jdbc:mysql://localhost/"+dbName3+"?";
                         String userName3="root";
                         String password3="";
-                        String query3="SELECT * FROM `order`";
+                        String query3="SELECT * FROM `order` WHERE `customerID`='"+userID+"'";
                         
                         Class.forName(driver3);
                         Connection con3=DriverManager.getConnection(url3,userName3,password3);
@@ -948,7 +956,7 @@
                         String url4="jdbc:mysql://localhost/"+dbName4+"?";
                         String userName4="root";
                         String password4="";
-                        String query4="SELECT * FROM `order`";
+                        String query4="SELECT * FROM `order` WHERE `customerID`='"+userID+"'";
                         
                         Class.forName(driver4);
                         Connection con4=DriverManager.getConnection(url4,userName4,password4);
@@ -1007,7 +1015,7 @@
                         String url5="jdbc:mysql://localhost/"+dbName5+"?";
                         String userName5="root";
                         String password5="";
-                        String query5="SELECT * FROM `order`";
+                        String query5="SELECT * FROM `order` WHERE `customerID`='"+userID+"'";
                         
                         Class.forName(driver5);
                         Connection con5=DriverManager.getConnection(url5,userName5,password5);
@@ -1066,7 +1074,7 @@
                         String url6="jdbc:mysql://localhost/"+dbName6+"?";
                         String userName6="root";
                         String password6="";
-                        String query6="SELECT * FROM `order`";
+                        String query6="SELECT * FROM `order` WHERE `customerID`='"+userID+"'";
                         
                         Class.forName(driver6);
                         Connection con6=DriverManager.getConnection(url6,userName6,password6);
@@ -1105,7 +1113,7 @@
                             out.println("<td> RM"+rs6.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-danger\">"+rs6.getString(5)+"</span></td>");
-                            out.println("<td><a href='EditOrder.jsp?id="+rs6.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
+                            out.println("<td><a href='ViewOrder.jsp?id="+rs6.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             out.println("</tr>");}
                             
                         }

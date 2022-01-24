@@ -4,6 +4,7 @@
     Author     : user
 --%>
 
+<%@page import="com.bean.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.io.PrintWriter"%>
@@ -226,7 +227,7 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">H.Winson</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2">Desmond Heng</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -560,12 +561,14 @@
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-rejected">Rejected</button>
                 </li>
-                
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-cancelled">Cancelled</button>
+                </li>
               </ul>
               <div class="tab-content pt-2">
 
                 <div class="tab-pane fade show active profile-overview" id="all-orders">
-                  
+                    
                     <%
                         out.println("<tbody>");
                         String driver ="com.mysql.jdbc.Driver";
@@ -632,6 +635,10 @@
                             out.println("<td><span class=\"badge bg-info text-dark\">"+rs.getString(5)+"</span></td>");
                             out.println("<td><a href='deleteOrder?orderID="+rs.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><button><i class='bx bxs-trash'></i></button></a>");
                             out.println("<a href='EditOrder.jsp?id="+rs.getString(1)+"'><button><i class=\"bx bxs-edit\"></i></button></a></td>");
+                            }
+                            else if(rs.getString(5).equals("Cancelled")){
+                            out.println("<td><span class=\"badge bg-danger\">"+rs.getString(5)+"</span></td>");
+                            out.println("<td><a href='EditOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             }
                             out.println("</tr>");
                         }
@@ -980,6 +987,7 @@
                             out.println("<td> RM"+rs4.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-success\">"+rs4.getString(5)+"</span></td>");
+                            out.println("<td><a href='EditOrder.jsp?id="+rs4.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             out.println("</tr>");}
                             
                         }
@@ -1038,7 +1046,7 @@
                             out.println("<td> RM"+rs5.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-danger\">"+rs5.getString(5)+"</span></td>");
-                            
+                            out.println("<td><a href='EditOrder.jsp?id="+rs5.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             out.println("</tr>");}
                             
                         }
@@ -1048,6 +1056,65 @@
 
                         st5.close();
                         con5.close();
+                    %>
+                    </div>
+                    <div class="tab-pane fade pt-3" id="profile-change-cancelled">
+                        <%
+                        out.println("<tbody>");
+                        String driver6 ="com.mysql.jdbc.Driver";
+                        String dbName6="PharmOnline";
+                        String url6="jdbc:mysql://localhost/"+dbName6+"?";
+                        String userName6="root";
+                        String password6="";
+                        String query6="SELECT * FROM `order`";
+                        
+                        Class.forName(driver6);
+                        Connection con6=DriverManager.getConnection(url6,userName6,password6);
+                        Statement st6=con6.createStatement();
+                        ResultSet rs6=st6.executeQuery(query6);
+                        
+                        out.println("<table class=\"table\">");
+                        out.println("<thead>");
+                        out.println("<tr>");
+                        out.println("<th scope=\"col\">Order ID</th>");
+                        out.println(" <th scope=\"col\">Order Date / Time</th>");
+                        out.println(" <th scope=\"col\">Collect Date / Time</th>");
+                        out.println(" <th scope=\"col\">Amount</th>");
+                        out.println("<th scope=\"col\">Status</th>");
+                        out.println(" <th scope=\"col\">Action</th>");
+                        out.println("</tr>");
+                        out.println(" </thead>");
+                        while(rs6.next()){
+                            if(rs6.getString(5).equals("Cancelled")){
+                            String orderDateTime=rs6.getString(2).toString();
+                            String collectDateTime=rs6.getString(3).toString();
+                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            DateFormat outputformat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
+                            Date orderdate = null;
+                            String orderDateoutput = null;
+                            Date collectdate = null;
+                            String collectDateoutput = null;
+                            orderdate= df.parse(orderDateTime);
+                            orderDateoutput = outputformat.format(orderdate);
+                            collectdate= df.parse(collectDateTime);
+                            collectDateoutput = outputformat.format(collectdate);
+                            out.println("<tr>");
+                            out.println("<td>"+rs6.getString(1)+"</td>");
+                            out.println("<td>"+orderDateoutput+"</td>");
+                            out.println("<td>"+collectDateoutput+"</td>");
+                            out.println("<td> RM"+rs6.getString(4).toString()+"</td>");
+                            
+                            out.println("<td><span class=\"badge bg-danger\">"+rs6.getString(5)+"</span></td>");
+                            out.println("<td><a href='EditOrder.jsp?id="+rs6.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
+                            out.println("</tr>");}
+                            
+                        }
+                        out.println("</table>");
+                        out.println("</tbody>");
+                        
+
+                        st6.close();
+                        con6.close();
                     %>
                     </div>
               </div><!-- End Bordered Tabs -->
