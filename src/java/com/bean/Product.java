@@ -92,7 +92,7 @@ public class Product {
         this.price = price;
     }  
     
-     public void insertIntoDB() throws ClassNotFoundException, SQLException{
+    public void insertIntoDB() throws ClassNotFoundException, SQLException{
         
         String driver = "com.mysql.jdbc.Driver";
         String dbName = "pharmonline";
@@ -145,7 +145,7 @@ public class Product {
      
         st.setBlob(1, this.picture);
         st.setString(2, this.ID);
-         st.executeUpdate();
+        st.executeUpdate();
         st.close();
         con.close();
     }

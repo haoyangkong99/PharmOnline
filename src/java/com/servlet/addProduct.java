@@ -38,6 +38,8 @@ public class addProduct extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException {
@@ -49,7 +51,7 @@ public class addProduct extends HttpServlet {
         double product_price = Double.parseDouble(request.getParameter("product_price"));
         String product_category = request.getParameter("product_category");
         int quantity=0;
-        InputStream inputStream=null;
+        InputStream inputStream;
         Part filePart = request.getPart("product_image");
         inputStream = filePart.getInputStream();
         
@@ -106,7 +108,7 @@ public class addProduct extends HttpServlet {
             newProduct.setPrice(product_price);
             newProduct.setQuantity(quantity);
             newProduct.setPicture(inputStream);
-            newProduct.setStatus("Deactivated");
+            newProduct.setStatus("Deactivate");
             
             newProduct.insertIntoDB();
 
