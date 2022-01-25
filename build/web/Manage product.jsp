@@ -259,7 +259,8 @@
                      <div class="row mb-3">
                   <label for="inputText" class="col-sm-4 col-form-label">Product Selling Price (RM):</label>
                   <div class="col-sm-7">
-                    <input type="number"  name="new_product_price" step="0.1" required class="form-control">
+                      <input type="number"  name="product_price" step="0.1" required class="form-control">
+<!--                    <input type="text"  name="product_price" required class="form-control">-->
                   </div>
                         </div>
                     
@@ -294,7 +295,7 @@
                      <div class="row mb-3">
                   <label for="inputNumber" class="col-sm-4 col-form-label">Product Picture</label>
                   <div class="col-sm-7">
-                    <input class="form-control" type="file" id="formFile" name="new_product_image"  accept="image/*">
+                    <input class="form-control" type="file" id="formFile" name="product_image"  accept="image/*">
                   </div>
                 </div>
                     
