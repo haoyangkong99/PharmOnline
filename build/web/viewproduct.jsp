@@ -283,7 +283,7 @@
 
                   %>
 <!--            <img src="data:image/jpeg;base64" />-->
-<img src="data:;base64,<%= base64Image%>"  class="card-img-top" alt="..." style="max-height: 500px;max-width: 500px; height: auto; width: auto;"  />
+<img src="data:;base64,<%= base64Image%>"  class="card-img-top" alt="..." style="height: 500px; width: 500px;"  />
              <form action="AddtoCart" method="post">
             <div class="card-body">
                 <h5 class="card-title" style="font-size: 120%;"><%=rs.getString(2)%></h5>
