@@ -32,10 +32,13 @@
         }
         User user = new User();
         user=(User)session.getAttribute("user");
-        String userID = user.getUserID();
+        String userID="";
+        if (user!=null){
+            userID = user.getUserID();
+        }
     ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
     
-    if (cart_list != null) {
+    if (cart_list!= null) {
 	request.setAttribute("cart-list", cart_list);
     }
     else{
@@ -277,13 +280,13 @@
                       
                       <th>Collect Date / Time</th>
                       <th>:</th>
-                      <%
+                      <%--
                           LocalDateTime now = LocalDateTime.now();
                           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
                           String currentTime = now.format(formatter);
                               out.println("<td><input type=\"datetime-local\" min='"+currentTime+"' id=\"collectDateTime\" value='"+currentTime+"'></td>");
                           
-                      %>
+                      --%>
                     </tr>
                     </table>
                   <table class="table">
@@ -297,7 +300,7 @@
                       </tr>
                     </thead>
                      <tbody>
-                    <%
+                    <%--
                         String driver ="com.mysql.jdbc.Driver";
                         String dbName="PharmOnline";
                         String url="jdbc:mysql://localhost/"+dbName+"?";
@@ -320,8 +323,10 @@
                         while(rsorderexcluded.next()){
                                 excludedOrderID += rsorderexcluded.getString(1);
                         }
+                        if (excludedOrderID.length()>3){
                         excludedOrderID = excludedOrderID.replaceAll("(.{2})", "$0','");
                         excludedOrderID = excludedOrderID.substring(0, excludedOrderID.length() - 3);
+                        }
                         String queryorderproductQuantity="";
                         double totalprice = 0;
                         
@@ -370,10 +375,10 @@
                         <th></th>
                         <td></td>
                         <th>Total :</th>
-                        <% 
+                        <%--
                            out.println("<td><span id=\"totalprice\">"+totalprice0+"</td>");
-                        %>
-                       <input type="hidden" id="totalp" value="<%=totalprice0%>">
+                        --%>
+                       <input type="hidden" id="totalp" value="<%--=totalprice0--%>">
                        
                         <td></td>
                       </tr>
@@ -383,8 +388,10 @@
                     </div>
                     <div class="text-center">
                     <%
+                       if (cart_list!= null) {
                       out.println("<a onclick=\"PlaceOrder('"+cart_list.size()+"');\" class=\"btn btn-success\">Place Order</a>");
-                    %>  
+                       }
+                   %>  
                     </div>
             
                 <!--</form>-->

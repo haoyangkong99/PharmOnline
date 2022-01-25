@@ -426,9 +426,10 @@
                         while(rsorderexcluded.next()){
                                 excludedOrderID += rsorderexcluded.getString(1);
                         }
+                        if (excludedOrderID.length()>3){
                         excludedOrderID = excludedOrderID.replaceAll("(.{2})", "$0','");
                         excludedOrderID = excludedOrderID.substring(0, excludedOrderID.length() - 3);
-                        
+                        }
                         while(rsorderproduct.next()){
                             count++;
                             String selectedproductID = rsorderproduct.getString(2);
