@@ -624,45 +624,56 @@
                         %>
                     <form action="editStock" method="post">
                   <table>
-                      <tr>
-                          <th>Transaction ID</th>
-                          <th>:</th>
+                      <tr> <td><label for="inputText" class="col-sm-auto col-form-label">Transaction ID</label></td>
+                    <td>:</td>
+                          
                           <td>
-                              <input type="text" value="<%= id%>"  disabled>
+                              <div class="col-sm-10">
+                        
+                        <input type="text" class="form-control" value="<%= id%>"  disabled>
+                         </div>
+                              
                           </td>
                       </tr>
                       
                        <tr>
-                      <th>Operation</th>
-                      <th>:</th>
+                      <td><label for="inputText" class="col-sm-auto col-form-label">Operation</label></td>
+                    <td>:</td>
                       <td>
+                          
                           <%
                               if (operation.equals("Add Stock"))
                               {
-                         out.println("<input type=\"radio\" name=\"action\" value=\"Add Stock\"  checked required>Add Stock");
-                      out.println("<input type=\"radio\" name=\"action\" value=\"Return Stock\">Return Stock");
+                         out.println(" <div class=\"form-check\"><input type=\"radio\" class=\"form-check-input\" name=\"action\" value=\"Add Stock\"  checked required><label class=\"form-check-label\" for=\"gridRadios1\">Add Stock</div>");
+                      out.println("<div class=\"form-check\"><input type=\"radio\" class=\"form-check-input\" name=\"action\" value=\"Return Stock\"><label class=\"form-check-label\" for=\"gridRadios1\">Return Stock</div>");
                               }
                               else
                               {
-                                   out.println("<input type=\"radio\" name=\"action\" value=\"Add Stock\"   required>Add Stock");
-                      out.println("<input type=\"radio\" name=\"action\" value=\"Return Stock\" checked>Return Stock");
+                                  out.println(" <div class=\"form-check\"><input type=\"radio\" class=\"form-check-input\" name=\"action\" value=\"Add Stock\"   required><label class=\"form-check-label\" for=\"gridRadios1\">Add Stock</div>");
+                      out.println("<div class=\"form-check\"><input type=\"radio\" class=\"form-check-input\" name=\"action\" value=\"Return Stock\" checked><label class=\"form-check-label\" for=\"gridRadios1\">Return Stock</div>");
+                           
                               }
                               %>
 
                       </td>
                     </tr>
                     <tr>
-                      <th>Reference No</th>
-                      <th>:</th>
+                      <td><label for="inputText" class="col-sm-auto col-form-label">Reference No</label></td>
+                    <td>:</td>
                       <td>
-                        <input type="text" name="reference" value="<%= reference%>"required>
+                           <div class="col-sm-10">
+                       
+                         <input type="text" name="reference" class="form-control" value="<%= reference%>"required>
+                         </div>
+                       
                       </td>
                     </tr>
                     <tr>
-                        <th>Suppliers</th>
-                      <th>:</th>
+                        <td><label for="inputText" class="col-sm-auto col-form-label">Suppliers</label></td>
+                    <td>:</td>
                       <td>
-                          <select name="supplier" >
+                           <div class="col-sm-10">
+                          <select class="form-select" aria-label="Default select example" name="supplier" >
                            <%
                            out.println("<option value='"+selectedsupplierID+"'>"+selectedSupplierName+"</option>");
                            while (rsSupplierList.next())
@@ -676,14 +687,16 @@
                                }
                            };
                            %>
-                              
+                          </select>
+                           </div>   
                       </td>
                     </tr>
                     <tr>
-                      <th>Product Name</th>
-                      <th>:</th>
+                       <td><label for="inputText" class="col-sm-auto col-form-label">Product Name</label></td>
+                    <td>:</td>
                       <td>
-                        <select name="product" >
+                          <div class="col-sm-10">
+                        <select name="product" class="form-select" aria-label="Default select example" >
                           <%
                            out.println("<option value='"+productID+"'>"+selectedProductName+"</option>");
                            while (rsProductAll.next())
@@ -698,37 +711,52 @@
                            };
                            %>
                         </select>
+                        </div>
                       </td>
                     </tr>
                                        
 
                     <tr>
-                      <th>Cost</th>
-                      <th>:</th>
+                      <td><label for="inputText" class="col-sm-auto col-form-label">Cost (RM)</label></td>
+                    <td>:</td>
                       <td>
-                          RM <input type="number" name="cost" step="0.01" required value="<%= cost%>">
+                          <div class="col-sm-10">
+                           <input type="number" class="form-control" name="cost" step="0.01" required value="<%= cost%>">
+                           </div>
                       </td>
                     </tr>
                     <tr>
-                      <th>Quantity</th>
-                      <th>:</th>
+                      <td><label for="inputText" class="col-sm-auto col-form-label">Quantity</label></td>
+                    <td>:</td>
                       <td>
-                          <input type="number" name="quantity"  step="0.01"value="<%= quantity%>" required>
+                           <div class="col-sm-10">
+                         
+                           <input type="number" class="form-control" name="quantity"  step="1"value="<%= (int)quantity%>" required>
+                           </div>
+                          
                       </td>
                     </tr>
                     
                      <tr>
-                      <th>Arrival Date</th>
-                      <th>:</th>
+                      <td><label for="inputText" class="col-sm-auto col-form-label">Arrival Date</label></td>
+                    <td>:</td>
                       <td>
-                        <input type="date" name="arrival" value="<%=arrivaldate%>" required>
+                          <div class="col-sm-10">
+                        
+                          <input type="date"  class="form-control" name="arrival" value="<%=arrivaldate%>" required>
+                          </div>
+                        
                       </td>
                     </tr>
                     <tr>
-                      <th>Expiry Date</th>
-                      <th>:</th>
+                      <td><label for="inputText" class="col-sm-auto col-form-label">Expiry Date</label></td>
+                    <td>:</td>
                       <td>
-                        <input type="date" name="expiry" value="<%=expirydate%>" required>
+                          <div class="col-sm-10">
+                        <input type="date" class="form-control" name="expiry" value="<%=expirydate%>" required>
+                          
+                          </div>
+                        
                       </td>
                     </tr>
                     

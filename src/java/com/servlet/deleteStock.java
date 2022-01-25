@@ -10,7 +10,9 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -40,10 +42,56 @@ public class deleteStock extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String id=request.getParameter("id");
+         String driver ="com.mysql.jdbc.Driver";
+        String dbName="PharmOnline";
+        String url="jdbc:mysql://localhost/"+dbName+"?";
+        String userName="root";
+        String password="";
+        try {
+            Class.forName(driver);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Stock.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Connection con=DriverManager.getConnection(url,userName,password);
+         String queryStock="SELECT * FROM stock where stockTransactionID='"+id+"'";
+         Statement stStock=con.createStatement();
+         ResultSet rsStock=stStock.executeQuery(queryStock);
+         rsStock.next();
+         
+         String DBOperation=rsStock.getString(2);
+         String DBProductID=rsStock.getString(4);
+         double DBQuantity=rsStock.getDouble(6);
         Stock deleteStock=new Stock();
         deleteStock.setStockTransactionID(id);
-        deleteStock.deleteStockFromDB();
-           response.sendRedirect("Manage stock.jsp");
+        String queryProduct="SELECT * FROM product where product_ID='"+DBProductID+"'";
+                         Statement st=con.createStatement();
+        ResultSet rs=st.executeQuery(queryProduct);
+        rs.next();
+        int productTableQuantity=rs.getInt(6);
+         PrintWriter out = response.getWriter();
+         if (DBOperation.equals("Add Stock"))
+         {
+             if (DBQuantity>productTableQuantity)
+             {
+                            out.println("<script type=\"text/javascript\">");
+            out.println("alert('The operation of stock deletion can only be done if the quantity of the stock deleted does not exceed the current product quantity');");
+            out.println("location='Manage stock.jsp';");
+            out.println("</script>");
+             }
+             else
+             {
+                 deleteStock.updateProductQuantity("Return Stock", DBProductID, DBQuantity);
+                 deleteStock.deleteStockFromDB();
+                 response.sendRedirect("Manage stock.jsp");
+             }
+         }
+         else
+         {
+             deleteStock.updateProductQuantity("Add Stock", DBProductID, DBQuantity);
+                 deleteStock.deleteStockFromDB();
+                 response.sendRedirect("Manage stock.jsp");
+         }
+   
 
     }
 

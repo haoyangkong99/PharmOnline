@@ -604,30 +604,55 @@ String date=rs.getDate(6).toString();
                   <table>
 
                      <tr>
-                     <th>Supplier Name</th>
-                    <th>:</th>
+                      <td><label for="inputText" class="col-sm-auto col-form-label">Suppliers Name</label></td>
+                    <td>:</td>
                      <td>
-             <input type="text" name="suppliername" value="<%=name%>" required> </td></tr>
+                         <div class="col-sm-auto">
+                 
+                    <input type="text" class="form-control" name="suppliername" value="<%=name%>" required> 
+                  </div>
+             </td></tr>
                       <tr>
-                     <th>Contact Number</th>
-                    <th>:</th>
+                      <td><label for="inputText" class="col-sm-auto col-form-label">Contact Number</label></td>
+                      <td>:</td>
                      <td>
-             <input type="text" name="contact" value="<%=contact%>" required> </td></tr>
+                         <div class="col-sm-auto">
+                     <input type="text" class="form-control" name="contact" value="<%=contact%>" required>
+                  </div>
+              </td></tr>
                       <tr>
-                     <th>Address</th>
-                    <th>:</th>
+                     <td><label for="inputText" class="col-sm-auto col-form-label">Address</label></td>
+                      <td>:</td>
                      <td>
-             <input type="text" name="address" value="<%=address%>" required> </td></tr>
+                         <div class="col-sm-auto">
+                   
+                    <input type="text" class="form-control" name="address" value="<%=address%>" required>
+                  </div>
+             
+                     
+                     </td></tr>
                       <tr>
-                     <th>Description</th>
-                    <th>:</th>
+                    <td><label for="inputText" class="col-sm-auto col-form-label">Description</label>
+                          </td>
+                      <td>:</td>
                      <td>
-             <input type="text" name="description" value="<%=description%>" required> </td></tr>
+                         <div class="col-sm-auto">
+                    
+                    
+<input type="text" class="form-control" name="description" value="<%=description%>" required>
+                  </div>
+              </td></tr>
                       <tr>
-                     <th>Join Date</th>
-                    <th>:</th>
+                    <td><label for="inputText" class="col-sm-auto col-form-label">Join Date</label>
+                          </td>
+                      <td>:</td>
                      <td>
-             <input type="date" name="date" value="<%=date%>" required> </td></tr>
+                         <div class="col-sm-auto">
+                   
+                   
+                    <input type="date" class="form-control" name="date" value="<%=date%>" required>
+                  </div>
+              </td></tr>
             
                     
 
