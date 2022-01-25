@@ -331,7 +331,6 @@
                         <th scope="col">Item</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Pricing (RM)</th>
-                        <th scope="col">Action</th>
                       </tr>
                     </thead>
                      <tbody>
@@ -352,8 +351,8 @@
                         while(rsorderexcluded.next()){
                                 excludedOrderID += rsorderexcluded.getString(1);
                         }
-                        if (!excludedOrderID.isEmpty()){
-                        excludedOrderID = excludedOrderID.replaceAll("(.{2})", "$0','");
+                        if (excludedOrderID.length()>3){
+                        excludedOrderID = excludedOrderID.replaceAll("(.{3})", "$0','");
                         excludedOrderID = excludedOrderID.substring(0, excludedOrderID.length() - 3);
                         }
                         while(rsorderproduct.next()){
@@ -380,7 +379,6 @@
                             String subtotal2 = String.format("%.2f",subtotal);
                             out.println("<td><span id=\"subtotal"+count+"\">"+subtotal2+"</td>");
                             double temptotalprice =totalprice-subtotal;
-                            out.println("<td></td>");
                             out.println("</tr>");
 //                            totalPrice+=subtotal;
                         }
@@ -395,7 +393,6 @@
                            out.println("<td><span id=\"totalprice\">"+totalprice0+"</td>");
                        %>
                        <input type="hidden" id="totalp" value="<%=totalprice0%>">
-                        <td></td>
                       </tr>
                     </tbody>
                     

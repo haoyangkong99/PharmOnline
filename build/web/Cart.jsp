@@ -324,7 +324,7 @@
                                 excludedOrderID += rsorderexcluded.getString(1);
                         }
                         if (excludedOrderID.length()>3){
-                        excludedOrderID = excludedOrderID.replaceAll("(.{2})", "$0','");
+                        excludedOrderID = excludedOrderID.replaceAll("(.{3})", "$0','");
                         excludedOrderID = excludedOrderID.substring(0, excludedOrderID.length() - 3);
                         }
                         String queryorderproductQuantity="";
@@ -349,7 +349,7 @@
                                 while(rsorderproductQuantity.next()){
                                 totalorderproductquantity+=rsorderproductQuantity.getInt(3);
                                 }
-                                int max = productquantity - totalorderproductquantity+cart_list.get(count).getItemquantity();
+                                int max = productquantity;
                                 out.println("<tr>");
                                 int index=count+1;
                                 out.println("<input type=\"hidden\" id=\"selectedproductID"+index+"\" value='"+selectedproductID+"'>");

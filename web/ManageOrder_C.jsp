@@ -371,8 +371,7 @@
                             out.println("<td> RM"+rs1.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-secondary\">"+rs1.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs1.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs1.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
+                           out.println("<td><a href='ViewOrder.jsp?id="+rs1.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             
                             out.println("</tr>");}
                         }
@@ -437,8 +436,7 @@
                             out.println("<td> RM"+rs2.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-info text-dark\">"+rs2.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs2.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs2.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
+                            out.println("<td><a href='ViewOrder.jsp?id="+rs2.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             
                             out.println("</tr>");}
                         }
@@ -504,8 +502,7 @@
                             out.println("<td> RM"+rs3.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-dark\">"+rs3.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs3.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs3.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
+                            out.println("<td><a href='ViewOrder.jsp?id="+rs3.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
 //                           
                             out.println("</tr>");}
                         }
@@ -567,7 +564,7 @@
                             out.println("<td> RM"+rs4.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-success\">"+rs4.getString(5)+"</span></td>");
-                            out.println("<td><a href='EditOrder.jsp?id="+rs4.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
+                            out.println("<td><a href='ViewOrder.jsp?id="+rs4.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             out.println("</tr>");}
                             
                         }
@@ -626,7 +623,7 @@
                             out.println("<td> RM"+rs5.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-danger\">"+rs5.getString(5)+"</span></td>");
-                            out.println("<td><a href='EditOrder.jsp?id="+rs5.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
+                            out.println("<td><a href='ViewOrder.jsp?id="+rs5.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             out.println("</tr>");}
                             
                         }

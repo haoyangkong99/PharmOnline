@@ -427,7 +427,7 @@
                                 excludedOrderID += rsorderexcluded.getString(1);
                         }
                         if (excludedOrderID.length()>3){
-                        excludedOrderID = excludedOrderID.replaceAll("(.{2})", "$0','");
+                        excludedOrderID = excludedOrderID.replaceAll("(.{3})", "$0','");
                         excludedOrderID = excludedOrderID.substring(0, excludedOrderID.length() - 3);
                         }
                         while(rsorderproduct.next()){
@@ -441,7 +441,7 @@
                                 queryorderproductQuantity = "SELECT * FROM orderproduct WHERE productID='"+selectedproductID+"'";
                             }
                             else{
-                                queryorderproductQuantity = "SELECT * FROM orderproduct WHERE productID='"+selectedproductID+"' AND orderID NOT IN ('"+excludedOrderID+"')";
+                               queryorderproductQuantity = "SELECT * FROM orderproduct WHERE productID='"+selectedproductID+"' AND orderID NOT IN ('"+excludedOrderID+"')";
                             }
                             
                             ResultSet rsorderproductQuantity = storderproductRow.executeQuery(queryorderproductQuantity);
@@ -456,7 +456,13 @@
                             rsProduct.next();
                             int productquantity = rsProduct.getInt(6);
                             out.println("<input type=\"hidden\" id=\"productquantity"+count+"\" name=\"productquantity"+count+"\" value='"+productquantity+"'>");
-                            int max = productquantity - totalorderproductquantity+orderProductquantity;
+                            int max = 0;
+                                if (totalorderproductquantity!=0){
+                                max = productquantity - totalorderproductquantity+orderProductquantity;
+                                }
+                                else{
+                                    max = productquantity;
+                                }
                             String itemname = rsProduct.getString(2);
                             double itemprice = rsProduct.getDouble(4);
                             if(status.equals("Completed")||status.equals("Rejected")||status.equals("Cancelled")){
@@ -482,7 +488,7 @@
                             out.println("<input type=\"hidden\" id=\"subtotal"+count+"\" name=\"subtotal"+count+"\" value='"+subtotal+"'>");
                             double temptotalprice =totalprice-subtotal;
                             out.println("<input type=\"hidden\" id=\"total\" name=\"totalprice\" value='"+temptotalprice+"'>");
-                            out.println("<td><a href='deleteOrderProduct?id="+id+"&productID="+selectedproductID+"&totalprice="+temptotalprice+"'onclick=' return confirm("+'"'+"Are you sure to delete this Item ?"+'"'+")"+"';\"calcTotalafterDel("+count+")\";><button><i class='bx bxs-trash'></i></button></a></td>");
+                            out.println("<td><a href='deleteOrderProduct?id="+id+"&productID="+selectedproductID+"&totalprice="+temptotalprice+"'onclick=' return confirm("+'"'+"Are you sure to delete this Item ?"+'"'+")"+"';\"calcTotalafterDel("+count+")\";><i class='bx bxs-trash'></i></a></td>");
                          
                             out.println("</tr>");
                             }
