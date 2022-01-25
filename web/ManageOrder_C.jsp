@@ -26,7 +26,7 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/icon_PharmOnline.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -64,24 +64,18 @@
         }
         
     %>
-  <!-- ======= Header ======= -->
+<!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.html" class="logo d-flex align-items-center">
-        <img src="assets/img/PharmOnlineLogo1.png" alt="">
-        <span class="d-none d-lg-block"></span>
+       <img src="assets/img/PharmOnlineLogo1.png" alt="">
+
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
-    <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
-        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-      </form>
-    </div><!-- End Search Bar -->
-
+ 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
@@ -90,159 +84,25 @@
             <i class="bi bi-search"></i>
           </a>
         </li><!-- End Search Icon-->
+        
+         <li class="nav-item dropdown">
 
-        <li class="nav-item dropdown">
-
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number">4</span>
+         <a class="nav-link nav-icon" href="Cart.jsp">
+            <i class="bi bi-cart"></i>
           </a><!-- End Notification Icon -->
 
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-            <li class="dropdown-header">
-              You have 4 new notifications
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-exclamation-circle text-warning"></i>
-              <div>
-                <h4>Lorem Ipsum</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>30 min. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-x-circle text-danger"></i>
-              <div>
-                <h4>Atque rerum nesciunt</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>1 hr. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-check-circle text-success"></i>
-              <div>
-                <h4>Sit rerum fuga</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>2 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-info-circle text-primary"></i>
-              <div>
-                <h4>Dicta reprehenderit</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>4 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li class="dropdown-footer">
-              <a href="#">Show all notifications</a>
-            </li>
-
-          </ul><!-- End Notification Dropdown Items -->
-
-        </li><!-- End Notification Nav -->
-
-        <li class="nav-item dropdown">
-
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-chat-left-text"></i>
-            <span class="badge bg-success badge-number">3</span>
-          </a><!-- End Messages Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-            <li class="dropdown-header">
-              You have 3 new messages
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>Maria Hudson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>4 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>Anna Nelson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>6 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>David Muldon</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>8 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="dropdown-footer">
-              <a href="#">Show all messages</a>
-            </li>
-
-          </ul><!-- End Messages Dropdown Items -->
-
-        </li><!-- End Messages Nav -->
-
+       
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">H.Winson</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2">Desmond Heng</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
+              <h6>Desmond Heng</h6>
+              <span>Pharmacist</span>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -294,238 +154,40 @@
   </header><!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
+<aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="index.html">
+        <a class="nav-link " href="viewproduct.jsp">
           <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
+          <span>Home</span>
         </a>
       </li><!-- End Dashboard Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>
+       <li class="nav-item">
+        <a class="nav-link collapsed" href="Cart.jsp">
+          <i class="bi bi-cart"></i>
+          <span>Cart</span>
         </a>
-        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="components-alerts.html">
-              <i class="bi bi-circle"></i><span>Alerts</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-accordion.html">
-              <i class="bi bi-circle"></i><span>Accordion</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-badges.html">
-              <i class="bi bi-circle"></i><span>Badges</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-breadcrumbs.html">
-              <i class="bi bi-circle"></i><span>Breadcrumbs</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-buttons.html">
-              <i class="bi bi-circle"></i><span>Buttons</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-cards.html">
-              <i class="bi bi-circle"></i><span>Cards</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-carousel.html">
-              <i class="bi bi-circle"></i><span>Carousel</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-list-group.html">
-              <i class="bi bi-circle"></i><span>List group</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-modal.html">
-              <i class="bi bi-circle"></i><span>Modal</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-tabs.html">
-              <i class="bi bi-circle"></i><span>Tabs</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-pagination.html">
-              <i class="bi bi-circle"></i><span>Pagination</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-progress.html">
-              <i class="bi bi-circle"></i><span>Progress</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-spinners.html">
-              <i class="bi bi-circle"></i><span>Spinners</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-tooltips.html">
-              <i class="bi bi-circle"></i><span>Tooltips</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Components Nav -->
-
+      </li><!-- End Profile Page Nav -->
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" href="ManageOrder_C.jsp">
+          <i class="bi bi-clipboard-check"></i>
+          <span>Manage order</span>
         </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="forms-elements.html">
-              <i class="bi bi-circle"></i><span>Form Elements</span>
-            </a>
-          </li>
-          <li>
-            <a href="forms-layouts.html">
-              <i class="bi bi-circle"></i><span>Form Layouts</span>
-            </a>
-          </li>
-          <li>
-            <a href="forms-editors.html">
-              <i class="bi bi-circle"></i><span>Form Editors</span>
-            </a>
-          </li>
-          <li>
-            <a href="forms-validation.html">
-              <i class="bi bi-circle"></i><span>Form Validation</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Forms Nav -->
-
+      </li><!-- End Profile Page Nav -->
+      
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="tables-general.html">
-              <i class="bi bi-circle"></i><span>General Tables</span>
-            </a>
-          </li>
-          <li>
-            <a href="tables-data.html">
-              <i class="bi bi-circle"></i><span>Data Tables</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Tables Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="charts-chartjs.html">
-              <i class="bi bi-circle"></i><span>Chart.js</span>
-            </a>
-          </li>
-          <li>
-            <a href="charts-apexcharts.html">
-              <i class="bi bi-circle"></i><span>ApexCharts</span>
-            </a>
-          </li>
-          <li>
-            <a href="charts-echarts.html">
-              <i class="bi bi-circle"></i><span>ECharts</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Charts Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-gem"></i><span>Icons</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="icons-bootstrap.html">
-              <i class="bi bi-circle"></i><span>Bootstrap Icons</span>
-            </a>
-          </li>
-          <li>
-            <a href="icons-remix.html">
-              <i class="bi bi-circle"></i><span>Remix Icons</span>
-            </a>
-          </li>
-          <li>
-            <a href="icons-boxicons.html">
-              <i class="bi bi-circle"></i><span>Boxicons</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Icons Nav -->
-
-      <li class="nav-heading">Pages</li>
-
-      <li class="nav-item">
-        <a class="nav-link " href="users-profile.html">
+        <a class="nav-link collapsed" href="Profile.jsp">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
       </li><!-- End Profile Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-faq.html">
-          <i class="bi bi-question-circle"></i>
-          <span>F.A.Q</span>
-        </a>
-      </li><!-- End F.A.Q Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-contact.html">
-          <i class="bi bi-envelope"></i>
-          <span>Contact</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-register.html">
-          <i class="bi bi-card-list"></i>
-          <span>Register</span>
-        </a>
-      </li><!-- End Register Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-login.html">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Login</span>
-        </a>
-      </li><!-- End Login Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-error-404.html">
-          <i class="bi bi-dash-circle"></i>
-          <span>Error 404</span>
-        </a>
-      </li><!-- End Error 404 Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-blank.html">
-          <i class="bi bi-file-earmark"></i>
-          <span>Blank</span>
-        </a>
-      </li><!-- End Blank Page Nav -->
-
+  
+     
+    
+      
     </ul>
 
   </aside><!-- End Sidebar-->
@@ -595,7 +257,7 @@
                         Statement st=con.createStatement();
                         ResultSet rs=st.executeQuery(query);
                         
-                        out.println("<table class=\"table\">");
+                        out.println("<table class=\"table table-borderless datatable\">");
                         out.println("<thead>");
                         out.println("<tr>");
                         out.println("<th scope=\"col\">Order ID</th>");
@@ -676,7 +338,7 @@
                         Connection con1=DriverManager.getConnection(url1,userName1,password1);
                         Statement st1=con1.createStatement();
                         ResultSet rs1=st1.executeQuery(query1);
-                        out.println("<table class=\"table\">");
+                        out.println("<table class=\"table table-borderless datatable\">");
                         out.println("<thead>");
                         out.println("<tr>");
                         out.println("<th scope=\"col\">Order ID</th>");
@@ -709,8 +371,8 @@
                             out.println("<td> RM"+rs1.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-secondary\">"+rs1.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs1.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><button><i class='bx bxs-trash'></i></button></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs1.getString(1)+"'><button><i class=\"bx bxs-edit\"></i></button></a></td>");
+                            out.println("<td><a href='deleteOrder?orderID="+rs1.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
+                            out.println("<a href='EditOrder.jsp?id="+rs1.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
                             
                             out.println("</tr>");}
                         }
@@ -742,7 +404,7 @@
                         Statement st2=con2.createStatement();
                         ResultSet rs2=st2.executeQuery(query2);
                         
-                        out.println("<table class=\"table\">");
+                        out.println("<table class=\"table table-borderless datatable\">");
                         out.println("<thead>");
                         out.println("<tr>");
                         out.println("<th scope=\"col\">Order ID</th>");
@@ -775,8 +437,8 @@
                             out.println("<td> RM"+rs2.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-info text-dark\">"+rs2.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs2.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><button><i class='bx bxs-trash'></i></button></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs2.getString(1)+"'><button><i class=\"bx bxs-edit\"></i></button></a></td>");
+                            out.println("<td><a href='deleteOrder?orderID="+rs2.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
+                            out.println("<a href='EditOrder.jsp?id="+rs2.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
                             
                             out.println("</tr>");}
                         }
@@ -789,97 +451,7 @@
                         con2.close();
                         
                     %>
-<!--                  <form>
 
-                  <div class="row mb-3">
-                    <table class="table">
-                    <tr>
-                      <th>Order ID</th>
-                      <th>:</th>
-                      <td>Z001</td>
-                      <th>Status</th>
-                      <th>:</th>
-                      <td><span class="badge bg-info text-dark">Prepared</span></td>
-                    </tr>
-                    <tr>
-                      <th>Customer ID</th>
-                      <th>:</th>
-                      <td>880321015319</td>
-                      <th>Customer Name</th>
-                      <th>:</th>
-                      <td>Winson Heng</td>
-                    </tr>
-                    <tr>
-                      <th>Order Date / Time</th>
-                      <th>:</th>
-                      <td>15/09/2021, 06.00pm</td>
-                      <th>Collect Date / Time</th>
-                      <th>:</th>
-                      <td>16/09/2021, 10.00am</td>
-                    </tr>
-                    </table>
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Item</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Pricing</th>
-                        <th scope="col">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>PANADOL COATED 500MG 30S</td>
-                        <td>1</td>
-                        <td>RM11.80</td>
-                        <td><i class="bx bxs-trash"></i> <i class="bx bxs-edit"></i></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>SYSTANE ULTRA UNIT DOSE 0.4MLX24S (BC)</td>
-                        <td>1</td>
-                        <td>RM38.35</td>
-                        <td><i class="bx bxs-trash"></i> <i class="bx bxs-edit"></i></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>GAVISCON DOUBLE ACTION ANTACID TABLET 16S</td>
-                        <td>1</td>
-                        <td>RM22.50</td>
-                        <td><i class="bx bxs-trash"></i> <i class="bx bxs-edit"></i></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">4</th>
-                        <td>TIGER BALM ACTIVE MUSCLE GEL 60G</td>
-                        <td>2</td>
-                        <td>RM31.88</td>
-                        <td><i class="bx bxs-trash"></i> <i class="bx bxs-edit"></i></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">5</th>
-                        <td>PABRON COUGH SYRUP 120ML</td>
-                        <td>2</td>
-                        <td>RM21.80</td>
-                        <td><i class="bx bxs-trash"></i> <i class="bx bxs-edit"></i></td>
-                      </tr>
-                      <tr>
-                        <th></th>
-                        <td></td>
-                        <th>Total :</th>
-                        <td>RM126.33</td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                    
-                  </table>
-                    </div>
-                    <div class="text-center">
-                      <button type="button" class="btn btn-danger">Print</button>
-                      <button type="submit" class="btn btn-success">Complete</button>
-                    </div>
-                  </form> End settings Form -->
 
                 </div>
 
@@ -900,7 +472,7 @@
                         ResultSet rs3=st3.executeQuery(query3);
                   
                         
-                        out.println("<table class=\"table\">");
+                        out.println("<table class=\"table table-borderless datatable\">");
                         out.println("<thead>");
                         out.println("<tr>");
                         out.println("<th scope=\"col\">Order ID</th>");
@@ -932,8 +504,8 @@
                             out.println("<td> RM"+rs3.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-dark\">"+rs3.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs3.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><button><i class='bx bxs-trash'></i></button></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs3.getString(1)+"'><button><i class=\"bx bxs-edit\"></i></button></a></td>");
+                            out.println("<td><a href='deleteOrder?orderID="+rs3.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
+                            out.println("<a href='EditOrder.jsp?id="+rs3.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
 //                           
                             out.println("</tr>");}
                         }
@@ -963,7 +535,7 @@
                         Statement st4=con4.createStatement();
                         ResultSet rs4=st4.executeQuery(query4);
                         
-                        out.println("<table class=\"table\">");
+                        out.println("<table class=\"table table-borderless datatable\">");
                         out.println("<thead>");
                         out.println("<tr>");
                         out.println("<th scope=\"col\">Order ID</th>");
@@ -1022,7 +594,7 @@
                         Statement st5=con5.createStatement();
                         ResultSet rs5=st5.executeQuery(query5);
                         
-                        out.println("<table class=\"table\">");
+                        out.println("<table class=\"table table-borderless datatable\">");
                         out.println("<thead>");
                         out.println("<tr>");
                         out.println("<th scope=\"col\">Order ID</th>");
@@ -1081,7 +653,7 @@
                         Statement st6=con6.createStatement();
                         ResultSet rs6=st6.executeQuery(query6);
                         
-                        out.println("<table class=\"table\">");
+                        out.println("<table class=\"table table-borderless datatable\">");
                         out.println("<thead>");
                         out.println("<tr>");
                         out.println("<th scope=\"col\">Order ID</th>");
