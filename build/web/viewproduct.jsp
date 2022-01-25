@@ -245,10 +245,10 @@
         <%
             String query = "";
             if (abc.equals("*"))
-               query = "SELECT * FROM product WHERE product_Status='Activate'";
+               query = "SELECT * FROM product WHERE product_Status='Activate' AND product_Quantity>0";
              
            else{
-              query="SELECT * FROM product WHERE product_Status='Activate' AND product_Category='"+abc+"'";   
+              query="SELECT * FROM product WHERE product_Status='Activate' AND product_Category='"+abc+"' AND product_Quantity>0";   
            }
            
             int i = 1;

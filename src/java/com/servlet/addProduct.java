@@ -108,7 +108,7 @@ public class addProduct extends HttpServlet {
             newProduct.setPrice(product_price);
             newProduct.setQuantity(quantity);
             newProduct.setPicture(inputStream);
-            newProduct.setStatus("Deactivate");
+            newProduct.setStatus("Activate");
             
             newProduct.insertIntoDB();
 
