@@ -53,7 +53,7 @@ public class stockOperation extends HttpServlet {
          java.sql.Date sqlexpiry = new java.sql.Date(expiry.getTime());
          double cost=Double.parseDouble(request.getParameter("cost"));
          double quantity=Double.parseDouble(request.getParameter("quantity"));
-       
+         PrintWriter out = response.getWriter();
          Stock stockOperation=new Stock ();
          stockOperation.setArrivalDate(sqlarrival);
          stockOperation.setCost(cost);
@@ -63,13 +63,24 @@ public class stockOperation extends HttpServlet {
          stockOperation.setQuantity(quantity);
          stockOperation.setReferenceNo(reference);
          stockOperation.setSupplierID(supplierID);
-         stockOperation.addStockToDB();
+         if (stockOperation.verifyStockOperation(action, productID, quantity))
+         {
+              stockOperation.addStockToDB();
+              response.sendRedirect("Manage stock.jsp");
+         }
+         else
+         {
+             out.println("<script type=\"text/javascript\">");
+            out.println("alert('The product quantity for return stock cannot exceed the current product quantity');");
+            out.println("location='Manage stock.jsp';");
+            out.println("</script>");
+         }
+        
        
-try (PrintWriter out = response.getWriter())
-{
+
 //out.println("<p>"+cost+"</p>");
-     response.sendRedirect("Manage stock.jsp");
-}
+     
+
           
       
     }

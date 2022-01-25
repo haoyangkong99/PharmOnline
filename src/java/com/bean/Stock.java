@@ -145,9 +145,85 @@ public class Stock {
            statement.setDate(8, arrivalDate);
            statement.setDate(9, expiryDate);
            statement.executeUpdate();
+           
+          
+           updateProductQuantity(operation,productID,quantity);
+           
            statement.close();
            st.close();
            stcheck.close();
+           con.close();
+    }
+   
+    public boolean verifyStockOperation (String operation,String productID, double quantity) throws SQLException
+    {
+        String driver ="com.mysql.jdbc.Driver";
+        String dbName="PharmOnline";
+        String url="jdbc:mysql://localhost/"+dbName+"?";
+        String userName="root";
+        String password="";
+        try {
+            Class.forName(driver);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Stock.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Connection con=DriverManager.getConnection(url,userName,password);
+        String query="SELECT * FROM product where product_ID='"+productID+"'";
+        Statement st=con.createStatement();
+        ResultSet rs=st.executeQuery(query);
+        rs.next();
+        int productquantity=rs.getInt(6);
+        if (operation.equals("Add Stock"))
+        {
+            return true;
+        }
+        else
+        {
+            if (quantity>productquantity)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+    public void updateProductQuantity (String operation,String productID, double quantity) throws SQLException
+    {
+          String driver ="com.mysql.jdbc.Driver";
+        String dbName="PharmOnline";
+        String url="jdbc:mysql://localhost/"+dbName+"?";
+        String userName="root";
+        String password="";
+        try {
+            Class.forName(driver);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Stock.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          Connection con=DriverManager.getConnection(url,userName,password);
+         String addStockGetQuantityQuery="SELECT * FROM product where product_ID='"+productID+"'";
+           String updateProductQuantityQuery="UPDATE `product` SET `product_Quantity`=? WHERE (`product_ID`=?) LIMIT 1";
+             
+           Statement addStockGetQuantityStatement=con.createStatement();
+          PreparedStatement updateProductQuantityStatement=con.prepareStatement(updateProductQuantityQuery);
+           ResultSet resultGetQuantity=addStockGetQuantityStatement.executeQuery(addStockGetQuantityQuery);
+           resultGetQuantity.next();
+           int productquantity=resultGetQuantity.getInt(6);
+           if (operation.equals("Add Stock"))
+           {
+               productquantity=productquantity+(int)quantity;
+               
+           }
+           else
+           {
+               productquantity=productquantity-(int)quantity;
+           }
+           updateProductQuantityStatement.setInt(1, productquantity);
+           updateProductQuantityStatement.setString(2, productID);
+           updateProductQuantityStatement.executeUpdate();
+           addStockGetQuantityStatement.close();
+           updateProductQuantityStatement.close();
            con.close();
     }
     public void deleteStockFromDB() throws SQLException
