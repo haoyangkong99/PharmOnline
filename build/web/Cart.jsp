@@ -280,13 +280,13 @@
                       
                       <th>Collect Date / Time</th>
                       <th>:</th>
-                      <%--
+                      <%
                           LocalDateTime now = LocalDateTime.now();
                           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
                           String currentTime = now.format(formatter);
                               out.println("<td><input type=\"datetime-local\" min='"+currentTime+"' id=\"collectDateTime\" value='"+currentTime+"'></td>");
                           
-                      --%>
+                      %>
                     </tr>
                     </table>
                   <table class="table">
@@ -300,7 +300,7 @@
                       </tr>
                     </thead>
                      <tbody>
-                    <%--
+                    <%
                         String driver ="com.mysql.jdbc.Driver";
                         String dbName="PharmOnline";
                         String url="jdbc:mysql://localhost/"+dbName+"?";
@@ -375,10 +375,10 @@
                         <th></th>
                         <td></td>
                         <th>Total :</th>
-                        <%--
+                        <%
                            out.println("<td><span id=\"totalprice\">"+totalprice0+"</td>");
-                        --%>
-                       <input type="hidden" id="totalp" value="<%--=totalprice0--%>">
+                        %>
+                       <input type="hidden" id="totalp" value="<%=totalprice0%>">
                        
                         <td></td>
                       </tr>
