@@ -292,8 +292,8 @@
               <p class="card-text"><%=rs.getString(3)%></p>
               <p class="card-text" style="color:red">RM<%=rs.getString(4)%></p>
               <input type="hidden" name="itemprice" value="<%=rs.getString(4)%>">
-              
-                <input type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" value="Order">
+            
+              <input type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" value="Order">
             </div>   
             </form>
           </div><!-- End Card with an image on top -->

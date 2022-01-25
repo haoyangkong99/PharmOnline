@@ -52,7 +52,10 @@ public class AddtoCart extends HttpServlet {
             if (cart_list == null) {
                 cartList.add(cm);
                 session.setAttribute("cart-list", cartList);
-                response.sendRedirect("viewproduct.jsp");
+                out.println("<script type=\"text/javascript\">");
+                     out.println("alert('This item is successfully added to cart.');");
+                     out.println("location=\"viewproduct.jsp\";");
+                     out.println("</script>");
             } else {
                 cartList = cart_list;
 
@@ -61,7 +64,7 @@ public class AddtoCart extends HttpServlet {
                     if (c.getItemID().equals(id)) {
                         exist = true;
                         out.println("<script type=\"text/javascript\">");
-                        out.println("alert('This Item Already in Cart.');");
+                        out.println("alert('This item already in cart.');");
                         out.println("location=\"Cart.jsp\";");
                         out.println("</script>");
                     }
@@ -69,7 +72,11 @@ public class AddtoCart extends HttpServlet {
 
                 if (!exist) {
                     cartList.add(cm);
-                    response.sendRedirect("viewproduct.jsp");
+                     out.println("<script type=\"text/javascript\">");
+                     out.println("alert('This item is successfully added to cart.');");
+                     out.println("location=\"viewproduct.jsp\";");
+                     out.println("</script>");
+                  
                 }
             }        
         }
