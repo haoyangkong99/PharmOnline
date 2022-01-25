@@ -40,6 +40,7 @@ public class editOrder extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
         String id=request.getParameter("id");
         double totalPrice = Double.parseDouble(request.getParameter("totalprice"));
         LocalDateTime collectDateTime1 = LocalDateTime.parse(request.getParameter("collectDateTime"));
@@ -61,8 +62,10 @@ public class editOrder extends HttpServlet {
             updateOrderProductquantity.setQuantity(quantity);
             updateOrderProductquantity.updateOrderProductQuantitytoDB();
         }
-        try (PrintWriter out = response.getWriter()) {
-            response.sendRedirect("EditOrder.jsp?id="+id+"");
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Changes have been saved successfully!');");
+            out.println("location=\"EditOrder.jsp?id="+id+"\";");
+            out.println("</script>");
         }
     }
 

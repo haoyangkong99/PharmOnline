@@ -46,6 +46,24 @@ public class OrderProduct{
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+    public void addOrderProducttoDB() throws SQLException, ClassNotFoundException
+    {
+        String driver ="com.mysql.jdbc.Driver";
+        String dbName="PharmOnline";
+        String url="jdbc:mysql://localhost/"+dbName+"?";
+        String userName="root";
+        String password="";
+        String queryOrderProduct = "INSERT INTO `orderproduct` (`orderID`, `productID`, `quantity`) VALUES (?, ?, ?)";
+        Class.forName(driver);
+        Connection con=DriverManager.getConnection(url,userName,password);
+        PreparedStatement statement=con.prepareStatement(queryOrderProduct);
+        statement.setString(1, orderID);
+        statement.setString(2, productID);
+        statement.setInt(3, quantity);
+        statement.executeUpdate();
+        statement.close();
+        con.close();
+    }
     public void deleteWholeOrderProductFromDB() throws SQLException, ClassNotFoundException{
         String driver ="com.mysql.jdbc.Driver";
         String dbName="PharmOnline";

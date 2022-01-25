@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
  * @author user
  */
 public class Order {
-    private String orderID, status;
+    private String orderID, status, customerID;
     private Timestamp orderDateTime, collectDateTime;
     private double totalprice;
     public Order(){}
@@ -41,6 +41,13 @@ public class Order {
         this.status = status;
     }
 
+    public String getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
+    }
     public Timestamp getOrderDateTime() {
         return orderDateTime;
     }
@@ -70,9 +77,9 @@ public class Order {
         String url="jdbc:mysql://localhost/"+dbName+"?";
         String userName="root";
         String password="";
-        String query = "SELECT count(*) FROM order";
-        String querycheck = "SELECT * FROM order";
-        String queryx="INSERT INTO `order` (`orderID`, `orderDateTime`, `collectDateTime`, `totalprice`, `status`) VALUES (?, ?, ?, ?, ?)";
+        String query = "SELECT count(*) FROM `order`";
+        String querycheck = "SELECT * FROM `order`";
+        String queryx="INSERT INTO `order` (`orderID`, `orderDateTime`, `collectDateTime`, `totalprice`, `status`, `customerID`) VALUES (?, ?, ?, ?, ?, ?)";
         Class.forName(driver);
         Connection con=DriverManager.getConnection(url,userName,password);
         Statement st=con.createStatement();
@@ -83,10 +90,10 @@ public class Order {
         rs.next();
         int count=rs.getInt(1);
         count++;
-        String ID="O"+String.valueOf(count);
+        String ID="OR"+String.valueOf(count);
         while (rsCheck.next())
         {
-            String []temp=rsCheck.getString(2).split("O");
+            String []temp=rsCheck.getString(1).split("OR");
             int number=Integer.parseInt(temp[1]);
             if (count<=number)
                {
@@ -94,7 +101,7 @@ public class Order {
                    
                }
         }
-        orderID="O"+String.valueOf(count);
+        orderID="OR"+String.valueOf(count);
         this.orderID=orderID;
         LocalDateTime now = LocalDateTime.now();
         this.orderDateTime = Timestamp.valueOf(now);
@@ -103,6 +110,7 @@ public class Order {
         statement.setTimestamp(3, collectDateTime);
         statement.setDouble(4, totalprice);
         statement.setString(5, "Pending");
+        statement.setString(6, this.customerID);
         statement.executeUpdate();
         st.close();
         statement.close();
@@ -189,6 +197,27 @@ public class Order {
         PreparedStatement st=con.prepareStatement("UPDATE `order` SET `collectDateTime`=? WHERE (`orderID`=?) LIMIT 1");
         st.setTimestamp(1, collectDateTime);
         st.setString(2, this.orderID);
+        st.executeUpdate();
+        st.close();
+        con.close();
+    }
+    
+    public void updateProductQuantity(String productID, int quantity) throws SQLException
+    {
+        String driver ="com.mysql.jdbc.Driver";
+        String dbName="PharmOnline";
+        String url="jdbc:mysql://localhost/"+dbName+"?";
+        String userName="root";
+        String password="";
+        try {
+            Class.forName(driver);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Connection con=DriverManager.getConnection(url,userName,password);
+        PreparedStatement st=con.prepareStatement("UPDATE `product` SET `product_Quantity`=? WHERE (`product_ID`=?) LIMIT 1");
+        st.setInt(1, quantity);
+        st.setString(2, productID);
         st.executeUpdate();
         st.close();
         con.close();

@@ -41,7 +41,12 @@ public class updateOrderStatus extends HttpServlet {
         updateOrderStatus.setOrderID(orderID);
         updateOrderStatus.setStatus(status);
         updateOrderStatus.updateOrderStatus();
+        if(status.equals("Cancelled")){
+        response.sendRedirect("ViewOrder.jsp?id="+orderID+"");
+        }
+        else{
         response.sendRedirect("EditOrder.jsp?id="+orderID+"");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
