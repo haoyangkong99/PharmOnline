@@ -48,12 +48,12 @@
 <body style="background-image: url('assets/img/testBackground3.jpg')">
 
   <main>
-    <div class="container" style="margin-top:0px; padding-top:0px;">
+    <div class="container">
 
-      <section class="section register min-vh-100 d-flex flex-column align-items-center py-4" style="margin-top:0px; padding-top:0px;">
-        <div class="container" style="margin-top:0px; padding-top:0px;">
-          <div class="row justify-content-center" style="margin-top:0px; padding-top:0px;">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center" style="margin-top:0px; padding-top:0px;">
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
               <div class="d-flex justify-content-center py-4" style="margin-top:0px; padding-top:0px;">
                 <a href="#" class="d-flex align-items-center w-auto" style="margin-top:0px; padding-top:0px;">
@@ -66,11 +66,11 @@
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Enter your OTP Code</h5>
-                    <p class="text-center small">An OTP Code has been sent to your email.</p>
+                    <h5 class="card-title text-center pb-0 fs-4">Reset Your Password</h5>
+                    <p class="text-center small">Enter and confirm your new password.</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" method="post" action="verifyOTP" novalidate>
+                  <form class="row g-3 needs-validation" method="post" action="resetPassword" novalidate>
 
                     <!--<div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
@@ -86,26 +86,28 @@
                     %>
                     
                     <div class="col-12">
-                      <label for="otp" class="form-label">OTP Code</label>
-                      <input type="text" name="enteredOTP" class="form-control w-100" id="enteredOTP" required>
-<!--                      <input type="hidden" name="trueOTP" class="form-control" id="trueOTP" value="trueOTP">-->
+                      <label for="newPW" class="form-label">New Password</label>
+                      <input type="password" name="newPW" class="form-control" id="newPW" required>
                       <input type="hidden" name="email" class="form-control" id="email" value="<%= email %>">
-                      <div class="invalid-feedback">Please enter your OTP Code!</div>
+                      <div class="invalid-feedback">Please enter your new password!</div>
                     </div>
 
+                    <div class="col-12">
+                      <label for="renewPW" class="form-label">Re-enter New Password</label>
+                      <input type="password" name="renewPW" class="form-control" id="renewPW" required>
+                      <div class="invalid-feedback">Please confirm your new password!</div>
+                    </div>
                     <!--<div class="col-12">
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
                         <label class="form-check-label" for="rememberMe">Remember me</label>
                       </div>
                     </div>-->
-                    
+
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Verify</button>
+                      <button class="btn btn-primary w-100" type="submit">Confirm</button>
                     </div>
-                    <div class="col-12">
-                      <a href="login.jsp" class="btn btn-primary w-100">Cancel</a>
-                    </div>                    <!--<div class="col-12">
+                    <!--<div class="col-12">
                       <p class="small mb-0">Remembered your password? <a href="/login">Login</a></p>
                     </div>
                     <div class="col-12">
@@ -132,6 +134,7 @@
 
     </div>
   </main><!-- End #main -->
+
 
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

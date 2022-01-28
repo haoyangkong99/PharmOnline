@@ -56,6 +56,10 @@
         <servlet-name>verifyOTP</servlet-name>
         <servlet-class>com.servlet.verifyOTP</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>resetPassword</servlet-name>
+        <servlet-class>com.servlet.resetPassword</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Register</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -111,6 +115,10 @@
     <servlet-mapping>
         <servlet-name>verifyOTP</servlet-name>
         <url-pattern>/verifyOTP</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>resetPassword</servlet-name>
+        <url-pattern>/resetPassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

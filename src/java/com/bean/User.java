@@ -116,7 +116,7 @@ public class User implements Serializable{
         String url = "jdbc:mysql://localhost/" + dbName + "?";
         String userName = "root";
         String pw = "";
-        String query = "UPDATE `pharmonline`.`user` SET `password` = '"+password+"' WHERE `username` = Cast('"+username+"' AS Binary("+ Integer.toString(username.length()) +")) LIMIT 1";
+        String query = "UPDATE `pharmonline`.`user` SET `password` = '"+this.password+"' WHERE `username` = Cast('"+this.username+"' AS Binary("+ Integer.toString(this.username.length()) +")) LIMIT 1";
         
         Class.forName(driver);  //Load Driver
         Connection con = DriverManager.getConnection(url, userName, pw);  // Set Connection
@@ -150,6 +150,39 @@ public class User implements Serializable{
             st.close();
             con.close();  
             return true;
+        }
+    }
+    
+    public boolean resetPassword(String newPW) throws ClassNotFoundException, SQLException{
+        
+        String driver = "com.mysql.jdbc.Driver";
+        String dbName = "pharmonline";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String pw = "";
+        String query = "SELECT username FROM `pharmonline`.`user` WHERE `email` = '"+ this.email +"' LIMIT 1";
+        
+        Class.forName(driver);  //Load Driver
+        Connection con = DriverManager.getConnection(url, userName, pw);  // Set Connection
+        Statement st = con.createStatement();   // create query
+        ResultSet rs = st.executeQuery(query); // Execute query
+        
+        if(rs.next()){
+
+            //rs.next();
+            this.setUsername(rs.getString(1));
+            this.setPassword(newPW);
+
+            st.close();
+            con.close();  
+            
+            this.updatePassword();
+            
+            return true;
+        }
+        
+        else{
+            return false;
         }
     }
 }

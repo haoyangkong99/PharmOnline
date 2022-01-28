@@ -12,7 +12,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>BookIt! - Reset Password</title>
+  <title>PharmOnline - Reset Password</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -80,12 +80,16 @@
                         <div class="invalid-feedback">Please enter your username.</div>
                       </div>
                     </div>-->
-
+                    
+                    <%
+                      String email = (String)session.getAttribute("otpEmail");
+                    %>
+                    
                     <div class="col-12">
                       <label for="otp" class="form-label">OTP Code</label>
                       <input type="text" name="enteredOTP" class="form-control w-100" id="enteredOTP" required>
-<!--                      <input type="hidden" name="trueOTP" class="form-control" id="trueOTP" value="trueOTP">
-                      <input type="hidden" name="email" class="form-control" id="email" value="email">-->
+<!--                      <input type="hidden" name="trueOTP" class="form-control" id="trueOTP" value="trueOTP">-->
+                      <input type="hidden" name="email" class="form-control" id="email" value="<%= email %>">
                       <div class="invalid-feedback">Please enter your OTP Code!</div>
                     </div>
 

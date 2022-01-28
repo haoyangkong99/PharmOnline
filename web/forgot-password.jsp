@@ -12,7 +12,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>BookIt! - Reset Password</title>
+  <title>PharmOnline - Reset Password</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 

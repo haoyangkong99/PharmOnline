@@ -4,9 +4,10 @@
  */
 package com.servlet;
 
+import com.bean.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author User
  */
-public class verifyOTP extends HttpServlet {
+public class resetPassword extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,27 +34,52 @@ public class verifyOTP extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
-        String enteredOTP = request.getParameter("enteredOTP");
+        User user = new User();
         
-        HttpSession session = request.getSession();
-        
-        String trueOTP = (String)session.getAttribute("otp");
         String email = request.getParameter("email");
-        session.setAttribute("otpEmail", email);
         
-        if(!(enteredOTP.equals(trueOTP))){
+        user.setEmail(email);
+        
+        String newPW = request.getParameter("newPW");
+        String renewPW = request.getParameter("renewPW");
+        
+        if(!newPW.equals(renewPW)){
             out.println("<script type=\"text/javascript\">");
-            out.println("alert('Incorrect OTP! Please try again');");
-            out.println("location='otp.jsp';");
+            out.println("alert('Passwords do not match! Please try again.');");
+            out.println("location='reset-password.jsp';");
             out.println("</script>");
         }
+        
         else{
-            RequestDispatcher rd = request.getRequestDispatcher("reset-password.jsp"); // Redirect to reset password page here
-            rd.forward(request, response);
+            
+            try{
+                if(user.resetPassword(renewPW)){
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Your password has been reset successfully!');");
+                    out.println("location='login.jsp';");
+                    out.println("</script>");
+                }
+                else{
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('An unexpected error occured, please try again later.');");
+                    out.println("location='login.jsp';");
+                    out.println("</script>");
+                }
+            }
+            catch (ClassNotFoundException e){
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('ClassNotFoundException');");
+                out.println("location='reset-password.jsp';");
+                out.println("</script>");
+            }
+            catch (SQLException e){
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('SQL Exception."+e.getMessage()+"');");
+                out.println("location='reset-password.jsp';");
+                out.println("</script>");
+            }
         }
-       
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -92,5 +118,4 @@ public class verifyOTP extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }
