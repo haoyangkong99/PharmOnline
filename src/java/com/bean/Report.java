@@ -219,4 +219,151 @@ public class Report implements Serializable {
         return percentage;
     }
     
+    
+    public int getTotalCustomers() throws ClassNotFoundException, SQLException{
+        
+        String driver = "com.mysql.jdbc.Driver";
+        String dbName = "pharmonline";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String pw = "";
+        String query = "SELECT * FROM `pharmonline`.`user` WHERE `userType` != 'Pharmacist';";
+        
+        Class.forName(driver);  //Load Driver
+        Connection con = DriverManager.getConnection(url, userName, pw);  // Set Connection
+        Statement st = con.createStatement();   // create query
+        ResultSet rs = st.executeQuery(query); // Execute query
+        
+        int count = 0;
+        
+        while(rs.next()){
+            count++;
+        }
+        
+        st.close();
+        con.close();
+        
+        return count;
+    }
+    
+    
+    public int getSupplierCount() throws ClassNotFoundException, SQLException{
+        
+        String driver = "com.mysql.jdbc.Driver";
+        String dbName = "pharmonline";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String pw = "";
+        String query = "SELECT * FROM `pharmonline`.`supplier`";
+        
+        Class.forName(driver);  //Load Driver
+        Connection con = DriverManager.getConnection(url, userName, pw);  // Set Connection
+        Statement st = con.createStatement();   // create query
+        ResultSet rs = st.executeQuery(query); // Execute query
+        
+        int count = 0;
+        
+        while(rs.next()){
+            count++;
+        }
+        
+        st.close();
+        con.close();
+        
+        return count;
+        
+    }
+    
+    
+    public int getSuppliersRegToday() throws ClassNotFoundException, SQLException{
+        
+        LocalDateTime now = LocalDateTime.now();
+        String datetime = Timestamp.valueOf(now).toString();
+        String date = datetime.substring(0, 10);
+        
+        String driver = "com.mysql.jdbc.Driver";
+        String dbName = "pharmonline";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String pw = "";
+        String query = "SELECT * FROM `pharmonline`.`supplier` WHERE `date` = '"+date+"';";
+        
+        Class.forName(driver);  //Load Driver
+        Connection con = DriverManager.getConnection(url, userName, pw);  // Set Connection
+        Statement st = con.createStatement();   // create query
+        ResultSet rs = st.executeQuery(query); // Execute query
+        
+        int count = 0;
+        
+        while(rs.next()){
+            count++;
+        }
+        
+        st.close();
+        con.close();
+        
+        return count;
+        
+    }
+    
+    
+    public int getActiveProductCount() throws ClassNotFoundException, SQLException{
+        
+        String driver = "com.mysql.jdbc.Driver";
+        String dbName = "pharmonline";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String pw = "";
+        String query = "SELECT * FROM `pharmonline`.`product` WHERE `product_Status` = 'Activate'";
+        
+        Class.forName(driver);  //Load Driver
+        Connection con = DriverManager.getConnection(url, userName, pw);  // Set Connection
+        Statement st = con.createStatement();   // create query
+        ResultSet rs = st.executeQuery(query); // Execute query
+        
+        int count = 0;
+        
+        while(rs.next()){
+            count++;
+        }
+        
+        st.close();
+        con.close();
+        
+        return count;
+        
+    }
+    
+    
+    public double getActiveProductPercentage() throws ClassNotFoundException, SQLException{
+        
+        this.products = this.getActiveProductCount();
+        
+        
+        String driver = "com.mysql.jdbc.Driver";
+        String dbName = "pharmonline";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String pw = "";
+        String query = "SELECT * FROM `pharmonline`.`product`";
+        
+        Class.forName(driver);  //Load Driver
+        Connection con = DriverManager.getConnection(url, userName, pw);  // Set Connection
+        Statement st = con.createStatement();   // create query
+        ResultSet rs = st.executeQuery(query); // Execute query
+        
+        int count = 0;
+        
+        while(rs.next()){
+            count++;
+        }
+        
+        st.close();
+        con.close();
+        
+        double percentage = (double)(this.products) / (double)(count) * 100;
+        
+        return percentage;
+    }
+    
 }
