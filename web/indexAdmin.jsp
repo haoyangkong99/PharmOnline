@@ -255,7 +255,7 @@
                     </div>
                     <div class="ps-3">
                         <h6><% Report report = new Report(); out.println(String.valueOf(report.getDailyTransactions())); %></h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                        <span class="text-success small pt-1 fw-bold"><% out.println(String.format("%.2f", report.getPercentCompletedOrder())); %>%</span> <span class="text-muted small pt-2 ps-1">of all orders today have been completed</span>
 
                     </div>
                   </div>
@@ -282,15 +282,15 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                  <h5 class="card-title">Sales <span>| Today</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-currency-dollar"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>RM3,264</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                        <h6>RM<% out.println(String.format("%.2f", report.getSalesToday())); %></h6>
+                      <span class="text-success small pt-1 fw-bold"><% out.println(String.format("%.2f", report.getSalesTodayPercentage())); %>%</span> <span class="text-muted small pt-2 ps-1">of all potential sales today.</span>
 
                     </div>
                   </div>
