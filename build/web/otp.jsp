@@ -70,7 +70,7 @@
                     <p class="text-center small">An OTP Code has been sent to your email.</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" method="post" action="/verifyOTP" novalidate>
+                  <form class="row g-3 needs-validation" method="post" action="verifyOTP" novalidate>
 
                     <!--<div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
@@ -84,8 +84,8 @@
                     <div class="col-12">
                       <label for="otp" class="form-label">OTP Code</label>
                       <input type="text" name="enteredOTP" class="form-control w-100" id="enteredOTP" required>
-                      <input type="hidden" name="trueOTP" class="form-control" id="trueOTP" value="trueOTP">
-                      <input type="hidden" name="email" class="form-control" id="email" value="email">
+<!--                      <input type="hidden" name="trueOTP" class="form-control" id="trueOTP" value="trueOTP">
+                      <input type="hidden" name="email" class="form-control" id="email" value="email">-->
                       <div class="invalid-feedback">Please enter your OTP Code!</div>
                     </div>
 
@@ -95,7 +95,7 @@
                         <label class="form-check-label" for="rememberMe">Remember me</label>
                       </div>
                     </div>-->
-
+                    
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Verify</button>
                     </div>

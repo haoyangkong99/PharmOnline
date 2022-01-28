@@ -4,12 +4,8 @@
  */
 package com.servlet;
 
-import com.bean.Mailer;
-import com.bean.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.Random;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +17,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author User
  */
-public class verifyEmail extends HttpServlet {
+public class verifyOTP extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,58 +31,26 @@ public class verifyEmail extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
         PrintWriter out = response.getWriter();
         
-        String enteredEmail = request.getParameter("enteredEmail");
+        String enteredOTP = request.getParameter("enteredOTP");
         
-        User user = new User();
+        HttpSession session = request.getSession();
         
-        user.setEmail(enteredEmail);
+        String trueOTP = (String)session.getAttribute("otp");
+        String email = (String)session.getAttribute("otpEmail");
         
-        try{
-            if(!(user.verifyEmail())){
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('This Email address had not been used to register a PharmOnline account.');");
-                out.println("location='login.jsp';");
-                out.println("</script>");
-            } 
-            else{
-                // It will generate 6 digit random Number.
-                // from 0 to 999999
-                Random rnd = new Random();
-                int number = rnd.nextInt(999999);
-
-                // this will convert any number sequence into 6 character.
-                String otp = String.format("%06d", number);
-                
-                HttpSession session = request.getSession();
-                session.setAttribute("otp", otp);
-                session.setAttribute("otpEmail", user.getEmail());
-                
-                String to = user.getEmail();  
-                String subject = "Your PharmOnline OTP";  
-                String msg = "Your PharmOnline OTP is " + otp;  
-
-                Mailer.send(to, subject, msg);  
-                
-                
-                RequestDispatcher rd = request.getRequestDispatcher("otp.jsp");
-                rd.forward(request, response);
-            }
-        }
-        catch (SQLException e){
+        if(!(enteredOTP.equals(trueOTP))){
             out.println("<script type=\"text/javascript\">");
-            out.println("alert('An SQLException was thrown."+ e.getMessage() +"');");
-            out.println("location='login.jsp';");
-            out.println("</script>");        
-        }
-        catch (ClassNotFoundException e){
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('A ClassNotFoundException was thrown."+ e.getMessage() +"');");
-            out.println("location='login.jsp';");
+            out.println("alert('Incorrect OTP! Please try again');");
+            out.println("location='otp.jsp';");
             out.println("</script>");
         }
+        else{
+            RequestDispatcher rd = request.getRequestDispatcher("login.jsp"); // Redirect to reset password page here
+            rd.forward(request, response);
+        }
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
