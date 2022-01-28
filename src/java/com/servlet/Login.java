@@ -86,13 +86,13 @@ public class Login extends HttpServlet {
                 if(user.getUserType().equals("Customer")){
                     out.println("<script type=\"text/javascript\">");
                     out.println("alert('Login Successful! Welcome, "+user.getFullname()+"');");
-                    out.println("location='index.html';");
+                    out.println("location='viewproduct.jsp';");
                     out.println("</script>"); 
                 }
                 else{
                     out.println("<script type=\"text/javascript\">");
                     out.println("alert('Login Successful! Welcome, "+user.getFullname()+"');");
-                    out.println("location='pages-faq.html';");
+                    out.println("location='indexAdmin.jsp';");
                     out.println("</script>"); 
                 }
             }
