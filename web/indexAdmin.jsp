@@ -521,12 +521,14 @@
             
             
             
-            
-            
-            <div class="col-xl-12">
+        
+                    
+        <!-- ORDER SUMMARY TABLE STARTS HERE -->
+        <div class="col-xl-12">
 
           <div class="card">
             <div class="card-body pt-3">
+                <h5 class="card-title">Orders Summary</h5>  
               <!-- Bordered Tabs -->
               <ul class="nav nav-tabs nav-tabs-bordered">
 
@@ -1018,10 +1020,13 @@
           </div>
 
         </div>
+        <!-- ORDER SUMMARY TABLE ENDS HERE -->   
             
             
-            
-            
+        <!--PRODUCT SUMMARY TABLE STARTS HERE
+        
+        
+        <!--PRODUCT SUMMARY TABLE ENDS HERE-->
             
           
           </div>
