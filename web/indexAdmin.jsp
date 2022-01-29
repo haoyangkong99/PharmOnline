@@ -67,6 +67,10 @@
             out.println("location='login.jsp';");
             out.println("</script>");
         }
+        if("GET".equals(request.getMethod())){
+             session.setAttribute("product_name","*");
+             session.setAttribute("category_name","*");
+        }
     %>
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
@@ -1024,31 +1028,7 @@
           <div class="card">
             <div class="card-body pt-3">
                 <h5 class="card-title">Products Summary</h5>  
-              <!-- Bordered Tabs -->
-<!--              <ul class="nav nav-tabs nav-tabs-bordered">
-
-                <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#all-orders">All Orders</button>
-                </li>
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-pending">Pending</button>
-                </li>
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-accepted">Accepted</button>
-                </li>
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-prepared">Prepared</button>
-                </li>
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-completed">Completed</button>
-                </li>
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-rejected">Rejected</button>
-                </li>
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-cancelled">Cancelled</button>
-                </li>
-              </ul>-->
+              
               <div class="tab-content pt-2">
 
                 <div class="tab-pane fade show active profile-overview" id="all-orders">
@@ -1098,19 +1078,7 @@
                             out.println("<td>"+rsProduct.getString(5)+"</td>");
                             out.println("<td>"+rsProduct.getString(6)+"</td>");
 
-                            //out.println( 
-                            //"<td> "+"<div style='display: block;'>");
-                            //out.println("<a href='deleteProduct?id="+rsProduct.getString(1)+"' onclick=' return confirm("+'"'+"Are you sure to delete this category"+'"'+")"+
-                            //        "'>");
-                            //out.println( "<i class='bx bxs-trash'></i>");
-                            //out.println("</a>");
-
-                            //out.println("<a href=\"editProduct.jsp?id="+rsProduct.getString(1)
-                            //        +"\">");
-                            //out.println( "<i class='bx bxs-edit'></i>");
-                            //out.println("</a>");
-
-                            //out.println("</div></td>");    
+                               
                             out.println("</tr>");
 
                         }
@@ -1134,8 +1102,185 @@
         </div>
                    
         <!--PRODUCT SUMMARY TABLE ENDS HERE-->
+        
+        
+        
+        
+        <!--CATEGORY SUMMARY TABLE STARTS HERE-->
+        
+        <div class="col-xl-12">
+
+          <div class="card">
+            <div class="card-body pt-3">
+                <h5 class="card-title">Category Summary</h5>  
+              
+              <div class="tab-content pt-2">
+
+                <div class="tab-pane fade show active profile-overview" id="all-orders">
+                    
+                    <%
+                        
+                        driver ="com.mysql.jdbc.Driver";
+                        dbName="PharmOnline";
+                        url="jdbc:mysql://localhost/"+dbName+"?";
+                        userName="root";
+                        password="";
+                        String queryCategory = "";
+                        String abcCategory = (String) session.getAttribute("category_name");
+                        if (abcCategory.equals("*")){
+                            queryCategory="SELECT * FROM category ";
+                        }
+                        else{
+                            queryCategory="SELECT * FROM category WHERE category_Name LIKE '%"+abcCategory+"%'";
+                        }
+
+                           Class.forName(driver);
+                           Connection conCategory=DriverManager.getConnection(url,userName,password);
+                           Statement stCategory=conCategory.createStatement();
+                           ResultSet rsCategory=stCategory.executeQuery(queryCategory);
+                        
+                        out.println("<table class=\"table table-borderless datatable\">");
+                        out.println("<thead>");
+                        out.println("<tr>");
+                        out.println("<th scope=\"col\">Product ID</th>");
+                        out.println(" <th scope=\"col\">Product Name</th>");
+                        out.println(" <th scope=\"col\">Description</th>");
+                        out.println("</tr>");
+                        out.println(" </thead>");
+                        out.println("<tbody>");
+                        int counterCategory=0;
+                        while (rsCategory.next())
+                        {
+                            counterCategory++;
+                            out.println("<tr>");
+                            out.println("<td>"+rsCategory.getString(1)+"</td>");
+                            out.println("<td>"+rsCategory.getString(2)+"</td>");
+                            out.println("<td>"+rsCategory.getString(3)+"</td>");
+    
+                            out.println("</tr>");
+
+                        }
+                        out.println("</tbody>");
+                        out.println("</table>");
+                        
+                        
+
+                        st.close();
+                        con.close();
+                    %>
+                  
+                </div>
+                
+                
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+        </div>
+        
+        <!--CATEGORY SUMMARY TABLE ENDS HERE-->
+        
+        
+        
+        
+        <!--SUPPLIER SUMMARY TABLE STARTS HERE-->
+        <div class="col-xl-12">
+
+          <div class="card">
+            <div class="card-body pt-3">
+                <h5 class="card-title">Supplier Summary</h5>  
+              
+              <div class="tab-content pt-2">
+
+                <div class="tab-pane fade show active profile-overview" id="all-orders">
+                    
+                    <%
+                        
+                        driver ="com.mysql.jdbc.Driver";
+                        dbName="PharmOnline";
+                        url="jdbc:mysql://localhost/"+dbName+"?";
+                        userName="root";
+                        password="";
+                        String querySupplier="SELECT * FROM Supplier ";
+        
+                        Class.forName(driver);
+                        Connection conSupplier=DriverManager.getConnection(url,userName,password);
+                        Statement stSupplier=conSupplier.createStatement();
+                        ResultSet rsSupplier=stSupplier.executeQuery(querySupplier);
+                        
+                        out.println("<table class=\"table table-borderless datatable\">");
+                        out.println("<thead>");
+                        out.println("<tr>");
+                        out.println("<th scope=\"col\">No</th>");
+                        out.println("<th scope=\"col\">Supplier<br>Name</th>");
+                        out.println(" <th scope=\"col\">Supplier<br>ID</th>");
+                        out.println(" <th scope=\"col\">Contact<br>No</th>");
+                        out.println(" <th scope=\"col\">Address</th>");
+                        out.println(" <th scope=\"col\">Description</th>");
+                        out.println(" <th scope=\"col\">Join Date</th>");
+                        out.println("</tr>");
+                        out.println(" </thead>");
+                        out.println("<tbody>");
+                        
+                        
+                int counterSupplier=0;
+            while (rsSupplier.next())
+            {
+                
+                counterSupplier++;
+                
+                
+               
+                out.println("<tr>");
+                out.println("<td>"+Integer.toString(counterSupplier)+"</td>");
+                out.println("<td>"+rsSupplier.getString(1)+"</td>");
+                out.println("<td>"+rsSupplier.getString(2)+"</td>");
+                out.println("<td>"+rsSupplier.getString(3)+"</td>");
+                out.println("<td>"+rsSupplier.getString(4)+"</td>");
+                out.println("<td>"+rsSupplier.getString(5)+"</td>");
+                out.println("<td>"+rsSupplier.getDate(6).toString()+"</td>");
+
+                //out.println( 
+                //"<td> "+"<div style='display: block;'>");
+                //out.println("<a href='deleteSupplier?id="+rs.getString(2)+"' onclick=' return confirm("+'"'+"Are you sure to delete this supplier"+'"'+")"+
+                //        "'>");
+                //out.println( "<i class='bx bxs-trash'></i>");
+                //out.println("</a>");
+
+                //out.println("<a href=\"Edit supplier.jsp?id="+rs.getString(2)
+                //        +"\">");
+                //out.println( "<i class='bx bxs-edit'></i>");
+                //out.println("</a>");
+
+                //out.println("</div></td>");
+               
+                out.println("</tr>");
             
-          
+            }
+                out.println("</tbody>");
+                out.println("</table>");
+
+
+
+                st.close();
+                con.close();
+                    %>
+                  
+                </div>
+                
+                
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+        </div>
+        <!--SUPPLIER SUMMARY TABLE ENDS HERE-->
+        
+        
+        
+        
           </div>
         </div><!-- End Left side columns -->
 
