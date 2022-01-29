@@ -49,7 +49,7 @@
 </head>
 
 <body>
-<%
+<%      User user = new User();
         if(request.getMethod().equals("GET") && request.getSession().getAttribute("loggedIn") == null){
 //           String redirectURL = "login.jsp";
 //           response.sendRedirect(redirectURL); 
@@ -60,16 +60,18 @@
         out.println("</script>");
         }
         
-        User user = (User) request.getSession().getAttribute("user");
+        else{user = (User) request.getSession().getAttribute("user");
         if(!user.getUserType().equals("Pharmacist")){
             out.println("<script type=\"text/javascript\">");
             out.println("alert('You do not have access to this page!');");
             out.println("location='login.jsp';");
             out.println("</script>");
         }
+
         if("GET".equals(request.getMethod())){
              session.setAttribute("product_name","*");
              session.setAttribute("category_name","*");
+
         }
     %>
   <!-- ======= Header ======= -->
