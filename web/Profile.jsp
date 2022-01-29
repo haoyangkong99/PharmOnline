@@ -124,12 +124,6 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
-            </li>
-            <li>
               <hr class="dropdown-divider">
             </li>
 
@@ -272,12 +266,7 @@
               <hr class="dropdown-divider">
             </li>
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
-            </li>
+
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -500,7 +489,7 @@
                     <div class="row mb-3">
                       <label for="phoneNum" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="phoneNum" type="tel" class="form-control" id="phoneNum" value="<jsp:getProperty name="user" property="phoneNum"/>">
+                        <input name="phoneNum" type="tel" class="form-control" id="phoneNum" placeholder="01x-xxxxxxxx" pattern="01[0-9]{1}-[0-9]{7,8}" value="<jsp:getProperty name="user" property="phoneNum"/>">
                       </div>
                     </div>
 

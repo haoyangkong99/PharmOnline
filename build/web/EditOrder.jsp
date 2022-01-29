@@ -19,6 +19,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.util.Date"%>
+<%@page import="com.bean.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,7 +61,25 @@
 </head>
 
 <body>
-
+<%
+        if(request.getMethod().equals("GET") && request.getSession().getAttribute("loggedIn") == null){
+//           String redirectURL = "login.jsp";
+//           response.sendRedirect(redirectURL); 
+           
+        out.println("<script type=\"text/javascript\">");
+        out.println("alert('Please Login First!');");
+        out.println("location='login.jsp';");
+        out.println("</script>");
+        }
+        
+        User user = (User) request.getSession().getAttribute("user");
+        if(!user.getUserType().equals("Pharmacist")){
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('You do not have access to this page!');");
+            out.println("location='login.jsp';");
+            out.println("</script>");
+        }
+    %>
 <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -81,26 +100,25 @@
             <i class="bi bi-search"></i>
           </a>
         </li><!-- End Search Icon-->
-
-       
+        
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Desmond Heng</span>
+            <img src="assets/img/noProfPic.png" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2"><jsp:getProperty name="user" property="username" /></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Desmond Heng</h6>
-              <span>Pharmacist</span>
+                <h6><jsp:getProperty name="user" property="fullname" /></h6>
+              <span><jsp:getProperty name="user" property="userType" /></span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="Profile.jsp">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
@@ -110,7 +128,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="Profile.jsp">
                 <i class="bi bi-gear"></i>
                 <span>Account Settings</span>
               </a>
@@ -119,26 +137,24 @@
               <hr class="dropdown-divider">
             </li>
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
-            </li>
+           
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <form action="Logout" method="post">
+              <div class="dropdown-item d-flex align-items-center">
                 <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
+                <input type="submit" value="Sign Out" style="background-color:transparent; border:0px solid transparent; padding-left:0px; width:100%; text-align:left;">
+              </div>
+              </form>
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
         </li><!-- End Profile Nav -->
 
+   
       </ul>
     </nav><!-- End Icons Navigation -->
 
@@ -150,13 +166,13 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="indexAdmin.jsp">
+        <a class="nav-link collapsed " href="indexAdmin.jsp">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="ManageOrder.jsp">
+        <a class="nav-link " href="ManageOrder.jsp">
           <i class="bi bi-clipboard-check"></i>
           <span>Manage order</span>
         </a>
@@ -410,6 +426,7 @@
                     </thead>
                      <tbody>
                     <%
+                         double showtotalprice=0;
                         int count = 0;
                         String queryorderproductRow = "SELECT count(*) FROM orderproduct WHERE orderID='"+id+"'";
                         Statement storderproductRow = con.createStatement();
@@ -465,11 +482,12 @@
                                 }
                             String itemname = rsProduct.getString(2);
                             double itemprice = rsProduct.getDouble(4);
+                            double subtotal;
                             if(status.equals("Completed")||status.equals("Rejected")||status.equals("Cancelled")){
                             out.println("<td>"+itemname+"</td>");
                             out.println("<td>"+orderProductquantity+"</td>");
                             out.println("<span id=\"itemprice"+count+"\" hidden>"+itemprice+"</span>");
-                            double subtotal=itemprice*orderProductquantity;
+                             subtotal=itemprice*orderProductquantity;
                             String subtotal2 = String.format("%.2f",subtotal);
                             out.println("<td><span id=\"subtotal"+count+"\">"+subtotal2+"</td>");
                             out.println("<input type=\"hidden\" id=\"subtotal"+count+"\" name=\"subtotal"+count+"\" value='"+subtotal+"'>");
@@ -480,9 +498,18 @@
                             }
                             else{
                             out.println("<td>"+itemname+"</td>");
-                            out.println("<td><input type=\"number\" step=\"1\" id=\"quantity"+count+"\" min=\"1\" max='"+max+"' value='"+orderProductquantity+"'oninput=\"calcsubitemprice("+count+"); calcTotal("+rowNo+");\" required></td>");
+                          int showquantity;
+                            if (orderProductquantity>max)
+                            {
+                                showquantity=max;
+                            }
+                            else
+                            {
+                                showquantity=orderProductquantity;
+                            }
+                            out.println("<td><input type=\"number\" step=\"1\" id=\"quantity"+count+"\" min=\"0\" max='"+max+"' value='"+showquantity+"'oninput=\"calcsubitemprice("+count+"); calcTotal("+rowNo+");\" required></td>");
                             out.println("<span id=\"itemprice"+count+"\" hidden>"+itemprice+"</span>");
-                            double subtotal=itemprice*orderProductquantity;
+                             subtotal=itemprice*showquantity;
                             String subtotal2 = String.format("%.2f",subtotal);
                             out.println("<td><span id=\"subtotal"+count+"\">"+subtotal2+"</td>");
                             out.println("<input type=\"hidden\" id=\"subtotal"+count+"\" name=\"subtotal"+count+"\" value='"+subtotal+"'>");
@@ -493,6 +520,9 @@
                             out.println("</tr>");
                             }
 //                            totalPrice+=subtotal;
+
+                           
+                            showtotalprice+=subtotal;
                         }
                     %>
                         
@@ -502,7 +532,8 @@
                         <th>Total :</th>
                         
                        <% 
-                           out.println("<td><span id=\"totalprice\">"+totalprice0+"</td>");
+//                           out.println("<td><span id=\"totalprice\">"+totalprice0+"</td>");
+                        out.println("<td><span id=\"totalprice\">"+String.format("%.2f",showtotalprice)+"</td>");
                        %>
                        <input type="hidden" id="totalp" value="<%=totalprice0%>">
                         <td></td>

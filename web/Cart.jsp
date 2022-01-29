@@ -36,6 +36,12 @@
         if (user!=null){
             userID = user.getUserID();
         }
+         if(!user.getUserType().equals("Customer")){
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('You do not have access to this page!');");
+            out.println("location='login.jsp';");
+            out.println("</script>");
+        }
     ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
     
     if (cart_list!= null) {
@@ -116,25 +122,25 @@
             <i class="bi bi-cart"></i>
           </a><!-- End Notification Icon -->
 
-       
+          
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Desmond Heng</span>
+            <img src="assets/img/noProfPic.png" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2"><jsp:getProperty name="user" property="username" /></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Desmond Heng</h6>
-              <span>Pharmacist</span>
+                <h6><jsp:getProperty name="user" property="fullname" /></h6>
+              <span><jsp:getProperty name="user" property="userType" /></span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="Profile.jsp">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
@@ -144,7 +150,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="Profile.jsp">
                 <i class="bi bi-gear"></i>
                 <span>Account Settings</span>
               </a>
@@ -153,21 +159,18 @@
               <hr class="dropdown-divider">
             </li>
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
-            </li>
+         
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <form action="Logout" method="post">
+              <div class="dropdown-item d-flex align-items-center">
                 <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
+                <input type="submit" value="Sign Out" style="background-color:transparent; border:0px solid transparent; padding-left:0px; width:100%; text-align:left;">
+              </div>
+              </form>
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
@@ -184,13 +187,13 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="viewproduct.jsp">
+        <a class="nav-link collapsed" href="viewproduct.jsp">
           <i class="bi bi-grid"></i>
           <span>Home</span>
         </a>
       </li><!-- End Dashboard Nav -->
        <li class="nav-item">
-        <a class="nav-link collapsed" href="Cart.jsp">
+        <a class="nav-link " href="Cart.jsp">
           <i class="bi bi-cart"></i>
           <span>Cart</span>
         </a>

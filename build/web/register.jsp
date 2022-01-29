@@ -94,7 +94,7 @@
 
                     <div class="col-12">
                       <label for="phoneNum" class="form-label">Your Phone Number</label>
-                      <input type="tel" name="phoneNum" class="form-control" id="phoneNum" required>
+                      <input type="tel" name="phoneNum" class="form-control" id="phoneNum" placeholder="01x-xxxxxxxx" pattern="01[0-9]{1}-[0-9]{7,8}" required>
                       <div class="invalid-feedback">Please enter a valid Phone Number!</div>
                     </div>
                       
