@@ -426,6 +426,7 @@
                     </thead>
                      <tbody>
                     <%
+                        Boolean checkExceedMax=false;
                          double showtotalprice=0;
                         int count = 0;
                         String queryorderproductRow = "SELECT count(*) FROM orderproduct WHERE orderID='"+id+"'";
@@ -502,12 +503,18 @@
                             if (orderProductquantity>max)
                             {
                                 showquantity=max;
+                                checkExceedMax=true;
                             }
                             else
                             {
                                 showquantity=orderProductquantity;
                             }
-                            out.println("<td><input type=\"number\" step=\"1\" id=\"quantity"+count+"\" min=\"0\" max='"+max+"' value='"+showquantity+"'oninput=\"calcsubitemprice("+count+"); calcTotal("+rowNo+");\" required></td>");
+                            out.println("<td><input type=\"number\" step=\"1\" id=\"quantity"+count+"\" min=\"0\" max='"+max+"' value='"+showquantity+"'oninput=\"calcsubitemprice("+count+"); calcTotal("+rowNo+");\" required>");
+                            if (orderProductquantity>max)
+                            {
+                                out.println("<span> (Insufficient items)</span>");
+                            }
+                            out.println("</td>");
                             out.println("<span id=\"itemprice"+count+"\" hidden>"+itemprice+"</span>");
                              subtotal=itemprice*showquantity;
                             String subtotal2 = String.format("%.2f",subtotal);
@@ -535,7 +542,7 @@
 //                           out.println("<td><span id=\"totalprice\">"+totalprice0+"</td>");
                         out.println("<td><span id=\"totalprice\">"+String.format("%.2f",showtotalprice)+"</td>");
                        %>
-                       <input type="hidden" id="totalp" value="<%=totalprice0%>">
+                       <input type="hidden" id="totalp" value="<%=showtotalprice%>">
                         <td></td>
                       </tr>
                     </tbody>
@@ -549,6 +556,7 @@
                       <a href="ManageOrder.jsp" class="btn btn-secondary">Cancel</a>
                       
                       <%
+                          if (!checkExceedMax){
                         if(status.equals("Pending")){
                             out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
                              status="Accepted";
@@ -565,7 +573,11 @@
                              out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
                              status="Completed";
                             out.println("<br><br>Status Update: <a onclick=\"updateStatusQuantity('"+status+"','"+count+"')\" class=\"btn btn-success\">Complete</a>");
-                         }
+                         }}
+                          else
+                          {
+                               out.println("<a onclick=\"callEditOrder('"+rowNo+"');\" class=\"btn btn-primary\">Save Changes</a>");
+                          }
                       %>
                     </div>
             
