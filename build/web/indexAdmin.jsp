@@ -1023,9 +1023,121 @@
         <!-- ORDER SUMMARY TABLE ENDS HERE -->   
             
             
-        <!--PRODUCT SUMMARY TABLE STARTS HERE
-        
-        
+        <!--PRODUCT SUMMARY TABLE STARTS HERE-->
+        <div class="col-xl-12">
+
+          <div class="card">
+            <div class="card-body pt-3">
+                <h5 class="card-title">Products Summary</h5>  
+              <!-- Bordered Tabs -->
+<!--              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <li class="nav-item">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#all-orders">All Orders</button>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-pending">Pending</button>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-accepted">Accepted</button>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-prepared">Prepared</button>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-completed">Completed</button>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-rejected">Rejected</button>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-cancelled">Cancelled</button>
+                </li>
+              </ul>-->
+              <div class="tab-content pt-2">
+
+                <div class="tab-pane fade show active profile-overview" id="all-orders">
+                    
+                    <%
+                        
+                        driver ="com.mysql.jdbc.Driver";
+                        dbName="PharmOnline";
+                        url="jdbc:mysql://localhost/"+dbName+"?";
+                        userName="root";
+                        password="";
+                        String queryProduct = "";
+                        String abc = (String) session.getAttribute("product_name");
+                        if (abc.equals("*")){
+                            queryProduct="SELECT * FROM product ";
+                        }
+                        else{
+                            queryProduct="SELECT * FROM product WHERE product_Name LIKE '%"+abc+"%'";
+                        }
+                        Class.forName(driver);
+                        Connection conProduct=DriverManager.getConnection(url,userName,password);
+                        Statement stProduct=conProduct.createStatement();
+                        ResultSet rsProduct=stProduct.executeQuery(queryProduct);
+                        
+                        out.println("<table class=\"table table-borderless datatable\">");
+                        out.println("<thead>");
+                        out.println("<tr>");
+                        out.println("<th scope=\"col\">Product ID</th>");
+                        out.println(" <th scope=\"col\">Product Name</th>");
+                        out.println(" <th scope=\"col\">Description</th>");
+                        out.println(" <th scope=\"col\">Selling Price (RM)</th>");
+                        out.println(" <th scope=\"col\">Category</th>");
+                        out.println("<th scope=\"col\">Quantity</th>");
+                        //out.println(" <th scope=\"col\">Action</th>");
+                        out.println("</tr>");
+                        out.println(" </thead>");
+                        out.println("<tbody>");
+                        int counter=0;
+                        while (rsProduct.next())
+                        {
+                            counter++;
+                            out.println("<tr>");
+                            out.println("<td>"+rsProduct.getString(1)+"</td>");
+                            out.println("<td>"+rsProduct.getString(2)+"</td>");
+                            out.println("<td>"+rsProduct.getString(3)+"</td>");
+                            out.println("<td>"+rsProduct.getString(4)+"</td>");
+                            out.println("<td>"+rsProduct.getString(5)+"</td>");
+                            out.println("<td>"+rsProduct.getString(6)+"</td>");
+
+                            //out.println( 
+                            //"<td> "+"<div style='display: block;'>");
+                            //out.println("<a href='deleteProduct?id="+rsProduct.getString(1)+"' onclick=' return confirm("+'"'+"Are you sure to delete this category"+'"'+")"+
+                            //        "'>");
+                            //out.println( "<i class='bx bxs-trash'></i>");
+                            //out.println("</a>");
+
+                            //out.println("<a href=\"editProduct.jsp?id="+rsProduct.getString(1)
+                            //        +"\">");
+                            //out.println( "<i class='bx bxs-edit'></i>");
+                            //out.println("</a>");
+
+                            //out.println("</div></td>");    
+                            out.println("</tr>");
+
+                        }
+                        out.println("</tbody>");
+                        out.println("</table>");
+                        
+                        
+
+                        st.close();
+                        con.close();
+                    %>
+                  
+                </div>
+                
+                
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+        </div>
+                   
         <!--PRODUCT SUMMARY TABLE ENDS HERE-->
             
           
