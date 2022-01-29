@@ -12,12 +12,12 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>PharmOnline - Reset Password</title>
+  <title>Forgot Password</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="img/PharmOnlineCover.png" rel="icon">
+  <link href="assets/img/icon_PharmOnline.png" rel="icon">
   <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
