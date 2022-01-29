@@ -67,11 +67,11 @@
             out.println("location='login.jsp';");
             out.println("</script>");
         }
-
         if("GET".equals(request.getMethod())){
              session.setAttribute("product_name","*");
              session.setAttribute("category_name","*");
-
+        }
+    
         }
     %>
   <!-- ======= Header ======= -->
@@ -215,7 +215,7 @@
 
   </aside><!-- End Sidebar-->
 
-  <main id="main" class="main">
+<main id="main" class="main">
 
     <div class="pagetitle">
       <h1>Dashboard</h1>
