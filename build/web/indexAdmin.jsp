@@ -578,7 +578,7 @@
                         out.println(" <th scope=\"col\">Collect Date / Time</th>");
                         out.println(" <th scope=\"col\">Amount</th>");
                         out.println("<th scope=\"col\">Status</th>");
-                        out.println(" <th scope=\"col\">Action</th>");
+                        //out.println(" <th scope=\"col\">Action</th>");
                         out.println("</tr>");
                         out.println(" </thead>");
                         while(rs.next()){
@@ -601,31 +601,31 @@
                             out.println("<td> RM"+rs.getString(4).toString()+"</td>");
                             if(rs.getString(5).equals("Completed")){
                             out.println("<td><span class=\"badge bg-success\">"+rs.getString(5)+"</span></td>");
-                             out.println("<td><a href='EditOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
+                             //out.println("<td><a href='EditOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             }
                             else if(rs.getString(5).equals("Accepted")){
                             out.println("<td><span class=\"badge bg-dark\">"+rs.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
+                            //out.println("<td><a href='deleteOrder?orderID="+rs.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
+                            //out.println("<a href='EditOrder.jsp?id="+rs.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
 //                            
                             }
                             else if(rs.getString(5).equals("Rejected")){
                             out.println("<td><span class=\"badge bg-danger\">"+rs.getString(5)+"</span></td>");
-                            out.println("<td><a href='EditOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
+                            //out.println("<td><a href='EditOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             }
                             else if(rs.getString(5).equals("Pending")){
                             out.println("<td><span class=\"badge bg-secondary\">"+rs.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
+                            //out.println("<td><a href='deleteOrder?orderID="+rs.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
+                            //out.println("<a href='EditOrder.jsp?id="+rs.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
                             }
                            else if(rs.getString(5).equals("Prepared")){
                             out.println("<td><span class=\"badge bg-info text-dark\">"+rs.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
+                            //out.println("<td><a href='deleteOrder?orderID="+rs.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
+                            //out.println("<a href='EditOrder.jsp?id="+rs.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
                             }
                             else if(rs.getString(5).equals("Cancelled")){
                             out.println("<td><span class=\"badge bg-danger\">"+rs.getString(5)+"</span></td>");
-                            out.println("<td><a href='EditOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
+                            //out.println("<td><a href='EditOrder.jsp?id="+rs.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             }
                             out.println("</tr>");
                         }
@@ -663,7 +663,7 @@
                         out.println(" <th scope=\"col\">Collect Date / Time</th>");
                         out.println(" <th scope=\"col\">Amount</th>");
                         out.println("<th scope=\"col\">Status</th>");
-                        out.println(" <th scope=\"col\">Action</th>");
+                        //out.println(" <th scope=\"col\">Action</th>");
                         out.println("</tr>");
                         out.println(" </thead>");
                             
@@ -688,8 +688,8 @@
                             out.println("<td> RM"+rs1.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-secondary\">"+rs1.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs1.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs1.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
+                            //out.println("<td><a href='deleteOrder?orderID="+rs1.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
+                            //out.println("<a href='EditOrder.jsp?id="+rs1.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
                             
                             out.println("</tr>");}
                         }
@@ -729,7 +729,7 @@
                         out.println(" <th scope=\"col\">Collect Date / Time</th>");
                         out.println(" <th scope=\"col\">Amount</th>");
                         out.println("<th scope=\"col\">Status</th>");
-                        out.println(" <th scope=\"col\">Action</th>");
+                        //out.println(" <th scope=\"col\">Action</th>");
                         out.println("</tr>");
                         out.println(" </thead>");
                         while(rs2.next()){
@@ -754,8 +754,8 @@
                             out.println("<td> RM"+rs2.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-info text-dark\">"+rs2.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs2.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs2.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
+                            //out.println("<td><a href='deleteOrder?orderID="+rs2.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
+                            //out.println("<a href='EditOrder.jsp?id="+rs2.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
                             
                             out.println("</tr>");}
                         }
@@ -795,7 +795,7 @@
                         out.println(" <th scope=\"col\">Collect Date / Time</th>");
                         out.println(" <th scope=\"col\">Amount</th>");
                         out.println("<th scope=\"col\">Status</th>");
-                        out.println(" <th scope=\"col\">Action</th>");
+                        //out.println(" <th scope=\"col\">Action</th>");
                         out.println("</tr>");
                         out.println(" </thead>");
                         while(rs3.next()){
@@ -819,8 +819,8 @@
                             out.println("<td> RM"+rs3.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-dark\">"+rs3.getString(5)+"</span></td>");
-                            out.println("<td><a href='deleteOrder?orderID="+rs3.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
-                            out.println("<a href='EditOrder.jsp?id="+rs3.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
+                            //out.println("<td><a href='deleteOrder?orderID="+rs3.getString(1)+"'onclick=' return confirm("+'"'+"Are you sure to delete this order"+'"'+")"+"'><i class='bx bxs-trash'></i></a>");
+                            //out.println("<a href='EditOrder.jsp?id="+rs3.getString(1)+"'><i class=\"bx bxs-edit\"></i></a></td>");
 //                           
                             out.println("</tr>");}
                         }
@@ -858,7 +858,7 @@
                         out.println(" <th scope=\"col\">Collect Date / Time</th>");
                         out.println(" <th scope=\"col\">Amount</th>");
                         out.println("<th scope=\"col\">Status</th>");
-                        out.println(" <th scope=\"col\">Action</th>");
+                        //out.println(" <th scope=\"col\">Action</th>");
                         out.println("</tr>");
                         out.println(" </thead>");
                         while(rs4.next()){
@@ -882,7 +882,7 @@
                             out.println("<td> RM"+rs4.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-success\">"+rs4.getString(5)+"</span></td>");
-                            out.println("<td><a href='EditOrder.jsp?id="+rs4.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
+                            //out.println("<td><a href='EditOrder.jsp?id="+rs4.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             out.println("</tr>");}
                             
                         }
@@ -917,7 +917,7 @@
                         out.println(" <th scope=\"col\">Collect Date / Time</th>");
                         out.println(" <th scope=\"col\">Amount</th>");
                         out.println("<th scope=\"col\">Status</th>");
-                        out.println(" <th scope=\"col\">Action</th>");
+                        //out.println(" <th scope=\"col\">Action</th>");
                         out.println("</tr>");
                         out.println(" </thead>");
                         while(rs5.next()){
@@ -941,7 +941,7 @@
                             out.println("<td> RM"+rs5.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-danger\">"+rs5.getString(5)+"</span></td>");
-                            out.println("<td><a href='EditOrder.jsp?id="+rs5.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
+                            //out.println("<td><a href='EditOrder.jsp?id="+rs5.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             out.println("</tr>");}
                             
                         }
@@ -976,7 +976,7 @@
                         out.println(" <th scope=\"col\">Collect Date / Time</th>");
                         out.println(" <th scope=\"col\">Amount</th>");
                         out.println("<th scope=\"col\">Status</th>");
-                        out.println(" <th scope=\"col\">Action</th>");
+                        //out.println(" <th scope=\"col\">Action</th>");
                         out.println("</tr>");
                         out.println(" </thead>");
                         while(rs6.next()){
@@ -1000,7 +1000,7 @@
                             out.println("<td> RM"+rs6.getString(4).toString()+"</td>");
                             
                             out.println("<td><span class=\"badge bg-danger\">"+rs6.getString(5)+"</span></td>");
-                            out.println("<td><a href='EditOrder.jsp?id="+rs6.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
+                            //out.println("<td><a href='EditOrder.jsp?id="+rs6.getString(1)+"'><button type=\"button\" class=\"btn btn-outline-info\">View</button></a></td>");
                             out.println("</tr>");}
                             
                         }
