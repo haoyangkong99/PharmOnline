@@ -54,20 +54,30 @@
 <body>
     <%
         String driver ="com.mysql.jdbc.Driver";
-        String dbName="PharmOnline";
+        String dbName="pharmonline";
         String url="jdbc:mysql://localhost/"+dbName+"?";
         String userName="root";
         String password="";
         if("GET".equals(request.getMethod())){
                  session.setAttribute("product_category","*");
         }
-        
-        User user = (User) request.getSession().getAttribute("user");
+        User user = new User();
+        if(request.getMethod().equals("GET") && request.getSession().getAttribute("loggedIn") == null){
+//           String redirectURL = "login.jsp";
+//           response.sendRedirect(redirectURL); 
+           
+        out.println("<script type=\"text/javascript\">");
+        out.println("alert('Please Login First!');");
+        out.println("location='login.jsp';");
+        out.println("</script>");
+        }
+        else {user = (User) request.getSession().getAttribute("user");
         if(!user.getUserType().equals("Customer")){
             out.println("<script type=\"text/javascript\">");
             out.println("alert('You do not have access to this page!');");
             out.println("location='login.jsp';");
             out.println("</script>");
+        }
         }
     %>
     

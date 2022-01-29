@@ -82,7 +82,7 @@ public class Login extends HttpServlet {
                 
                 session.setAttribute("user", user);
                 session.setAttribute("loggedIn", "True");
-                
+                session.setMaxInactiveInterval(6000);
                 if(user.getUserType().equals("Customer")){
                     out.println("<script type=\"text/javascript\">");
                     out.println("alert('Login Successful! Welcome, "+user.getFullname()+"');");
