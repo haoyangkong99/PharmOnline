@@ -188,12 +188,7 @@
           <span>Manage suppliers</span>
         </a>
       </li><!-- End Profile Page Nav -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="">
-          <i class="bi bi-file-earmark-word"></i>
-          <span>Generate report</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
+      
 
 
       
