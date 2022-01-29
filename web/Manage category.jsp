@@ -212,12 +212,6 @@
         </a>
       </li><!-- End Profile Page Nav -->
 
-  
-     
-    
-      
-    </ul>
-
   </aside><!-- End Sidebar-->
 
   <main id="main" class="main">
