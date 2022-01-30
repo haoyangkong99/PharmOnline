@@ -113,6 +113,7 @@ public class addProduct extends HttpServlet {
             newProduct.insertIntoDB();
 
             out.println("<script type=\"text/javascript\">");
+            
             out.println("alert('New product added!');");
             out.println("location='Manage product.jsp';");
             out.println("</script>");

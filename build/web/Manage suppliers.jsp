@@ -367,9 +367,11 @@
                 
               
                  <table class="table table-borderless datatable" >
+                     <thead>
                      <tr>
               <th>No</th><th>Supplier Name</th><th>Supplier ID</th><th>Contact No</th><th>Address</th><th>Description</th><th>Join Date</th><th>Action</th>
                 </tr>
+                     </thead>
                 <%
                      String driver ="com.mysql.jdbc.Driver";
         String dbName="PharmOnline";

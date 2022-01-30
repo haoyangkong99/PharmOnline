@@ -291,12 +291,14 @@
                 
               
                 <table class="table table-borderless datatable" >
+                    <thead>
                     <tr>
                <th>Category ID</th>
                <th>Category Name</th>
                <th>Category Description</th>
                <th>Action</th>
                </tr>
+               </thead>
                <%
                      String driver ="com.mysql.jdbc.Driver";
         String dbName="PharmOnline";

@@ -299,7 +299,7 @@
                             counter1++;
                            
                             %>
-                            <option value=<%=rs1.getString(2)%> ><%=rs1.getString(2)%></option>
+                            <option value='<%=rs1.getString(2)%>' ><%=rs1.getString(2)%></option>
                                
                             <%
                                 }
@@ -357,6 +357,7 @@
                 
               
                 <table class="table table-borderless datatable" >
+                    <thead>
                     <tr>
                <th>Product ID</th>
                <th>Product Name</th>
@@ -366,6 +367,7 @@
                <th>Product Quantity</th>
                <th>Action</th>
                </tr>
+               </thead>
               
         <%
         String query = "";

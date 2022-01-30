@@ -215,7 +215,7 @@
       <h1>Product</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="viewproduct.jsp">Home</a></li>
           <li class="breadcrumb-item">Product</li>
         </ol>
       </nav>
@@ -319,6 +319,14 @@
                
                 st.close();
                 con.close();
+                if (counter==0)
+{ %>
+
+<div style="display: flex;justify-content: center;font-size: 20px">     
+    
+<p>No available products</p>
+</div>
+<% }
         %>
       </div>
     </section>

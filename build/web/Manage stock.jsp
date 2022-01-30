@@ -437,22 +437,24 @@
                     <h5 class="card-title"><i class="bi bi-arrow-repeat"></i> Stock Transaction</h5></a>
 
               <table class="table table-borderless datatable">
-                <tr>
+                  <thead>
+                  <tr>
                   <th>
                     No
                   </th>
                   <th>Operation</th>
-                  <th>Supplier<br>Name</th>
-                  <th>Product<br>Name</th>
-                  <th>Product<br>ID</th>
-                  <th>Arrival<br>Date</th>
-                  <th>Expiry<br>Date</th>
+                  <th>Supplier Name</th>
+                  <th>Product Name</th>
+                  <th>Product ID</th>
+                  <th>Arrival Date</th>
+                  <th>Expiry Date</th>
                   <th>Cost<br>(RM)</th>
 
                   <th>Quantity</th>
                   <th>Reference<br>No</th>
                   <th>Action</th>
                 </tr>
+                  </thead>
                 <%
                String queryStock="SELECT * FROM stock ";
               

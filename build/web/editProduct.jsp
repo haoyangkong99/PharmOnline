@@ -348,10 +348,10 @@ outputStream.close();
                             counter1++;
                             if (rs1.getString(2).equals(product_category)){
                             %>
-                            <option value=<%=rs1.getString(2)%> selected><%=rs1.getString(2)%></option>
+                            <option value='<%=rs1.getString(2)%>' selected><%=rs1.getString(2)%></option>
                             <%}
                                 else{%>
-                                <option value=<%=rs1.getString(2)%>><%=rs1.getString(2)%></option>
+                                <option value='<%=rs1.getString(2)%>'><%=rs1.getString(2)%></option>
                                 <%}
                             }%>
                             <%st1.close();
@@ -385,7 +385,7 @@ outputStream.close();
                   </div>
                 </div>
                    <input type="hidden" name="id" value="<%=id%>" >
-                   
+                   <input type="hidden" name="ori_product_status" value="<%=status%>" >
                    
                       
           <div style="display:flex;justify-content:flex-start">
