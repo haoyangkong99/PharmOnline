@@ -399,7 +399,7 @@
 
                 out.println( 
                 "<td> "+"<div style='display: block;'>");
-                out.println("<a href='deleteProduct?id="+rs.getString(1)+"' onclick=' return confirm("+'"'+"Are you sure to delete this category"+'"'+")"+
+                out.println("<a href='deleteProduct?id="+rs.getString(1)+"' onclick=' return confirm("+'"'+"Are you sure to delete this product"+'"'+")"+
                         "'>");
                 out.println( "<i class='bx bxs-trash'></i>");
                 out.println("</a>");

@@ -311,7 +311,7 @@ String date=rs.getDate(6).toString();
                       <td>:</td>
                      <td>
                          <div class="col-sm-auto">
-                     <input type="text" class="form-control" name="contact" value="<%=contact%>" required>
+                     <input type="text" class="form-control" name="contact" value="<%=contact%>" placeholder="01x-xxxxxxxx" pattern="01[0-9]{1}-[0-9]{7,8}" required>
                   </div>
               </td></tr>
                       <tr>

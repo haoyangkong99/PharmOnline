@@ -461,7 +461,7 @@
                     <div class="row mb-3">
                       <label for="fullname" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullname" type="text" class="form-control" id="fullname" value="<jsp:getProperty name="user" property="fullname"/>">
+                          <input name="fullname" type="text" class="form-control" required id="fullname" value="<jsp:getProperty name="user" property="fullname"/>">
                       </div>
                     </div>
 
@@ -489,14 +489,14 @@
                     <div class="row mb-3">
                       <label for="phoneNum" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="phoneNum" type="tel" class="form-control" id="phoneNum" placeholder="01x-xxxxxxxx" pattern="01[0-9]{1}-[0-9]{7,8}" value="<jsp:getProperty name="user" property="phoneNum"/>">
+                          <input name="phoneNum" type="tel" class="form-control" id="phoneNum" placeholder="01x-xxxxxxxx" required pattern="01[0-9]{1}-[0-9]{7,8}" value="<jsp:getProperty name="user" property="phoneNum"/>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="email" value="<jsp:getProperty name="user" property="email"/>">
+                        <input name="email" type="email" class="form-control" id="email" required value="<jsp:getProperty name="user" property="email"/>">
                       </div>
                     </div>
 
