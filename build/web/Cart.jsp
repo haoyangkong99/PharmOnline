@@ -23,6 +23,8 @@
 <%@page import="java.util.Date"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    User user = new User();
+    String userID="";
     if(request.getMethod().equals("GET") && request.getSession().getAttribute("loggedIn") == null){
            
         out.println("<script type=\"text/javascript\">");
@@ -30,9 +32,9 @@
         out.println("location='login.jsp';");
         out.println("</script>");
         }
-        User user = new User();
+    else{
         user=(User)session.getAttribute("user");
-        String userID="";
+        
         if (user!=null){
             userID = user.getUserID();
         }
@@ -42,6 +44,7 @@
             out.println("location='login.jsp';");
             out.println("</script>");
         }
+    }
     ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
     
     if (cart_list!= null) {

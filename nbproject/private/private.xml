@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/UTM/Year%203%20Sem1/Internet%20Programming/Project/PharmOnline/src/java/com/bean/Report.java</file>
-            <file>file:/D:/UTM/Year%203%20Sem1/Internet%20Programming/Project/PharmOnline/src/java/com/servlet/Login.java</file>
-            <file>file:/D:/UTM/Year%203%20Sem1/Internet%20Programming/Project/PharmOnline/web/indexAdmin.jsp</file>
-            <file>file:/D:/UTM/Year%203%20Sem1/Internet%20Programming/Project/PharmOnline/web/Profile.jsp</file>
-            <file>file:/D:/UTM/Year%203%20Sem1/Internet%20Programming/Project/PharmOnline/web/ManageOrder.jsp</file>
-            <file>file:/D:/UTM/Year%203%20Sem1/Internet%20Programming/Project/PharmOnline/src/java/com/bean/Order.java</file>
-            <file>file:/D:/UTM/Year%203%20Sem1/Internet%20Programming/Project/PharmOnline/src/java/com/bean/User.java</file>
+            <file>file:/C:/E-learning/PharmOnline/web/Manage%20product.jsp</file>
+            <file>file:/C:/E-learning/PharmOnline/web/indexAdmin.jsp</file>
+            <file>file:/C:/E-learning/PharmOnline/web/login.jsp</file>
+            <file>file:/C:/E-learning/PharmOnline/web/viewproduct.jsp</file>
+            <file>file:/C:/E-learning/PharmOnline/web/Manage%20category.jsp</file>
+            <file>file:/C:/E-learning/PharmOnline/web/Manage%20stock.jsp</file>
         </group>
     </open-files>
 </project-private>

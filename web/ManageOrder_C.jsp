@@ -55,6 +55,7 @@
 
 <body>
     <%
+        User userlogin = new User();
         if(request.getMethod().equals("GET") && request.getSession().getAttribute("loggedIn") == null){
            
         out.println("<script type=\"text/javascript\">");
@@ -62,12 +63,13 @@
         out.println("location='login.jsp';");
         out.println("</script>");
         }
-                User userlogin = (User) request.getSession().getAttribute("user");
+        else{userlogin = (User) request.getSession().getAttribute("user");
         if(!userlogin.getUserType().equals("Customer")){
             out.println("<script type=\"text/javascript\">");
             out.println("alert('You do not have access to this page!');");
             out.println("location='login.jsp';");
             out.println("</script>");
+        }
         }
         
     %>
