@@ -262,7 +262,7 @@
                         <div class="row mb-3">
                   <label for="inputText" class="col-sm-4 col-form-label">Product Name:</label>
                   <div class="col-sm-7">
-                    <input type="text"  name="product_name" required class="form-control">
+                    <textarea name="product_name" required class="form-control" style="height: 100px"></textarea>
                   </div>
                         </div>
                 
@@ -282,7 +282,7 @@
                         </div>
                     
                     <div class="row mb-3">
-                  <label class="col-sm-4 col-form-label">Product Category</label>
+                  <label class="col-sm-4 col-form-label">Product Category:</label>
                   <div class="col-sm-7">
                        <%
                             String query1="SELECT * FROM category ";
@@ -310,7 +310,7 @@
                   </div>
                 </div>
                      <div class="row mb-3">
-                  <label for="inputNumber" class="col-sm-4 col-form-label">Product Picture</label>
+                  <label for="inputNumber" class="col-sm-4 col-form-label">Product Picture:</label>
                   <div class="col-sm-7">
                     <input class="form-control" type="file" id="formFile" name="product_image"  accept="image/*">
                   </div>

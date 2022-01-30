@@ -16,7 +16,7 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="$assets/img/favicon.png" rel="icon">
+  <link href="assets/img/icon_PharmOnline.png" rel="icon">
   <link href="$assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -278,7 +278,7 @@
                       <td><label for="inputText" class="col-sm-auto col-form-label">Suppliers Name</label></td>
                       <td>:</td>
                       <td>
-                          <div class="col-sm-10">
+                          <div class="col-sm-12">
                     <input type="text" class="form-control" name="suppliername" required>
                   </div>
                           
@@ -288,7 +288,7 @@
                       <td><label for="inputText" class="col-sm-auto col-form-label">Contact Number</label></td>
                       <td>:</td>
                       <td>
-                      <div class="col-sm-10">
+                      <div class="col-sm-12">
                      <input type="text" class="form-control" name="contact" placeholder="01x-xxxxxxxx" pattern="01[0-9]{1}-[0-9]{7,8}" required>
                      
                   </div>
@@ -298,8 +298,8 @@
                       <td><label for="inputText" class="col-sm-auto col-form-label">Address</label></td>
                       <td>:</td>
                       <td>
-                          <div class="col-sm-10">
-                    <input type="text"  class="form-control" name="address" required>
+                          <div class="col-sm-12">
+                     <textarea name="address" required class="form-control" style="height: 100px"></textarea>
                   </div>
                         
                       </td>
@@ -309,9 +309,8 @@
                           </td>
                       <td>:</td>
                       <td>
-                          <div class="col-sm-10">
-                    
-                    <input type="text"  class="form-control"name="description" required>
+                          <div class="col-sm-12">
+                      <textarea name="description" required class="form-control" style="height: 100px"></textarea>
 
                   </div>
                       </td>
@@ -321,7 +320,7 @@
                           </td>
                       <td>:</td>
                       <td>
-                      <div class="col-sm-10">
+                      <div class="col-sm-12">
                    
                     <input type="date" class="form-control" name="date" required>
                   </div>

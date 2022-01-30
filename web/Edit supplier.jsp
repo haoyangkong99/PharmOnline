@@ -319,8 +319,7 @@ String date=rs.getDate(6).toString();
                       <td>:</td>
                      <td>
                          <div class="col-sm-auto">
-                   
-                    <input type="text" class="form-control" name="address" value="<%=address%>" required>
+                    <textarea name="address" required class="form-control" style="height: 100px"><%=address%></textarea>
                   </div>
              
                      
@@ -332,8 +331,7 @@ String date=rs.getDate(6).toString();
                      <td>
                          <div class="col-sm-auto">
                     
-                    
-<input type="text" class="form-control" name="description" value="<%=description%>" required>
+                    <textarea name="description" required class="form-control" style="height: 100px"><%=description%></textarea>
                   </div>
               </td></tr>
                       <tr>

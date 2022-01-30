@@ -290,14 +290,14 @@ String description=rs.getString(3);
                         <div class="row mb-3">
                   <label for="inputText" class="col-sm-6 col-form-label">Category Name:</label>
                   <div class="col-sm-6">
-                    <input type="text"  name="category_name" value="<%=name%>" required class="form-control">
+                    <textarea name="category_name" required class="form-control" style="height: 100px"><%=name%></textarea>
                   </div>
                         </div>
                         
                          <div class="row mb-3">
                   <label for="inputText" class="col-sm-6 col-form-label">Category Description:</label>
                   <div class="col-sm-6">
-                    <input type="text"  name="category_description" value="<%=description%>" required class="form-control">
+                    <textarea name="category_description" required class="form-control" style="height: 100px"><%=description%></textarea>
                   </div>
                         </div>
                   

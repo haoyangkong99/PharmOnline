@@ -249,14 +249,14 @@
                         <div class="row mb-3">
                   <label for="inputText" class="col-sm-6 col-form-label">Category Name:</label>
                   <div class="col-sm-6">
-                    <input type="text"  name="category_name" required class="form-control">
+                    <textarea name="category_name" required class="form-control" style="height: 100px"></textarea>
                   </div>
                         </div>
                         
                          <div class="row mb-3">
                   <label for="inputText" class="col-sm-6 col-form-label">Category Description:</label>
                   <div class="col-sm-6">
-                    <input type="text"  name="category_description" required class="form-control">
+                      <textarea name="category_description" required class="form-control" style="height: 100px"></textarea>
                   </div>
                         </div>
                 

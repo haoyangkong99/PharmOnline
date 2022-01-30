@@ -312,7 +312,7 @@ outputStream.close();
                         <div class="row mb-3">
                   <label for="inputText" class="col-sm-4 col-form-label">Product Name:</label>
                   <div class="col-sm-7">
-                    <input type="text"  name="product_name" value="<%=product_name%>" required class="form-control">
+                    <textarea name="product_name" required class="form-control" style="height: 100px"><%=product_name%></textarea>
                   </div>
                         </div>
                   
@@ -331,7 +331,7 @@ outputStream.close();
                         </div>
                   
                   <div class="row mb-3">
-                  <label class="col-sm-4 col-form-label">Product Category</label>
+                  <label class="col-sm-4 col-form-label">Product Category:</label>
                   <div class="col-sm-7">
                        <%
                             String query1="SELECT * FROM category ";
@@ -361,7 +361,7 @@ outputStream.close();
                   </div>
                 </div>
                     <div class="row mb-3">
-                  <label for="inputNumber" class="col-sm-4 col-form-label">Product Picture</label>
+                  <label for="inputNumber" class="col-sm-4 col-form-label">Product Picture:</label>
                   <div class="col-sm-7">
                     <img src="data:;base64,<%= base64Image%>" style="max-height: 500px;max-width: 500px; height: auto; width: auto; margin-bottom: 20px;" />
                     <input class="form-control" type="file" id="formFile" name="new_product_image"  accept="image/*">
@@ -369,7 +369,7 @@ outputStream.close();
                 </div>
                     
                 <div class="row mb-3">
-                  <label class="col-sm-4 col-form-label">Product Status</label>
+                  <label class="col-sm-4 col-form-label">Product Status:</label>
                   <div class="col-sm-7">
                       <% if (status.equals("Deactivate")){%>
                      <div class="form-check form-switch" style="margin-top: 10px;">
